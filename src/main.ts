@@ -1,5 +1,9 @@
 import './assets/main.css'
 
+//引入tailwindcss的核心文件
+import './style.css'
+
+
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
