@@ -4,7 +4,7 @@
       <h1 class="text-2xl font-bold">聊天室</h1>
     </div>
     <UserSelector @user-changed="updateUser" />
-    <MessageDisplay :messages="messages" />
+    <MessageDisplay class="w-full" :messages="messages" />
     <MessageInput @send-message="handleSendMessage" />
   </div>
 </template>
