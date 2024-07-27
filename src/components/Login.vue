@@ -68,12 +68,12 @@
     methods: {
       login() {
         // 这里可以添加登录逻辑
-        // 假设登录成功，跳转到聊天室页面
-        this.$router.push({ name: 'ChatRoom' })
+        // 假设登录成功，跳转到联系人页面
+        this.$router.push({ name: 'ContactList' })
       },
       skipLogin() {
-        // 直接跳转到聊天室页面
-        this.$router.push({ name: 'ChatRoom' })
+        // 直接跳转到联系人页面
+        this.$router.push({ name: 'ContactList' })
       }
     }
   }

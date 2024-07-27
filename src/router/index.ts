@@ -2,6 +2,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Login from '../components/Login.vue'
 import ChatRoom from '../components/ChatRoom.vue'
+import ContactList from '../components/ContactList.vue'
 
 const routes = [
   {
@@ -12,6 +13,16 @@ const routes = [
   {
     path: '/ChatRoom',
     name: 'ChatRoom',
+    component: ChatRoom
+  },
+  {
+    path: '/ContactList',
+    name: 'ContactList',
+    component: ContactList
+  },
+  {
+    path: '/ChatRoom/:id',
+    name: 'ChatRoomTo',
     component: ChatRoom
   }
 ]

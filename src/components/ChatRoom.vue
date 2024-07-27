@@ -1,7 +1,10 @@
 <template>
   <div class="flex flex-col h-screen bg-gray-100">
     <div class="p-4 bg-white shadow-md">
-      <h1 class="text-2xl font-bold">聊天室</h1>
+      <div class="mt-4 text-center">
+        <button @click="goBack" class="px-4 py-2 bg-gray-500 text-white">返回联系人列表</button>
+      </div>
+      <h1 class="text-2xl font-bold mb-4">聊天室 - {{ contact.name }}</h1>
     </div>
     <UserSelector @user-changed="updateUser" />
     <MessageDisplay class="w-full" :messages="messages" />
@@ -23,9 +26,23 @@ export default {
   },
   data() {
     return {
+      contact: { id: null, name: '' },
       messages: [],
       user: ''
     };
+  },
+  created() {
+    const contacts = [
+      { id: 1, name: '张三' },
+      { id: 2, name: '李四' },
+      { id: 3, name: '王五' }
+    ]
+    const contact = contacts.find(c => c.id === parseInt(this.$route.params.id))
+    if (!contact) {
+      console.error('Invalid contact id:', this.$route.params.id);
+      return
+    }
+    this.contact = contact;
   },
   methods: {
     updateUser(newUser) {
@@ -43,6 +60,9 @@ export default {
           console.error('File upload error:', error);
         }
       }
+    },
+    goBack() {
+      this.$router.push({ name: 'ContactList' })
     }
   }
 };
