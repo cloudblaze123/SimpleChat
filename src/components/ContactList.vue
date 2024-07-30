@@ -1,6 +1,14 @@
 <template>
   <div class="min-h-screen bg-gray-100 flex items-center justify-center">
     <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
+      <!-- 显示当前登录用户的信息 -->
+      <div class="mb-4 flex items-center justify-between">
+        <div>
+          <span class="text-lg font-semibold">当前用户: </span>
+          <span v-if="userStore.isLoggedIn" class="text-lg">{{ userStore.userInfo.email }}</span>
+        </div>
+        <button @click="logout" class="p-2 bg-red-500 text-white rounded hover:bg-red-600">登出</button>
+      </div>
       <h1 class="text-2xl font-bold text-center mb-6">联系人列表</h1>
       <div class="mb-4">
         <input v-model="newContactName" class="w-full p-2 border rounded" placeholder="添加新联系人" />
@@ -27,12 +35,20 @@
 <script>
 import { ref } from 'vue';
 import { useContactsStore } from '@/stores/contacts';
+import { useUserStore } from '@/stores/user';
+
+import { useRouter } from 'vue-router';
+
 
 export default {
   setup() {
     const contactsStore = useContactsStore();
+    const userStore = useUserStore();
     const contacts = contactsStore.contacts;
     const newContactName = ref('');
+
+    const router = useRouter();
+
 
     const addContact = () => {
       if (newContactName.value.trim()) {
@@ -45,11 +61,19 @@ export default {
       contactsStore.removeContact(id);
     };
 
+    const logout = () => {
+      userStore.logout();
+      // 假设登出后跳转到登录页面
+      router.push({ name: 'Login' });
+    };
+
     return {
       contacts,
       newContactName,
       addContact,
-      removeContact
+      removeContact,
+      userStore,
+      logout
     };
   }
 };
