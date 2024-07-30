@@ -18,6 +18,8 @@ import MessageDisplay from './MessageDisplay.vue';
 import MessageInput from './MessageInput.vue';
 import { uploadFile } from '../utils/fileUpload';
 
+import { useContactsStore } from '@/stores/contacts';
+
 export default {
   components: {
     UserSelector,
@@ -32,11 +34,9 @@ export default {
     };
   },
   created() {
-    const contacts = [
-      { id: 1, name: '张三' },
-      { id: 2, name: '李四' },
-      { id: 3, name: '王五' }
-    ]
+    const contactsStore = useContactsStore();
+    const contacts=contactsStore.contacts;
+    
     const contact = contacts.find(c => c.id === parseInt(this.$route.params.id))
     if (!contact) {
       console.error('Invalid contact id:', this.$route.params.id);
