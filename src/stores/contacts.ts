@@ -14,9 +14,15 @@ export const useContactsStore = defineStore('contacts', {
   actions: {
     addContact(contact) {
       this.contacts.push(contact);
+      console.log("addContact", contact);
     },
     removeContact(contactId) {
-      this.contacts = this.contacts.filter(contact => contact.id !== contactId);
+      const indexToRemove = this.contacts.findIndex(contact => contact.id === contactId);
+      if (indexToRemove === -1) {
+        return;
+      }
+      this.contacts.splice(indexToRemove, 1);
+      console.log("removeContact", contactId);
     }
   }
 });
