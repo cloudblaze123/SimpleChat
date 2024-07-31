@@ -19,10 +19,7 @@
       </div>
 
       <h1 class="text-2xl font-bold text-center mb-6">联系人列表</h1>
-      <div class="mb-4">
-        <input v-model="newContactName" class="w-full p-2 border rounded" placeholder="添加新联系人" />
-        <button @click="addContact" class="mt-2 w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600">添加</button>
-      </div>
+      <AddContactForm />
       <ul>
         <li v-for="contact in contacts" :key="contact.id" class="mb-4 flex items-center justify-between">
           <router-link :to="{ name: 'ChatRoomTo', params: { id: contact.id }}" class="flex items-center space-x-4 hover:bg-gray-50 p-2 rounded-lg transition duration-300 ease-in-out">
@@ -42,31 +39,24 @@
 </template>
 
 <script>
-import { ref } from 'vue';
 import { useContactsStore } from '@/stores/contacts';
 import { useUserStore } from '@/stores/user';
 import UserSwitcher from '@/components/UserSwitcher.vue';
+import AddContactForm from '@/components/AddContactForm.vue';
 
 import { useRouter } from 'vue-router';
 
 export default {
   components: {
     UserSwitcher,
+    AddContactForm,
   },
   setup() {
     const contactsStore = useContactsStore();
     const userStore = useUserStore();
     const contacts = contactsStore.contacts;
-    const newContactName = ref('');
 
     const router = useRouter();
-
-    const addContact = () => {
-      if (newContactName.value.trim()) {
-        contactsStore.addContact({ id: Date.now(), name: newContactName.value });
-        newContactName.value = '';
-      }
-    };
 
     const removeContact = (id) => {
       contactsStore.removeContact(id);
@@ -84,8 +74,6 @@ export default {
 
     return {
       contacts,
-      newContactName,
-      addContact,
       removeContact,
       userStore,
       logout,
