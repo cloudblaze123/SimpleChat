@@ -1,14 +1,23 @@
 <template>
   <div class="min-h-screen bg-gray-100 flex items-center justify-center">
     <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
+      <!-- 用户切换组件 -->
+      <UserSwitcher />
+
+      <!-- 登录新账号的按钮 -->
+      <div class="mb-4 flex items-center justify-between">
+        <button @click="goToLoginPage" class="p-2 bg-green-500 text-white rounded hover:bg-green-600">登录新账号</button>
+      </div>
+
       <!-- 显示当前登录用户的信息 -->
       <div class="mb-4 flex items-center justify-between">
         <div>
           <span class="text-lg font-semibold">当前用户: </span>
-          <span v-if="userStore.isLoggedIn" class="text-lg">{{ userStore.userInfo.email }}</span>
+          <span v-if="userStore.currentUser" class="text-lg">{{ userStore.currentUser.email }}</span>
         </div>
         <button @click="logout" class="p-2 bg-red-500 text-white rounded hover:bg-red-600">登出</button>
       </div>
+
       <h1 class="text-2xl font-bold text-center mb-6">联系人列表</h1>
       <div class="mb-4">
         <input v-model="newContactName" class="w-full p-2 border rounded" placeholder="添加新联系人" />
@@ -36,11 +45,14 @@
 import { ref } from 'vue';
 import { useContactsStore } from '@/stores/contacts';
 import { useUserStore } from '@/stores/user';
+import UserSwitcher from '@/components/UserSwitcher.vue';
 
 import { useRouter } from 'vue-router';
 
-
 export default {
+  components: {
+    UserSwitcher,
+  },
   setup() {
     const contactsStore = useContactsStore();
     const userStore = useUserStore();
@@ -48,7 +60,6 @@ export default {
     const newContactName = ref('');
 
     const router = useRouter();
-
 
     const addContact = () => {
       if (newContactName.value.trim()) {
@@ -67,13 +78,18 @@ export default {
       router.push({ name: 'Login' });
     };
 
+    const goToLoginPage = () => {
+      router.push({ name: 'Login' });
+    };
+
     return {
       contacts,
       newContactName,
       addContact,
       removeContact,
       userStore,
-      logout
+      logout,
+      goToLoginPage,
     };
   }
 };
