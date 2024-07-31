@@ -1,28 +1,21 @@
 //@ts-nocheck
 
-// src/stores/contacts.js
+// src/stores/contacts.ts
 import { defineStore } from 'pinia';
+import { ContactsService } from '@/services/contacts';
+
+const contactService = new ContactsService();
 
 export const useContactsStore = defineStore('contacts', {
   state: () => ({
-    contacts: [
-      { id: 1, name: '张三' },
-      { id: 2, name: '李四' },
-      { id: 3, name: '王五' }
-    ]
+    contacts: contactService.getContacts()
   }),
   actions: {
     addContact(contact) {
-      this.contacts.push(contact);
-      console.log("addContact", contact);
+      contactService.addContact(contact);
     },
     removeContact(contactId) {
-      const indexToRemove = this.contacts.findIndex(contact => contact.id === contactId);
-      if (indexToRemove === -1) {
-        return;
-      }
-      this.contacts.splice(indexToRemove, 1);
-      console.log("removeContact", contactId);
+      contactService.removeContact(contactId);
     }
   }
 });
