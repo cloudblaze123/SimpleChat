@@ -5,65 +5,70 @@
         <button @click="goBack" class="px-4 py-2 bg-gray-500 text-white">返回联系人列表</button>
       </div>
       <h1 class="text-2xl font-bold mb-4">聊天室 - {{ contact.name }}</h1>
+      <UserSwitcher />
     </div>
-    <UserSelector @user-changed="updateUser" />
     <MessageDisplay class="w-full" :messages="messages" />
     <MessageInput @send-message="handleSendMessage" />
   </div>
 </template>
 
 <script>
-import UserSelector from './UserSelector.vue';
-import MessageDisplay from './MessageDisplay.vue';
-import MessageInput from './MessageInput.vue';
-import { uploadFile } from '../utils/fileUpload';
-
+import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 import { useContactsStore } from '@/stores/contacts';
+import { useUserStore } from '@/stores/user';
+import UserSwitcher from '@/components/UserSwitcher.vue';
+import MessageDisplay from '@/components/MessageDisplay.vue';
+import MessageInput from '@/components/MessageInput.vue';
+import { uploadFile } from '../utils/fileUpload';
 
 export default {
   components: {
-    UserSelector,
+    UserSwitcher,
     MessageDisplay,
     MessageInput
   },
-  data() {
-    return {
-      contact: { id: null, name: '' },
-      messages: [],
-      user: ''
-    };
-  },
-  created() {
+  setup() {
+    const router = useRouter();
     const contactsStore = useContactsStore();
-    const contacts=contactsStore.contacts;
-    
-    const contact = contacts.find(c => c.id === parseInt(this.$route.params.id))
-    if (!contact) {
-      console.error('Invalid contact id:', this.$route.params.id);
-      return
-    }
-    this.contact = contact;
-  },
-  methods: {
-    updateUser(newUser) {
-      this.user = newUser;
-    },
-    async handleSendMessage(newMessage, selectedFile) {
-      if (newMessage.trim()) {
-        this.messages.push({ user: this.user, text: newMessage, type: 'text' });
+    const userStore = useUserStore();
+    const contact = ref({ id: null, name: '' });
+    const messages = ref([]);
+
+    onMounted(() => {
+      const contacts = contactsStore.contacts;
+      const foundContact = contacts.find(c => c.id === parseInt(router.currentRoute.value.params.id));
+      if (!foundContact) {
+        console.error('Invalid contact id:', router.currentRoute.value.params.id);
+        return;
+      }
+      contact.value = foundContact;
+    });
+
+    const handleSendMessage = async (newMessage, selectedFile) => {
+      if (newMessage.trim() && userStore.currentUser) {
+        messages.value.push({ user: userStore.currentUser.email, text: newMessage, type: 'text' });
       }
       if (selectedFile) {
         try {
-          const message = await uploadFile(selectedFile, this.user);
-          this.messages.push(message);
+          const message = await uploadFile(selectedFile, userStore.currentUser.email);
+          messages.value.push(message);
         } catch (error) {
           console.error('File upload error:', error);
         }
       }
-    },
-    goBack() {
-      this.$router.push({ name: 'ContactList' })
-    }
+    };
+
+    const goBack = () => {
+      router.push({ name: 'ContactList' });
+    };
+
+    return {
+      contact,
+      messages,
+      handleSendMessage,
+      goBack,
+    };
   }
 };
 </script>
