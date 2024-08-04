@@ -24,6 +24,8 @@ import { uploadFile } from '../utils/fileUpload';
 
 import { Message, Content, TextContent, ImageContent, VideoContent } from '@/models/Message';
 
+import { getMessages } from '@/api/message';
+
 export default {
   components: {
     UserSwitcher,
@@ -45,6 +47,8 @@ export default {
         return;
       }
       contact.value = foundContact;
+
+      messages.value = getMessages();
     });
 
     const handleSendMessage = async (newMessage, selectedFile) => {
