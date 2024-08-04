@@ -1,28 +1,21 @@
 //@ts-nocheck
 
 import { ref } from 'vue';
+import { getUsers } from '@/api/user';
+import { User } from '@/models/User';
 
-const defaultContacts = [
-    { id: 1, name: '张三' },
-    { id: 2, name: '李四' },
-    { id: 3, name: '王五' }
-];
 
-const contacts = ref([
-  { id: 1, name: '张三' },
-  { id: 2, name: '李四' },
-  { id: 3, name: '王五' }
-]);
+const contacts = ref(getUsers());
 
 export class ContactsService {
   getContacts() {
     return contacts.value;
   }
-  addContact(contact) {
+  addContact(contact:User) {
     contacts.value.push(contact);
     console.log("addContact", contact);
   }
-  removeContact(contactId) {
+  removeContact(contactId:string) {
     const indexToRemove = contacts.value.findIndex(contact => contact.id === contactId);
     if (indexToRemove === -1) {
       return;

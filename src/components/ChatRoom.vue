@@ -15,7 +15,6 @@
 <script lang="ts">
 import { ref, Ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { useContactsStore } from '@/stores/contacts';
 import { useUserStore } from '@/stores/user';
 import UserSwitcher from '@/components/UserSwitcher.vue';
 import MessageDisplay from '@/components/MessageDisplay.vue';
@@ -26,6 +25,8 @@ import { Message, Content, TextContent, ImageContent, VideoContent } from '@/mod
 
 import { getMessages } from '@/api/message';
 
+import { getUser } from '@/api/user';
+
 export default {
   components: {
     UserSwitcher,
@@ -34,19 +35,13 @@ export default {
   },
   setup() {
     const router = useRouter();
-    const contactsStore = useContactsStore();
     const userStore = useUserStore();
     const contact = ref({ id: null, name: '' });
     const messages: Ref<Message[]> = ref([]);
 
     onMounted(() => {
-      const contacts = contactsStore.contacts;
-      const foundContact = contacts.find(c => c.id === parseInt(router.currentRoute.value.params.id));
-      if (!foundContact) {
-        console.error('Invalid contact id:', router.currentRoute.value.params.id);
-        return;
-      }
-      contact.value = foundContact;
+      contact.value.id=(router.currentRoute.value.params.id);
+      contact.value.name=getUser(contact.value.id).name;
 
       messages.value = getMessages();
     });
