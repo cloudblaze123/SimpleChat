@@ -2,7 +2,7 @@
     <div class="flex-1 p-4 overflow-y-auto ">
       <div v-for="(message, index) in messages" :key="index" class="mb-2 flex max-w-full" :class="{'justify-end': message.isOwnMessage}">
         <div :class="['p-2 rounded-lg flex items-start max-w-full', message.isOwnMessage ? 'bg-blue-500 text-white' : 'bg-gray-200']">
-          <span class="font-bold mr-2">{{ message.sender }}:</span>
+          <span class="font-bold mr-2">{{ message.sender.name }}:</span>
           <div class="break-all max-w-full">
             <template v-if="message.content.type === 'text'">
               {{ message.content.text }}

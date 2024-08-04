@@ -63,7 +63,7 @@ export default {
           console.error('File upload error:', error);
         }
       }
-      const message: Message = new Message(userStore.currentUser.email, '', content, new Date());
+      const message: Message = new Message(userStore.currentUser, userStore.currentUser, content, new Date());
       messages.value.push(message);
     };
 

@@ -1,11 +1,12 @@
+import { User } from './User';
 
 class Message {
-    sender: string;
-    receiver: string;
+    sender: User;
+    receiver: User;
     content: Content;
     timestamp: Date;
 
-    constructor(sender: string, receiver: string, content: Content, timestamp: Date) {
+    constructor(sender: User, receiver: User, content: Content, timestamp: Date) {
         this.sender = sender;
         this.receiver = receiver;
         this.content = content
