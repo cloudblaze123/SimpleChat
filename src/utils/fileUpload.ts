@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 // src/utils/fileUpload.js
-export function uploadFile(file, user) {
+export function uploadFile(file, user): Promise<{ user: any; url: string; type: 'image' | 'video' }> {
     return new Promise((resolve, reject) => {
       if (!file) {
         reject(new Error('No file selected'));

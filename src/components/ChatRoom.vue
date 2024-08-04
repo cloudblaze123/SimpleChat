@@ -12,8 +12,8 @@
   </div>
 </template>
 
-<script>
-import { ref, onMounted } from 'vue';
+<script lang="ts">
+import { ref, Ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useContactsStore } from '@/stores/contacts';
 import { useUserStore } from '@/stores/user';
@@ -21,6 +21,8 @@ import UserSwitcher from '@/components/UserSwitcher.vue';
 import MessageDisplay from '@/components/MessageDisplay.vue';
 import MessageInput from '@/components/MessageInput.vue';
 import { uploadFile } from '../utils/fileUpload';
+
+import { Message, Content, TextContent, ImageContent, VideoContent } from '@/models/Message';
 
 export default {
   components: {
@@ -33,7 +35,7 @@ export default {
     const contactsStore = useContactsStore();
     const userStore = useUserStore();
     const contact = ref({ id: null, name: '' });
-    const messages = ref([]);
+    const messages: Ref<Message[]> = ref([]);
 
     onMounted(() => {
       const contacts = contactsStore.contacts;
@@ -46,17 +48,24 @@ export default {
     });
 
     const handleSendMessage = async (newMessage, selectedFile) => {
+      let content:Content;
       if (newMessage.trim() && userStore.currentUser) {
-        messages.value.push({ user: userStore.currentUser.email, text: newMessage, type: 'text' });
+        content = new TextContent(newMessage);
       }
       if (selectedFile) {
         try {
-          const message = await uploadFile(selectedFile, userStore.currentUser.email);
-          messages.value.push(message);
+          const fileInfo = await uploadFile(selectedFile, userStore.currentUser.email);
+          if(fileInfo.type==='image'){
+            content = new ImageContent(fileInfo.url);
+          }else if(fileInfo.type==='video'){
+            content = new VideoContent(fileInfo.url);
+          }
         } catch (error) {
           console.error('File upload error:', error);
         }
       }
+      const message: Message = new Message(userStore.currentUser.email, '', content, new Date());
+      messages.value.push(message);
     };
 
     const goBack = () => {
