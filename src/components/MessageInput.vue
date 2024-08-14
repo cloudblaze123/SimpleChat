@@ -17,16 +17,36 @@
   
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useUserStore } from '@/stores/user';
 import { uploadFile } from '../utils/fileUpload';
+import { 
+    Message,
+    Content,
+    TextContent,
+    ImageContent,
+    VideoContent
+} from '@/models/Message';
+
 
 const emit = defineEmits(['send-message']);
+const props = defineProps({
+    messages:{
+        type:Array,
+        required: true
+    }
+})
 
+const userStore = useUserStore();
 const newMessage = ref('');
 const selectedFile = ref(null);
 const fileInput = ref(null);
 
+
 function sendMessage() {
-    emit('send-message', newMessage.value, selectedFile.value);
+    handleSendMessage(newMessage.value, selectedFile.value)
+        .then(() => {
+            console.log('Message sent successfully');
+        });
     newMessage.value = '';
     selectedFile.value = null;
 };
@@ -38,6 +58,27 @@ function triggerFileInput() {
 function handleFileChange(event) {
     selectedFile.value = event.target.files[0];
 }
+
+async function handleSendMessage(newMessage, selectedFile){
+    let content: Content;
+    if (newMessage.trim() && userStore.currentUser) {
+        content = new TextContent(newMessage);
+    }
+    if (selectedFile) {
+        try {
+            const fileInfo = await uploadFile(selectedFile, userStore.currentUser.email);
+            if (fileInfo.type === 'image') {
+                content = new ImageContent(fileInfo.url);
+            } else if (fileInfo.type === 'video') {
+                content = new VideoContent(fileInfo.url);
+            }
+        } catch (error) {
+            console.error('File upload error:', error);
+        }
+    }
+    const message: Message = new Message(userStore.currentUser, userStore.currentUser, content, new Date());
+    props.messages.push(message);
+};
 
 </script>
   
