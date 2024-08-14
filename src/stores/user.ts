@@ -10,25 +10,50 @@ const userService = reactive(new UserService());
 import { loggedInUsers, currentUser } from '@/mocks/loggedInUser';
 
 export const useUserStore = defineStore('user', {
-  getters: {
-    loggedInUsers: ()=>userService.loggedInUsers, // 存储所有已登录的用户
-    currentUser: ()=>userService.currentUser, // 当前使用的用户
-  },
-  actions: {
-    initialize(){
-      for (let user of loggedInUsers) {
-        userService.login({id: user.id});
-      }
-      userService.switchUser(currentUser);
+    state: () => ({
+        loggedInUsers: [],
+        currentUser: null,
+    }),
+    
+    actions: {
+        initialize() {
+            this.loggedInUsers.push(...loggedInUsers);
+            this.switchUser(currentUser.id);
+        },
+        
+        isUserLoggedIn(userId:string) {
+            return this.loggedInUsers.some((user:User) => user.id === userId);
+        },
+
+        login(user: User) {
+            this.loggedInUsers.push(user);
+            console.log(this.loggedInUsers);
+            this.switchUser(user.id);
+        },
+
+        logout(userToLogout: User) {
+            // 移除登录的用户
+            const indexToRemove = this.loggedInUsers.findIndex(user => user.id === userToLogout.id);
+            if (indexToRemove === -1) {
+                return;
+            }
+            this.loggedInUsers.splice(indexToRemove, 1);
+
+            // 更新当前的登录用户
+            if (this.loggedInUsers.length === 0) {
+                this.currentUser = null;
+                return;
+            }
+            this.switchUser(this.loggedInUsers[0].id);
+        },
+
+        switchUser(userId) {
+            const user = this.loggedInUsers.find(user => user.id === userId);
+            if (user) {
+                this.currentUser = user;
+            }else{
+                console.error(`User with id ${userId} not found`);
+            }
+        },
     },
-    login(userInfo) {
-      userService.login(userInfo);
-    },
-    logout() {
-      userService.logout(this.currentUser);
-    },
-    switchUser(userId) {
-      userService.switchUser(userId);
-    },
-  },
 });

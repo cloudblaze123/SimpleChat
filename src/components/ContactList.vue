@@ -63,7 +63,7 @@ export default {
     };
 
     const logout = () => {
-      userStore.logout();
+      userStore.logout(userStore.currentUser);
       // 假设登出后跳转到登录页面
       router.push({ name: 'Login' });
     };
