@@ -1,18 +1,18 @@
 <template>
-  <div class="flex flex-col h-screen bg-gray-100">
-    <div class="p-4 bg-white shadow-md">
-      <div class="mt-4 text-center">
-        <button @click="goBack" class="px-4 py-2 bg-gray-500 text-white">返回联系人列表</button>
-      </div>
-      <h1 class="text-2xl font-bold mb-4">聊天室 - {{ contact.name }}</h1>
-      <UserSwitcher />
+    <div class="flex flex-col h-screen bg-gray-100">
+        <div class="p-4 bg-white shadow-md">
+            <div class="mt-4 text-center">
+                <button @click="goBack" class="px-4 py-2 bg-gray-500 text-white">返回联系人列表</button>
+            </div>
+            <h1 class="text-2xl font-bold mb-4">聊天室 - {{ contact.name }}</h1>
+            <UserSwitcher />
+        </div>
+        <MessageDisplay class="w-full" :messages="messages" />
+        <MessageInput @send-message="handleSendMessage" />
     </div>
-    <MessageDisplay class="w-full" :messages="messages" />
-    <MessageInput @send-message="handleSendMessage" />
-  </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import { ref, Ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/user';
@@ -27,56 +27,41 @@ import { getMessages } from '@/api/message';
 
 import { getUser } from '@/api/user';
 
-export default {
-  components: {
-    UserSwitcher,
-    MessageDisplay,
-    MessageInput
-  },
-  setup() {
-    const router = useRouter();
-    const userStore = useUserStore();
-    const contact = ref({ id: null, name: '' });
-    const messages: Ref<Message[]> = ref([]);
 
-    onMounted(() => {
-      contact.value.id=(router.currentRoute.value.params.id);
-      contact.value.name=getUser(contact.value.id).name;
+const router = useRouter();
+const userStore = useUserStore();
+const contact = ref({ id: null, name: '' });
+const messages: Ref<Message[]> = ref([]);
 
-      messages.value = getMessages();
-    });
+onMounted(() => {
+    contact.value.id = (router.currentRoute.value.params.id);
+    contact.value.name = getUser(contact.value.id).name;
 
-    const handleSendMessage = async (newMessage, selectedFile) => {
-      let content:Content;
-      if (newMessage.trim() && userStore.currentUser) {
+    messages.value = getMessages();
+});
+
+async function handleSendMessage(newMessage, selectedFile){
+    let content: Content;
+    if (newMessage.trim() && userStore.currentUser) {
         content = new TextContent(newMessage);
-      }
-      if (selectedFile) {
+    }
+    if (selectedFile) {
         try {
-          const fileInfo = await uploadFile(selectedFile, userStore.currentUser.email);
-          if(fileInfo.type==='image'){
-            content = new ImageContent(fileInfo.url);
-          }else if(fileInfo.type==='video'){
-            content = new VideoContent(fileInfo.url);
-          }
+            const fileInfo = await uploadFile(selectedFile, userStore.currentUser.email);
+            if (fileInfo.type === 'image') {
+                content = new ImageContent(fileInfo.url);
+            } else if (fileInfo.type === 'video') {
+                content = new VideoContent(fileInfo.url);
+            }
         } catch (error) {
-          console.error('File upload error:', error);
+            console.error('File upload error:', error);
         }
-      }
-      const message: Message = new Message(userStore.currentUser, userStore.currentUser, content, new Date());
-      messages.value.push(message);
-    };
+    }
+    const message: Message = new Message(userStore.currentUser, userStore.currentUser, content, new Date());
+    messages.value.push(message);
+};
 
-    const goBack = () => {
-      router.push({ name: 'ContactList' });
-    };
-
-    return {
-      contact,
-      messages,
-      handleSendMessage,
-      goBack,
-    };
-  }
+function goBack(){
+    router.push({ name: 'ContactList' });
 };
 </script>
