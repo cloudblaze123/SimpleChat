@@ -1,12 +1,7 @@
 <template>
     <div class="flex flex-col h-screen bg-gray-100">
-        <div class="p-4 bg-white shadow-md">
-            <div class="mt-4 text-center">
-                <button @click="goBack" class="px-4 py-2 bg-gray-500 text-white">返回联系人列表</button>
-            </div>
-            <h1 class="text-2xl font-bold mb-4">聊天室 - {{ contact.name }}</h1>
-            <UserSwitcher />
-        </div>
+        <ChatRoomHeader />
+        <UserSwitcher />
         <MessageDisplay class="w-full" :messages="messages" />
         <MessageInput @send-message="handleSendMessage" />
     </div>
@@ -16,6 +11,7 @@
 import { ref, Ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/user';
+import ChatRoomHeader from '@/components/ChatRoomHeader.vue';
 import UserSwitcher from '@/components/UserSwitcher.vue';
 import MessageDisplay from '@/components/MessageDisplay.vue';
 import MessageInput from '@/components/MessageInput.vue';
@@ -30,13 +26,9 @@ import { getUser } from '@/api/user';
 
 const router = useRouter();
 const userStore = useUserStore();
-const contact = ref({ id: null, name: '' });
 const messages: Ref<Message[]> = ref([]);
 
 onMounted(() => {
-    contact.value.id = (router.currentRoute.value.params.id);
-    contact.value.name = getUser(contact.value.id).name;
-
     messages.value = getMessages();
 });
 
@@ -61,7 +53,5 @@ async function handleSendMessage(newMessage, selectedFile){
     messages.value.push(message);
 };
 
-function goBack(){
-    router.push({ name: 'ContactList' });
-};
+
 </script>
