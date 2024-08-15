@@ -38,47 +38,34 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import { useContactsStore } from '@/stores/contacts';
 import { useUserStore } from '@/stores/user';
+import { useRouter } from 'vue-router';
+
 import UserSwitcher from '@/components/UserSwitcher.vue';
 import AddContactForm from '@/components/AddContactForm.vue';
 
-import { useRouter } from 'vue-router';
 
-export default {
-  components: {
-    UserSwitcher,
-    AddContactForm,
-  },
-  setup() {
-    const contactsStore = useContactsStore();
-    const userStore = useUserStore();
-    const contacts = contactsStore.contacts;
+const contactsStore = useContactsStore();
+const userStore = useUserStore();
+const contacts = contactsStore.contacts;
 
-    const router = useRouter();
+const router = useRouter();
 
-    const removeContact = (id) => {
-      contactsStore.removeContact(id);
-    };
 
-    const logout = () => {
-      userStore.logout(userStore.currentUser);
-      // 假设登出后跳转到登录页面
-      router.push({ name: 'Login' });
-    };
-
-    const goToLoginPage = () => {
-      router.push({ name: 'Login' });
-    };
-
-    return {
-      contacts,
-      removeContact,
-      userStore,
-      logout,
-      goToLoginPage,
-    };
-  }
+function removeContact(id){
+  contactsStore.removeContact(id);
 };
+
+function logout(){
+  userStore.logout(userStore.currentUser);
+  // 假设登出后跳转到登录页面
+  router.push({ name: 'Login' });
+};
+
+function goToLoginPage(){
+  router.push({ name: 'Login' });
+};
+
 </script>
