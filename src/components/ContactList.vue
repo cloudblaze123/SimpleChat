@@ -4,7 +4,7 @@
         <AddContactForm />
         <ul>
             <li v-for="contact in contacts" :key="contact.id" class="mb-4 flex items-center justify-between">
-                <router-link :to="{ name: 'ChatRoomTo', params: { id: contact.id } }"
+                <router-link :to="{ name: 'ChatTo', params: { id: contact.id } }"
                     class="flex items-center space-x-4 hover:bg-gray-50 p-2 rounded-lg transition duration-300 ease-in-out">
                     <div
                         class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">

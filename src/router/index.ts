@@ -2,7 +2,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Login from '@/components/Login.vue'
 import Home from '@/views/Home.vue'
-import ChatRoom from '@/components/ChatRoom.vue'
+import Chat from '@/components/Chat.vue'
 import ContactList from '@/components/ContactList.vue'
 
 const routes = [
@@ -17,9 +17,9 @@ const routes = [
         component: Home
     },
     {
-        path: '/ChatRoom',
-        name: 'ChatRoom',
-        component: ChatRoom
+        path: '/Chat',
+        name: 'Chat',
+        component: Chat
     },
     {
         path: '/ContactList',
@@ -27,9 +27,9 @@ const routes = [
         component: ContactList
     },
     {
-        path: '/ChatRoom/:id',
-        name: 'ChatRoomTo',
-        component: ChatRoom
+        path: '/Chat/:id',
+        name: 'ChatTo',
+        component: Chat
     }
 ]
 

@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col h-screen bg-gray-100">
-        <ChatRoomHeader />
+        <ChatHeader />
         <MessageDisplay class="w-full" :messages="messages" />
         <MessageInput :messages="messages" />
     </div>
@@ -12,7 +12,7 @@
 import { ref, Ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/user';
-import ChatRoomHeader from '@/components/ChatRoomHeader.vue';
+import ChatHeader from '@/components/ChatHeader.vue';
 import MessageDisplay from '@/components/MessageDisplay.vue';
 import MessageInput from '@/components/MessageInput.vue';
 
