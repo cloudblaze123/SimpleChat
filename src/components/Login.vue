@@ -90,17 +90,15 @@ function login() {
         console.log('登录失败');
         return;
     }
-    if(userStore.isUserLoggedIn(user.id)){
-        router.push({ name: 'ContactList' });
-        return;
+    if(!userStore.isUserLoggedIn(user.id)){
+        userStore.login(user);
     }
-    userStore.login(user);
-    router.push({ name: 'ContactList' });
+    router.push({ name: 'Home' });
 
 }
 
 function skipLogin() {
-    // 直接跳转到联系人页面
-    router.push({ name: 'ContactList' });
+    // 直接跳转到首页
+    router.push({ name: 'Home' });
 }
 </script>

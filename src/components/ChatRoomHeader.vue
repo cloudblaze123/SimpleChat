@@ -24,6 +24,6 @@ onMounted(() => {
 });
 
 function goBack(){
-    router.push({ name: 'ContactList' });
+    router.push({ name: 'Home' });
 };
 </script>
