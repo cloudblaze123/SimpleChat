@@ -43,11 +43,17 @@ const userStore = useUserStore();
 const own = userStore.currentUser;
 
 const router = useRouter();
-const id = router.currentRoute.value.params.id as string;
-const to = getUser(id);
+let to=null;
+if(router.currentRoute.value.params.id){
+    const id = router.currentRoute.value.params.id as string;
+    to = getUser(id);
+}
 
 
 function shouldShowMessage(receiver, sender) {
+    if(!to){
+        return
+    }
     if(receiver.id===own.id && sender.id===to.id){
         return true;
     }

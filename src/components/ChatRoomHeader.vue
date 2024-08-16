@@ -17,6 +17,10 @@ const router = useRouter();
 
 const contactName = ref('')
 onMounted(() => {
+    if (!router.currentRoute.value.params.id) {
+        contactName.value = '未知用户';
+        return
+    }
     const id = router.currentRoute.value.params.id as string;
     // console.log(id);
     // console.log(getUser(id));
