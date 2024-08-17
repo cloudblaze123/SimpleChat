@@ -1,6 +1,6 @@
 <template>
     <div class="p-4 bg-white shadow-md">
-        <form @submit.prevent="sendMessage" class="flex flex-col">
+        <form @submit.prevent="toSendMessage" class="flex flex-col">
             <div class="flex mb-4 space-x-1">
                 <input v-model="newMessage" class="flex-1 px-4 py-2 border rounded-l-md" placeholder="输入消息..." />
                 <div class="flex items-center">
@@ -19,8 +19,8 @@
   
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useUserStore } from '@/stores/user';
 import { useRouter } from 'vue-router';
+import { useUserStore } from '@/stores/user';
 
 import { uploadFile } from '../utils/fileUpload';
 import { 
@@ -30,17 +30,13 @@ import {
     ImageContent,
     VideoContent
 } from '@/models/Message';
-import { getUser } from '@/api/user';
 
+import { getUser } from '@/api/user';
+import { sendMessage } from '@/api/message';
 
 
 const emit = defineEmits(['send-message']);
-const props = defineProps({
-    messages:{
-        type:Array,
-        required: true
-    }
-})
+
 
 const userStore = useUserStore();
 const router = useRouter(); 
@@ -49,8 +45,8 @@ const selectedFile = ref(null);
 const fileInput = ref(null);
 
 
-function sendMessage() {
-    handleSendMessage(newMessage.value, selectedFile.value)
+function toSendMessage() {
+    handleToSendMessage(newMessage.value, selectedFile.value)
         .then(() => {
             console.log('Message sent successfully');
         });
@@ -66,7 +62,7 @@ function handleFileChange(event) {
     selectedFile.value = event.target.files[0];
 }
 
-async function handleSendMessage(newMessage, selectedFile){
+async function handleToSendMessage(newMessage, selectedFile){
     let content: Content;
     if (newMessage.trim() && userStore.currentUser) {
         content = new TextContent(newMessage);
@@ -87,7 +83,7 @@ async function handleSendMessage(newMessage, selectedFile){
     const to = getUser(id);
     const message: Message = new Message(userStore.currentUser, to, content, new Date());
     console.log(message);
-    props.messages.push(message);
+    sendMessage(message);
 };
 
 </script>

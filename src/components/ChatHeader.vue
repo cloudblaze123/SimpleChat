@@ -8,24 +8,25 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed, defineProps } from 'vue';
 import { useRouter } from 'vue-router';
 import { getUser } from '@/api/user';
-import { onMounted } from 'vue';
+
+
+const props = defineProps({
+    contactId: {
+        type: String,
+        required: true
+    }
+});
+
 
 const router = useRouter();
 
-const contactName = ref('')
-onMounted(() => {
-    if (!router.currentRoute.value.params.id) {
-        contactName.value = '未知用户';
-        return
-    }
-    const id = router.currentRoute.value.params.id as string;
-    // console.log(id);
-    // console.log(getUser(id));
-    contactName.value = getUser(id).name;
+const contactName = computed(() => {
+    return getUser(props.contactId).name;
 });
+
 
 function goBack(){
     router.push({ name: 'Home' });

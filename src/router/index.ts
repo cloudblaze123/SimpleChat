@@ -14,22 +14,14 @@ const routes = [
     {
         path: '/Home',
         name: 'Home',
-        component: Home
-    },
-    {
-        path: '/Chat',
-        name: 'Chat',
-        component: Chat
-    },
-    {
-        path: '/ContactList',
-        name: 'ContactList',
-        component: ContactList
-    },
-    {
-        path: '/Chat/:id',
-        name: 'ChatTo',
-        component: Chat
+        component: Home,
+        children: [
+            {
+                path: 'Chat/:id',
+                name: 'ChatTo',
+                component: Chat
+            },
+        ]
     }
 ]
 

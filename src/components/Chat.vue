@@ -1,33 +1,44 @@
 <template>
     <div class="flex flex-col h-screen bg-gray-100">
-        <ChatHeader />
-        <MessageDisplay class="w-full" :messages="messages" />
-        <MessageInput :messages="messages" />
+        <ChatHeader :contactId="to.id"/>
+        <MessageDisplay class="w-full" :ownId="userStore.currentUser.id" :toId="to.id"/>
+        <MessageInput />
     </div>
 </template>
 
 
 <script setup lang="ts">
 
-import { ref, Ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, watch, triggerRef } from 'vue';
+import { useRoute } from 'vue-router';
 import { useUserStore } from '@/stores/user';
+import { useMessageStore } from '@/stores/message';
+
 import ChatHeader from '@/components/ChatHeader.vue';
 import MessageDisplay from '@/components/MessageDisplay.vue';
 import MessageInput from '@/components/MessageInput.vue';
 
-import { Message } from "@/models/Message";
 import { getMessages } from '@/api/message';
 import { getUser } from '@/api/user';
 
 
-const router = useRouter();
+const route = useRoute();
 const userStore = useUserStore();
-const messages: Ref<Message[]> = ref([]);
+const messageStore = useMessageStore();
 
+let to = ref(null);
+to.value = getUser(route.params.id as string);
 
-onMounted(() => {
-    messages.value = getMessages();
+watch(route, () => {
+    console.log('route changed');
+    fetchMessages();
+    to.value = getUser(route.params.id as string);
 });
+
+fetchMessages();
+
+function fetchMessages() {
+    messageStore.updateMessages(getMessages());
+}
 
 </script>
