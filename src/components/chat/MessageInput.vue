@@ -22,7 +22,7 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/user';
 
-import { uploadFile } from '../utils/fileUpload';
+import { uploadFile } from '@/utils/fileUpload';
 import { 
     Message,
     Content,

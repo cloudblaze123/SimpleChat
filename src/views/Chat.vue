@@ -14,9 +14,9 @@ import { useRoute } from 'vue-router';
 import { useUserStore } from '@/stores/user';
 import { useMessageStore } from '@/stores/message';
 
-import ChatHeader from '@/components/ChatHeader.vue';
-import MessageDisplay from '@/components/MessageDisplay.vue';
-import MessageInput from '@/components/MessageInput.vue';
+import ChatHeader from '@/components/chat/ChatHeader.vue';
+import MessageDisplay from '@/components/chat/MessageDisplay.vue';
+import MessageInput from '@/components/chat/MessageInput.vue';
 
 import { getMessages } from '@/api/message';
 import { getUser } from '@/api/user';
