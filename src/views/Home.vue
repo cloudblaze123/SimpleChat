@@ -1,6 +1,6 @@
 <template>
     <h1 class="bg-blue-500 text-white text-center text-3xl p-3 font-bold">Simple Chat</h1>
-    <div class="h-screen w-full bg-gray-100 flex">
+    <div class="relative h-screen w-full bg-gray-100 flex">
         <!-- 导航栏 -->
         <div class="flex flex-col items-center py-4 space-y-3 w-1/8 bg-gray-200">
             <div 
@@ -23,7 +23,7 @@
         </div>
         
         <!-- 一级页面 -->
-        <div class="flex justify-center items-center w-1/4 bg-gray-200">
+        <div class="flex justify-center items-center w-full md:w-1/4 bg-gray-200">
             <div 
                 class="w-full h-full rounded-lg"
                 v-show="pos === 'contact-list'">
@@ -39,7 +39,7 @@
         </div>
         
         <!-- 二级页面 -->
-        <router-view class="h-full w-3/4 flex-grow hidden sm:flex"></router-view>
+        <router-view class="absolute top-0 left-0 right-0 bottom-0 md:static md:flex-grow "></router-view>
     </div>
 </template>
 
