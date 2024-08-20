@@ -5,25 +5,26 @@
         <div class="flex flex-col items-center py-4 space-y-3 w-1/8 bg-gray-200">
             <div 
                 class="flex justify-center items-center bg-white rounded-lg p-3 cursor-pointer" 
-                @click="pos = 'contact-list'">
+                @click="switchPos('contact-list')">
                 联系人
             </div>
             <div 
                 class="flex justify-center items-center bg-white rounded-lg p-3 cursor-pointer" 
-                @click="pos = 'chat-room'">
+                @click="switchPos('chat-room')">
                 聊天室
             </div>
             <!-- 添加弹簧，用来将“设置”按钮推到下方 -->
             <div class="flex-grow"></div>
             <div 
                 class="flex justify-center items-center bg-white rounded-lg p-3 cursor-pointer" 
-                @click="pos = 'settings'">
+                @click="switchPos('settings')">
                 设置
             </div>
         </div>
         
         <!-- 一级页面 -->
-        <div class="flex justify-center items-center w-full md:w-1/4 bg-gray-200">
+        <div class="flex justify-center items-center w-full md:w-1/4 bg-gray-200"
+            v-show="['contact-list', 'chat-room'].includes(pos)">
             <div 
                 class="w-full h-full rounded-lg"
                 v-show="pos === 'contact-list'">
@@ -51,5 +52,11 @@ import ContactList from "@/components/ContactList.vue";
 
 const pos = ref('contact-list');
 
-
+function switchPos(newPos: string) {
+    if(pos.value === newPos){
+        pos.value = '';
+        return;
+    }
+    pos.value = newPos;
+}
 </script>
