@@ -1,18 +1,12 @@
 // src/router/index.js
 import { createRouter, createWebHistory } from 'vue-router'
-import Login from '@/components/Login.vue'
 import Home from '@/views/Home.vue'
+import Login from '@/components/Login.vue'
 import Chat from '@/components/Chat.vue'
-import ContactList from '@/components/ContactList.vue'
 
 const routes = [
     {
         path: '/',
-        name: 'Login',
-        component: Login
-    },
-    {
-        path: '/Home',
         name: 'Home',
         component: Home,
         children: [
@@ -22,7 +16,12 @@ const routes = [
                 component: Chat
             },
         ]
-    }
+    },
+    {
+        path: '/Login',
+        name: 'Login',
+        component: Login
+    },
 ]
 
 const router = createRouter({
