@@ -1,5 +1,5 @@
 <template>
-    <div class="flex-1 p-4 overflow-y-auto ">
+    <div class="p-4 overflow-y-auto ">
         <div v-for="(message, index) in messages" :key="index" class="mb-2 flex max-w-full" :class="{ 'justify-end': message.sender.id===props.ownId, 'justify-start': message.sender!==props.ownId }">
             <div class="p-2 rounded-lg flex items-start max-w-full bg-gray-200">
                 <span class="font-bold mr-2">{{ message.sender.name }}:</span>

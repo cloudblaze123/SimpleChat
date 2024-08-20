@@ -39,7 +39,7 @@
         </div>
         
         <!-- 二级页面 -->
-        <router-view class="h-full w-3/4 flex-grow hidden sm:block"></router-view>
+        <router-view class="h-full w-3/4 flex-grow hidden sm:flex"></router-view>
     </div>
 </template>
 
@@ -49,7 +49,7 @@
 import { ref } from "vue";
 import ContactList from "@/components/ContactList.vue";
 
-const pos = ref('');
+const pos = ref('contact-list');
 
 
 </script>

@@ -1,7 +1,7 @@
 <template>
-    <div class="flex flex-col h-screen bg-gray-100">
+    <div class="flex flex-col h-full bg-gray-100">
         <ChatHeader :contactId="to.id"/>
-        <MessageDisplay class="w-full" :ownId="userStore.currentUser.id" :toId="to.id"/>
+        <MessageDisplay class="w-full grow" :ownId="userStore.currentUser.id" :toId="to.id"/>
         <MessageInput />
     </div>
 </template>
