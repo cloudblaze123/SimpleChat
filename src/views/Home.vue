@@ -2,7 +2,7 @@
     <h1 class="bg-blue-500 text-white text-center text-3xl p-3 font-bold">Simple Chat</h1>
     <div class="h-screen w-full bg-gray-100 flex">
         <!-- 导航栏 -->
-        <div class="w-1/8 bg-gray-200 flex flex-col items-center space-y-3">
+        <div class="flex flex-col items-center py-4 space-y-3 w-1/8 bg-gray-200">
             <div 
                 class="flex justify-center items-center bg-white rounded-lg p-3 cursor-pointer" 
                 @click="pos = 'contact-list'">
@@ -12,6 +12,13 @@
                 class="flex justify-center items-center bg-white rounded-lg p-3 cursor-pointer" 
                 @click="pos = 'chat-room'">
                 聊天室
+            </div>
+            <!-- 添加弹簧，用来将“设置”按钮推到下方 -->
+            <div class="flex-grow"></div>
+            <div 
+                class="flex justify-center items-center bg-white rounded-lg p-3 cursor-pointer" 
+                @click="pos = 'settings'">
+                设置
             </div>
         </div>
         
