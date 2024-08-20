@@ -17,7 +17,7 @@
             <div class="flex-grow"></div>
             <div 
                 class="flex justify-center items-center bg-white rounded-lg p-3 cursor-pointer" 
-                @click="switchPos('settings')">
+                @click="switchPos('settings'); goto('Settings')">
                 设置
             </div>
         </div>
@@ -48,9 +48,14 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import { useRouter } from "vue-router";
+
 import ContactList from "@/components/ContactList.vue";
 
+
+const router = useRouter();
 const pos = ref('contact-list');
+
 
 function switchPos(newPos: string) {
     if(pos.value === newPos){
@@ -58,5 +63,10 @@ function switchPos(newPos: string) {
         return;
     }
     pos.value = newPos;
+}
+
+function goto(path: string){
+    router.push({name: path});
+    console.log('goto', path);
 }
 </script>

@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '@/views/Home.vue'
 import Login from '@/views/Login.vue'
 import Chat from '@/views/Chat.vue'
+import Settings from '@/views/Settings.vue'
 
 const routes = [
     {
@@ -14,6 +15,11 @@ const routes = [
                 path: 'Chat/:id',
                 name: 'ChatTo',
                 component: Chat
+            },
+            {
+                path: 'Settings',
+                name: 'Settings',
+                component: Settings
             },
         ]
     },
