@@ -18,6 +18,11 @@ const routes = [
                 component: Chat
             },
             {
+                path: 'Profile',
+                name: 'OwnProfile',
+                component: Profile
+            },
+            {
                 path: 'Profile/:id',
                 name: 'Profile',
                 component: Profile

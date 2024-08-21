@@ -7,7 +7,7 @@
             <div 
                 class="flex justify-center items-center w-14 h-14 overflow-clip  rounded-lg p-3 cursor-pointer hover:bg-gray-100 transition-all duration-200 ease-in-out" 
                 :class="pos === 'profile'? 'bg-gray-100 text-blue-600' : 'text-gray-800'"
-                @click="switchPos('profile'); goto('Profile')">
+                @click="switchPos('profile'); goto('OwnProfile')">
                 <Icon size="36" >
                     <UserCircle />
                 </Icon>
@@ -93,8 +93,8 @@ function switchPos(newPos: string) {
     pos.value = newPos;
 }
 
-function goto(path: string){
-    router.push({name: path});
-    console.log('goto', path);
+function goto(routeName: string){
+    console.log('goto routeName:', routeName);
+    router.push({name: routeName});
 }
 </script>

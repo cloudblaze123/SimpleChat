@@ -19,10 +19,11 @@
 
         <!-- Profile页面的主体 -->
         <div class="flex flex-col items-center h-full w-full rounded-lg ">
-            <router-link :to="{ name: 'ChatTo', params: { id: id } }"
-                class="p-4 bg-blue-700 rounded-md text-white">
+            <button class="p-4 bg-blue-700 rounded-md text-white"
+                @click="gotoChat"
+                v-if="id">
                 发消息
-            </router-link>
+            </button>
         </div>
     </div>
 </template>
@@ -55,5 +56,9 @@ const user = computed(() => {
 
 function goBack() {
     router.push({ name: 'Home' });
+}
+
+function gotoChat(){
+    router.push({ name: 'ChatTo', params: { id: id.value } });
 }
 </script>
