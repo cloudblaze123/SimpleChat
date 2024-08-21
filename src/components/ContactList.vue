@@ -1,8 +1,8 @@
 <template>
-    <div class="bg-white shadow-lg rounded-lg p-8 w-full">
+    <div class="flex flex-col bg-white shadow-lg rounded-lg p-8 w-full">
         <h1 class="text-2xl font-bold text-center mb-6">联系人列表</h1>
         <AddContactForm />
-        <ul>
+        <ul class="overflow-y-auto">
             <li v-for="contact in contacts" :key="contact.id" class="mb-4 flex items-center justify-between">
                 <router-link :to="{ name: 'ChatTo', params: { id: contact.id } }"
                     class="flex items-center space-x-4 hover:bg-gray-50 p-2 rounded-lg transition duration-300 ease-in-out">
