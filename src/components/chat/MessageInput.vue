@@ -82,6 +82,7 @@ async function handleToSendMessage(newMessage, selectedFile){
     const id = router.currentRoute.value.params.id as string;
     const to = getUser(id);
     const message: Message = new Message(userStore.currentUser, to, content, new Date());
+    emit('send-message', message);
     console.log(message);
     sendMessage(message);
 };

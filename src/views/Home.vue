@@ -13,6 +13,16 @@
                 </Icon>
             </div>
 
+            <!-- 会话 -->
+            <div 
+                class="flex justify-center items-center w-14 h-14 overflow-clip  rounded-lg p-3 cursor-pointer hover:bg-gray-100 transition-all duration-200 ease-in-out" 
+                :class="pos === 'session-list'? 'bg-gray-100 text-blue-600' : 'text-gray-800'"
+                @click="switchPos('session-list')">
+                <Icon size="36" >
+                    <Messages />
+                </Icon>
+            </div>
+
             <!-- 联系人 -->
             <div 
                 class="flex justify-center items-center w-14 h-14 overflow-clip  rounded-lg p-3 cursor-pointer hover:bg-gray-100 transition-all duration-200 ease-in-out" 
@@ -20,16 +30,6 @@
                 @click="switchPos('contact-list')">
                 <Icon size="36" >
                     <Users />
-                </Icon>
-            </div>
-
-            <!-- 聊天室 -->
-            <div 
-                class="flex justify-center items-center w-14 h-14 overflow-clip  rounded-lg p-3 cursor-pointer hover:bg-gray-100 transition-all duration-200 ease-in-out" 
-                :class="pos === 'chat-room'? 'bg-gray-100 text-blue-600' : 'text-gray-800'"
-                @click="switchPos('chat-room')">
-                <Icon size="36" >
-                    <Messages />
                 </Icon>
             </div>
 
@@ -49,18 +49,19 @@
         
         <!-- 一级页面 -->
         <div class="flex justify-center items-center w-full lg:w-1/3 bg-gray-200"
-            v-show="['contact-list', 'chat-room'].includes(pos)">
+            v-show="['contact-list', 'session-list'].includes(pos)">
+            <!-- 会话列表 -->
             <div 
-                class="w-full h-full rounded-lg"
+                class="w-full h-full"
+                v-show="pos === 'session-list'">
+                <SessionList class="h-full" />
+            </div>
+
+            <!-- 联系人列表 -->
+            <div 
+                class="w-full h-full"
                 v-show="pos === 'contact-list'">
                 <ContactList class="h-full" />
-            </div>
-            <div 
-                class="w-full h-full rounded-lg"
-                v-show="pos === 'chat-room'">
-                <div class="w-full h-full p-8 bg-white rounded-lg shadow-lg">
-                    <h1 class="text-2xl font-bold text-center mb-6">聊天室列表</h1>
-                </div>
             </div>
         </div>
         
@@ -78,7 +79,7 @@ import { Icon } from "@vicons/utils";
 import { UserCircle, Messages, Users, Settings } from "@vicons/tabler";
 
 import ContactList from "@/components/ContactList.vue";
-
+import SessionList from "@/components/SessionList.vue";
 
 const router = useRouter();
 const pos = ref('contact-list');
