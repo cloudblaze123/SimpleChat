@@ -12,26 +12,45 @@
                     </Icon>
                 </button>
                 <h1 class="text-2xl text-center">
-                    这是Profile页面
+                    这是 {{ user ? user.name:'未知用户' }} 的Profile页面
                 </h1>
             </div>
         </div>
 
         <!-- Profile页面的主体 -->
         <div class="flex flex-col items-center h-full w-full rounded-lg ">
-            
+            <router-link :to="{ name: 'ChatTo', params: { id: id } }"
+                class="p-4 bg-blue-700 rounded-md text-white">
+                发消息
+            </router-link>
         </div>
     </div>
 </template>
 
 
 <script setup lang="ts">
-import { useRouter } from 'vue-router';
+import { computed } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
 import { Icon } from "@vicons/utils";
 import { ChevronLeft } from "@vicons/tabler";
 
+import { useUserStore } from '@/stores/user';
+import { getUser } from "@/api/user";
+
+
+const route = useRoute();
 const router = useRouter();
+const userStore = useUserStore();
+
+const id = computed(() => route.params.id);
+const user = computed(() => {
+    if(id.value){
+        return getUser(id.value as string);
+    }else{
+        return userStore.currentUser;
+    }
+})
 
 
 function goBack() {

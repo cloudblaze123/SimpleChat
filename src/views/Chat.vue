@@ -9,7 +9,7 @@
 
 <script setup lang="ts">
 
-import { ref, watch, triggerRef } from 'vue';
+import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useUserStore } from '@/stores/user';
 import { useMessageStore } from '@/stores/message';

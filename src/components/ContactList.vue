@@ -4,7 +4,7 @@
         <AddContactForm class="px-8" />
         <ul class="overflow-y-auto">
             <li v-for="contact in contacts" :key="contact.id" class="flex items-center">
-                <router-link :to="{ name: 'ChatTo', params: { id: contact.id } }"
+                <router-link :to="{ name: 'Profile', params: { id: contact.id } }"
                     class="flex items-center w-full hover:bg-gray-200 px-8 py-4  transition duration-300 ease-in-out"
                     :class="{ 'bg-gray-200': contact.id === selectedUserId }">
                     <div class="flex space-x-4 items-center">
