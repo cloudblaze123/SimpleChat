@@ -12,19 +12,14 @@
                     </Icon>
                 </button>
                 <h1 class="text-2xl text-center">
-                    这是设置页面
+                    这是Profile页面
                 </h1>
             </div>
         </div>
 
-        <!-- 设置页面的主体 -->
+        <!-- Profile页面的主体 -->
         <div class="flex flex-col items-center h-full w-full bg-white rounded-lg ">
-            <div class="flex justify-center items-center text-lg font-bold  text-white  mt-4 space-x-4">
-                <div class="p-4 bg-green-400 rounded-lg hover:bg-green-500 cursor-pointer"
-                    @click="console.log('导入聊天记录')">导入聊天记录</div>
-                <div class="p-4 bg-green-400 rounded-lg hover:bg-green-500 cursor-pointer"
-                    @click="console.log('导出聊天记录')">导出聊天记录</div>
-            </div>
+            
         </div>
     </div>
 </template>
