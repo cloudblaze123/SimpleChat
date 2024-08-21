@@ -5,30 +5,30 @@
         <div class="flex flex-col items-center p-4 space-y-3 w-1/8 bg-gray-200">
             <!-- 用户头像 -->
             <div 
-                class="flex justify-center items-center w-14 h-14 overflow-clip  rounded-lg p-3 cursor-pointer hover:bg-gray-200 transition-all duration-300 ease-in-out" 
-                :class="pos === 'profile'? 'bg-gray-200' : 'bg-white'"
+                class="flex justify-center items-center w-14 h-14 overflow-clip  rounded-lg p-3 cursor-pointer hover:bg-gray-100 transition-all duration-200 ease-in-out" 
+                :class="pos === 'profile'? 'bg-gray-100 text-blue-600' : 'text-gray-800'"
                 @click="switchPos('profile'); goto('Profile')">
-                <Icon size="32">
+                <Icon size="36" >
                     <UserCircle />
                 </Icon>
             </div>
 
             <!-- 联系人 -->
             <div 
-                class="flex justify-center items-center w-14 h-14 overflow-clip  rounded-lg p-3 cursor-pointer hover:bg-gray-200 transition-all duration-300 ease-in-out" 
-                :class="pos === 'contact-list'? 'bg-gray-200' : 'bg-white'"
+                class="flex justify-center items-center w-14 h-14 overflow-clip  rounded-lg p-3 cursor-pointer hover:bg-gray-100 transition-all duration-200 ease-in-out" 
+                :class="pos === 'contact-list'? 'bg-gray-100 text-blue-600' : 'text-gray-800'"
                 @click="switchPos('contact-list')">
-                <Icon size="32">
+                <Icon size="36" >
                     <Users />
                 </Icon>
             </div>
 
             <!-- 聊天室 -->
             <div 
-                class="flex justify-center items-center w-14 h-14 overflow-clip  rounded-lg p-3 cursor-pointer hover:bg-gray-200 transition-all duration-300 ease-in-out" 
-                :class="pos === 'chat-room'? 'bg-gray-200' : 'bg-white'"
+                class="flex justify-center items-center w-14 h-14 overflow-clip  rounded-lg p-3 cursor-pointer hover:bg-gray-100 transition-all duration-200 ease-in-out" 
+                :class="pos === 'chat-room'? 'bg-gray-100 text-blue-600' : 'text-gray-800'"
                 @click="switchPos('chat-room')">
-                <Icon size="32">
+                <Icon size="36" >
                     <Messages />
                 </Icon>
             </div>
@@ -38,10 +38,10 @@
 
             <!-- 设置 -->
             <div 
-                class="flex justify-center items-center w-14 h-14 overflow-clip  rounded-lg p-3 cursor-pointer hover:bg-gray-200 transition-all duration-300 ease-in-out" 
-                :class="pos === 'settings'? 'bg-gray-200' : 'bg-white'"
+                class="flex justify-center items-center w-14 h-14 overflow-clip  rounded-lg p-3 cursor-pointer hover:bg-gray-100 transition-all duration-200 ease-in-out" 
+                :class="pos === 'settings'? 'bg-gray-100 text-blue-600' : 'text-gray-800'"
                 @click="switchPos('settings'); goto('Settings')">
-                <Icon size="32">
+                <Icon size="36" >
                     <Settings />
                 </Icon>
             </div>
