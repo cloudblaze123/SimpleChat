@@ -2,28 +2,31 @@
     <h1 class="bg-blue-500 text-white text-center text-3xl p-3 font-bold">Simple Chat</h1>
     <div class="relative h-screen w-full bg-gray-100 flex">
         <!-- 导航栏 -->
-        <div class="flex flex-col items-center py-4 space-y-3 w-1/8 bg-gray-200">
+        <div class="flex flex-col items-center p-4 space-y-3 w-1/8 bg-gray-300">
             <div 
-                class="flex justify-center items-center bg-white rounded-lg p-3 cursor-pointer" 
+                class="flex justify-center items-center w-14 h-14 overflow-clip  rounded-lg p-3 cursor-pointer hover:bg-gray-200 transition-all duration-300 ease-in-out" 
+                :class="pos === 'contact-list'? 'bg-gray-200' : 'bg-white'"
                 @click="switchPos('contact-list')">
                 联系人
             </div>
             <div 
-                class="flex justify-center items-center bg-white rounded-lg p-3 cursor-pointer" 
+                class="flex justify-center items-center w-14 h-14 overflow-clip  rounded-lg p-3 cursor-pointer hover:bg-gray-200 transition-all duration-300 ease-in-out" 
+                :class="pos === 'chat-room'? 'bg-gray-200' : 'bg-white'"
                 @click="switchPos('chat-room')">
                 聊天室
             </div>
             <!-- 添加弹簧，用来将“设置”按钮推到下方 -->
             <div class="flex-grow"></div>
             <div 
-                class="flex justify-center items-center bg-white rounded-lg p-3 cursor-pointer" 
+                class="flex justify-center items-center w-14 h-14 overflow-clip  rounded-lg p-3 cursor-pointer hover:bg-gray-200 transition-all duration-300 ease-in-out" 
+                :class="pos === 'settings'? 'bg-gray-200' : 'bg-white'"
                 @click="switchPos('settings'); goto('Settings')">
                 设置
             </div>
         </div>
         
         <!-- 一级页面 -->
-        <div class="flex justify-center items-center w-full md:w-1/4 bg-gray-200"
+        <div class="flex justify-center items-center w-full lg:w-1/3 bg-gray-200"
             v-show="['contact-list', 'chat-room'].includes(pos)">
             <div 
                 class="w-full h-full rounded-lg"
@@ -33,14 +36,14 @@
             <div 
                 class="w-full h-full rounded-lg"
                 v-show="pos === 'chat-room'">
-                <div class="w-full h-full p-8 bg-white rounded-lg  shadow-lg">
+                <div class="w-full h-full p-8 bg-white rounded-lg shadow-lg">
                     <h1 class="text-2xl font-bold text-center mb-6">聊天室列表</h1>
                 </div>
             </div>
         </div>
         
         <!-- 二级页面 -->
-        <router-view class="absolute top-0 left-0 right-0 bottom-0 md:static md:flex-grow "></router-view>
+        <router-view class="absolute top-0 left-0 right-0 bottom-0 lg:static lg:flex-grow "></router-view>
     </div>
 </template>
 

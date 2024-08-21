@@ -1,8 +1,8 @@
 <template>
-    <div class="p-4 bg-white shadow-md">
-        <div class="text-center flex items-center">
-            <button @click="goBack" class="px-4 py-2 bg-gray-500 text-white">返回</button>
-            <h1 class="text-2xl font-bold m-auto text-center">聊天室 - {{ contactName }}</h1>
+    <div class="p-4 bg-white">
+        <div class="relative text-center flex items-center">
+            <button @click="goBack" class=" absolute top-0 left-0 px-4 py-2 bg-gray-500 text-white lg:hidden">返回</button>
+            <h1 class="text-2xl font-bold m-auto text-center">{{ contactName }}</h1>
         </div>
     </div>
 </template>
