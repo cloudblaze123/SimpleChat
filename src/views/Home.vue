@@ -1,12 +1,12 @@
 <template>
-    <h1 class="bg-blue-500 text-white text-center text-3xl p-3 font-bold">Simple Chat</h1>
-    <div class="relative h-screen w-full bg-gray-100 flex">
+    <h1 class="bg-blue-500 text-white text-center text-3xl p-3 font-bold dark:bg-slate-800">Simple Chat</h1>
+    <div class="relative h-screen w-full bg-gray-100 dark:bg-slate-900 flex">
         <!-- 导航栏 -->
-        <div class="flex flex-col items-center p-4 space-y-3 w-1/8 bg-gray-200">
+        <div class="flex flex-col items-center p-4 space-y-3 w-1/8 bg-gray-200 text-gray-800 dark:bg-slate-800 dark:text-gray-200">
             <!-- 用户头像 -->
             <div 
-                class="flex justify-center items-center w-14 h-14 overflow-clip  rounded-lg p-3 cursor-pointer hover:bg-gray-100 transition-all duration-200 ease-in-out" 
-                :class="pos === 'profile'? 'bg-gray-100 text-blue-600' : 'text-gray-800'"
+                class="flex justify-center items-center w-14 h-14 overflow-clip  rounded-lg p-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-700 transition-all duration-200 ease-in-out" 
+                :class="pos === 'profile'? 'bg-gray-100 text-blue-600 dark:bg-slate-700' : ''"
                 @click="switchPos('profile'); goto('OwnProfile')">
                 <Icon size="36" >
                     <UserCircle />
@@ -15,8 +15,8 @@
 
             <!-- 会话 -->
             <div 
-                class="flex justify-center items-center w-14 h-14 overflow-clip  rounded-lg p-3 cursor-pointer hover:bg-gray-100 transition-all duration-200 ease-in-out" 
-                :class="pos === 'session-list'? 'bg-gray-100 text-blue-600' : 'text-gray-800'"
+                class="flex justify-center items-center w-14 h-14 overflow-clip  rounded-lg p-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-700 transition-all duration-200 ease-in-out" 
+                :class="pos === 'session-list'? 'bg-gray-100 text-blue-600 dark:bg-slate-700' : ''"
                 @click="switchPos('session-list')">
                 <Icon size="36" >
                     <Messages />
@@ -25,8 +25,8 @@
 
             <!-- 联系人 -->
             <div 
-                class="flex justify-center items-center w-14 h-14 overflow-clip  rounded-lg p-3 cursor-pointer hover:bg-gray-100 transition-all duration-200 ease-in-out" 
-                :class="pos === 'contact-list'? 'bg-gray-100 text-blue-600' : 'text-gray-800'"
+                class="flex justify-center items-center w-14 h-14 overflow-clip  rounded-lg p-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-700 transition-all duration-200 ease-in-out" 
+                :class="pos === 'contact-list'? 'bg-gray-100 text-blue-600 dark:bg-slate-700' : ''"
                 @click="switchPos('contact-list')">
                 <Icon size="36" >
                     <Users />
@@ -36,10 +36,20 @@
             <!-- 添加弹簧，用来将“设置”按钮推到下方 -->
             <div class="flex-grow"></div>
 
+            <!-- 日夜览模式 -->
+            <div 
+                class="flex justify-center items-center w-14 h-14 overflow-clip  rounded-lg p-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-700 transition-all duration-200 ease-in-out" 
+                @click="commonStore.toggleDarkMode();">
+                <Icon size="36">
+                    <Sun v-if="!commonStore.darkMode"/>
+                    <MoonStars v-else/>
+                </Icon>
+            </div>
+
             <!-- 设置 -->
             <div 
-                class="flex justify-center items-center w-14 h-14 overflow-clip  rounded-lg p-3 cursor-pointer hover:bg-gray-100 transition-all duration-200 ease-in-out" 
-                :class="pos === 'settings'? 'bg-gray-100 text-blue-600' : 'text-gray-800'"
+                class="flex justify-center items-center w-14 h-14 overflow-clip  rounded-lg p-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-slate-700 transition-all duration-200 ease-in-out" 
+                :class="pos === 'settings'? 'bg-gray-100 text-blue-600 dark:bg-slate-700' : ''"
                 @click="switchPos('settings'); goto('Settings')">
                 <Icon size="36" >
                     <Settings />
@@ -66,7 +76,7 @@
         </div>
         
         <!-- 二级页面 -->
-        <router-view class="absolute top-0 left-0 right-0 bottom-0 lg:static lg:flex-grow "></router-view>
+        <router-view class="absolute top-0 left-0 right-0 bottom-0 dark:bg-slate-900 lg:static lg:flex-grow "></router-view>
     </div>
 </template>
 
@@ -75,13 +85,17 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import { useCommonStore } from "@/stores/common";
+
 import { Icon } from "@vicons/utils";
-import { UserCircle, Messages, Users, Settings } from "@vicons/tabler";
+import { UserCircle, Messages, Users, Settings, Sun, MoonStars } from "@vicons/tabler";
 
 import ContactList from "@/components/ContactList.vue";
 import SessionList from "@/components/SessionList.vue";
 
+
 const router = useRouter();
+const commonStore = useCommonStore();
 const pos = ref('contact-list');
 
 

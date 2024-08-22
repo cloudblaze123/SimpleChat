@@ -1,11 +1,11 @@
 <template>
-    <div class="flex flex-col justify-center bg-gray-100">
+    <div class="flex flex-col justify-center bg-gray-100 dark:text-gray-200">
         <!-- 设置页面的头部 -->
-        <div class="flex justify-between items-center p-4 bg-white ">
+        <div class="flex justify-between items-center p-4 bg-white dark:bg-slate-900">
             <div class="relative w-full flex justify-center items-center">
                 <!-- 返回按钮 -->
                 <button 
-                    class="absolute left-0 top-0 text-gray-400 hover:text-gray-600 transition-all duration-400 ease-in-out lg:hidden"
+                    class="absolute left-0 top-0 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-all duration-400 ease-in-out lg:hidden"
                     @click="goBack">
                     <Icon size="32">
                         <ChevronLeft />
@@ -20,9 +20,9 @@
         <!-- 设置页面的主体 -->
         <div class="flex flex-col items-center h-full w-full rounded-lg ">
             <div class="flex justify-center items-center text-lg font-bold  text-white  mt-4 space-x-4">
-                <div class="p-4 bg-green-400 rounded-lg hover:bg-green-500 cursor-pointer"
+                <div class="p-4 bg-green-400 hover:bg-green-500 dark:bg-green-500 dark:hover:bg-green-400 rounded-lg cursor-pointer"
                     @click="console.log('导入聊天记录')">导入聊天记录</div>
-                <div class="p-4 bg-green-400 rounded-lg hover:bg-green-500 cursor-pointer"
+                <div class="p-4 bg-green-400 hover:bg-green-500 dark:bg-green-500 dark:hover:bg-green-400 rounded-lg cursor-pointer"
                     @click="console.log('导出聊天记录')">导出聊天记录</div>
             </div>
         </div>

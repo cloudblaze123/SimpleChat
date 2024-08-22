@@ -1,8 +1,8 @@
 <template>
-    <div class="p-4 bg-white shadow-md">
-        <form @submit.prevent="toSendMessage" class="flex flex-col">
+    <div class="p-4 bg-white dark:bg-slate-900 dark:text-gray-200 shadow-md">
+        <form @submit.prevent="toSendMessage" class="flex flex-col ">
             <div class="flex mb-4 space-x-1">
-                <input v-model="newMessage" class="flex-1 px-4 py-2 border rounded-l-md" placeholder="输入消息..." />
+                <input v-model="newMessage" class="flex-1 px-4 py-2 dark:bg-slate-900 dark:border-gray-200 border rounded-md " placeholder="输入消息..." />
                 <div class="flex items-center">
                     <input type="file" ref="fileInput" @change="handleFileChange" class="hidden" />
                     <button type="button" @click="triggerFileInput"

@@ -1,9 +1,9 @@
 <template>
-    <div class="p-4 bg-white">
+    <div class="p-4 bg-white dark:bg-slate-900 dark:text-gray-200">
         <div class="relative text-center flex items-center">
             <!-- 返回按钮 -->
             <button 
-                class="absolute top-0 left-0 text-gray-400 hover:text-gray-600 transition-all duration-400 ease-in-out lg:hidden"
+                class="absolute top-0 left-0 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-all duration-400 ease-in-out lg:hidden"
                 @click="goBack">
                 <Icon size="32">
                     <ChevronLeft />

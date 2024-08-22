@@ -1,17 +1,22 @@
 <template>
-    <ControlPanel />
-    <router-view></router-view>
+    <div :class="{ 'dark': commonStore.darkMode }">
+        <ControlPanel />
+        <router-view></router-view>
+    </div>
 </template>
+
 
 <script setup lang="ts">
 import { RouterView } from 'vue-router';
 import { useUserStore } from '@/stores/user';
+import { useCommonStore } from './stores/common';
 
 import ControlPanel from '@/components/ControlPanel.vue';
 
 
 const userStore = useUserStore();
 userStore.initialize();
+const commonStore = useCommonStore();
 
 
 // 建立socket连接（暂时用自定义的对象来模拟连接）

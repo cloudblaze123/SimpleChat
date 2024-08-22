@@ -1,6 +1,6 @@
 <template>
-    <div class="mb-4">
-      <input v-model="newContactName" class="w-full p-2 border rounded" placeholder="添加新联系人" />
+    <div class="mb-4 dark:bg-slate-900 dark:text-gray-200">
+      <input v-model="newContactName" class="w-full p-2 dark:bg-slate-900 dark:text-gray-200 dark:border-gray-200 border rounded" placeholder="添加新联系人" />
       <button @click="addContact" class="mt-2 w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600">添加</button>
     </div>
   </template>

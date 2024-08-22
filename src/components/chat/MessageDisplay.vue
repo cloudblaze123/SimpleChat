@@ -1,5 +1,5 @@
 <template>
-    <div class="p-4 overflow-y-auto ">
+    <div class="p-4 overflow-y-auto dark:bg-slate-900 dark:text-gray-200 ">
         <div v-for="(message, index) in messages" :key="index" class="mb-2 flex max-w-full" :class="{ 'justify-end': message.sender.id===props.ownId, 'justify-start': message.sender!==props.ownId }">
             <div class="p-2 rounded-lg flex items-start max-w-full "
                 :class="{ 'flex-row-reverse': message.sender.id ===  props.ownId}">
@@ -7,7 +7,7 @@
                 <span class="mx-2"></span>
                 
                 <!-- 消息主体 -->
-                <div class=" bg-gray-200 px-3 py-2 rounded-lg break-all max-w-full">
+                <div class=" bg-gray-200 dark:bg-slate-800 px-3 py-2 rounded-lg break-all max-w-full">
                     <template v-if="message.content.type === 'text'">
                         {{ (message.content as TextContent).text }}
                     </template>

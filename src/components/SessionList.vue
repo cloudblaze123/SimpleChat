@@ -1,11 +1,11 @@
 <template>
-    <div class="flex flex-col bg-white shadow-lg rounded-lg w-full">
+    <div class="flex flex-col w-full bg-white dark:bg-slate-900 dark:text-gray-200" >
         <h1 class="text-2xl font-bold text-center mt-8 mb-6">会话列表</h1>
         <ul class="overflow-y-auto">
             <li v-for="session in sessions" :key="session.id" class="flex items-center">
                 <router-link :to="{ name: 'ChatTo', params: { id: session.id } }"
-                    class="flex items-center w-full hover:bg-gray-200 px-8 py-4  transition duration-300 ease-in-out"
-                    :class="{ 'bg-gray-200': session.id === selectedUserId }">
+                    class="flex items-center w-full hover:bg-gray-200 dark:hover:bg-slate-800 px-8 py-4  transition duration-300 ease-in-out"
+                    :class="{ 'bg-gray-200 dark:bg-slate-800': session.id === selectedUserId }">
                     <div class="flex space-x-4 items-center">
                         <div
                             class="w-20 h-20 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">
