@@ -28,7 +28,7 @@
 2. 消费完后通过模块B 保存数据（或者先保存再消费）  
 
 可以看出，为了达成上述需求，每个类似于模块A 的数据消费者（模块）在获取并消费完数据后，都需要重复一遍这样数据的储存过程。  
-无形中为数据消费者添加了额外负担。
+无形中为消费数据添加了额外负担。
 
 进一步观察，我们可以发现，每个消费者消费完数据后储存数据的过程。其实大同小异。那么有没有办法可以减轻这部分工作量呢？
 
@@ -57,7 +57,7 @@ self.addEventListener("fetch", (event) => {
   }
 });
 
-// 定义缓存行为
+// 定义 cacheFirst 方法
 async function cacheFirst(request) {
   // 首先检查本地缓存中是否有该请求的响应
   const cachedResponse = await caches.match(request);
@@ -115,8 +115,6 @@ export default {
     
     // 调用获取 likedArtists 列表的api
     // 获取到数据后，调用 commit 方法，将数据更新到 store 中
-    // 最后返回一个 promise
-    // 根据上方代码推断，其实不返回promise也可以，当数据更新到 store 中后，vue的组件（相当于数据消费者，fetch发起方）通过响应式数据的绑定就能获取并使用请求到的数据。
     return likedArtists({ limit: 2000 }).then(result => {
       if (result.data) {
         commit('updateLikedXXX', {
@@ -150,7 +148,9 @@ export default store => {
 
 > 如果你仔细看，会发现 fetchLikedArtists 方法并没有像 PWA 的 Service Worker 一样，在请求前先查找缓存中的数据  
 
-> 这是因为 localStorage 插件的存在，每次调用 fetchLikedArtists 方法时，vuex 都会将数据同步更新到 artists 属性和 localStorage 中，即 vuex 中的 artists 属性始终与 localStorage 中的 artists 数据保持同步，即 vuex.artists == localStorage.artists。  
+> 这是因为 localStorage 插件的存在，每次调用 fetchLikedArtists 方法时，vuex 都会将数据同步更新到 artists 属性和 localStorage 中，  
+即 vuex 中的 artists 属性始终与 localStorage 中的 artists 数据保持同步，  
+即 vuex.artists == localStorage.artists。  
 
 > 所以可以将 vuex.artists 看做是本地缓存在内存中的版本（类似于影子分身）。  
-当组件模版中用到 vuex.artists 时，实际上便是在使用和本地缓存一样的数据（直到应用或组件调用 fetchLikedArtists 方法更新 vuex.artists 属性为止，因为 IO 操作需要的时间较长，所以比起vuex.artists 属性，更新时本地缓存会短暂滞后）。
+当组件模版中用到 vuex.artists 时，实际上便是在使用和本地缓存一样的数据（直到应用或组件调用 fetchLikedArtists 方法更新 vuex.artists 属性为止，因为 IO 操作需要的时间较长，所以比起vuex.artists 属性，本地缓存会短暂滞后）。
