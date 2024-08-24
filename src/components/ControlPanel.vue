@@ -1,8 +1,8 @@
 <template>
     
-    <div class="flex flex-wrap items-center justify-between
-              bg-white p-4 mb-4">
-        <div class="flex items-center space-x-2">
+    <div class="flex flex-wrap h-24 items-center justify-between
+              bg-white p-4 overflow-y-scroll">
+        <div class="flex flex-wrap items-center space-x-2 space-y-2">
             <!-- 显示当前登录用户的信息 -->
             <span class="text-lg font-semibold">当前用户: </span>
             <span v-if="userStore.currentUser" class="text-lg">{{ userStore.currentUser.email }}</span>

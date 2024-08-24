@@ -1,7 +1,8 @@
 <template>
-    <div :class="{ 'dark': commonStore.darkMode }">
+    <div class="flex flex-col h-screen"
+        :class="{ 'dark': commonStore.darkMode }">
         <ControlPanel />
-        <router-view></router-view>
+        <router-view class="h-0 flex-1"></router-view>
     </div>
 </template>
 
