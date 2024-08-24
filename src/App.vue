@@ -7,7 +7,7 @@
 
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { onMounted, watch } from 'vue';
 import { RouterView } from 'vue-router';
 import { useUserStore } from '@/stores/user';
 import { useCommonStore } from './stores/common';
@@ -18,24 +18,36 @@ import ControlPanel from '@/components/ControlPanel.vue';
 const userStore = useUserStore();
 userStore.initialize();
 const commonStore = useCommonStore();
+commonStore.initialize();
 
 
-// 启动应用时，根据用户的系统设置，切换夜间模式或日间模式
 onMounted(() => {
-    const colorSchemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    commonStore.darkMode = colorSchemeQuery.matches;
-
+    // 启动应用时，如果用户开启了跟随系统主题，则根据用户的系统设置，切换夜间模式或日间模式
+    if(commonStore.darkModeFollowSystem){
+        followSystemDarkMode();
+    }
+    
+    // 监听用户的设备主题设置修改事件
     // 当用户更改了设备主题设置后，自动切换夜间模式或日间模式
+    const colorSchemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
     colorSchemeQuery.addEventListener('change', (e)=>{
-        console.log('colorSchemeQuery:', e.matches);
-        if(e.matches){
-            console.log('切换到夜间模式');
-            commonStore.darkMode = true;
-        }else{
-            console.log('切换到日间模式');
-            commonStore.darkMode = false;
+        if(!commonStore.darkModeFollowSystem){
+            return;
         }
+        followSystemDarkMode();
     });
+});
+
+function followSystemDarkMode(){
+    const colorSchemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    console.log('colorSchemeQuery:', colorSchemeQuery);
+    commonStore.darkMode = colorSchemeQuery.matches;
+}
+
+watch(() => commonStore.darkModeFollowSystem, (newValue) => {
+    if(commonStore.darkModeFollowSystem){
+        followSystemDarkMode();
+    }
 });
 
 
