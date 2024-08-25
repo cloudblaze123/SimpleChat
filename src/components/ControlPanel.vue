@@ -1,7 +1,7 @@
 <template>
     
     <div class="flex flex-wrap h-24 items-center justify-between
-              bg-white p-4 overflow-y-scroll">
+              p-4 overflow-y-auto bg-gray-200 dark:bg-slate-800 text-gray-800 dark:text-gray-200">
         <div class="flex flex-wrap items-center space-x-2 space-y-2">
             <!-- 显示当前登录用户的信息 -->
             <span class="text-lg font-semibold">当前用户: </span>

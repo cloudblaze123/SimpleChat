@@ -1,7 +1,6 @@
 <template>
     <div class="flex flex-col h-screen"
         :class="{ 'dark': commonStore.darkMode }">
-        <ControlPanel />
         <router-view class="h-0 flex-1"></router-view>
     </div>
 </template>
@@ -12,8 +11,6 @@ import { onMounted, watch } from 'vue';
 import { RouterView } from 'vue-router';
 import { useUserStore } from '@/stores/user';
 import { useCommonStore } from './stores/common';
-
-import ControlPanel from '@/components/ControlPanel.vue';
 
 
 const userStore = useUserStore();
