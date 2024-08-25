@@ -92,8 +92,8 @@ import { useCommonStore } from "@/stores/common";
 import { Icon } from "@vicons/utils";
 import { UserCircle, Messages, Users, Settings, Sun, MoonStars } from "@vicons/tabler";
 
-import ContactList from "@/components/ContactList.vue";
-import SessionList from "@/components/SessionList.vue";
+import ContactList from "@/views/ContactList.vue";
+import SessionList from "@/views/SessionList.vue";
 
 
 const router = useRouter();
