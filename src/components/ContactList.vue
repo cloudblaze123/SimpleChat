@@ -5,24 +5,21 @@
         <ul class="overflow-y-auto">
             <li v-for="contact in contacts" :key="contact.id" class="flex items-center">
                 <router-link :to="{ name: 'Profile', params: { id: contact.id } }"
-                    class="flex items-center w-full px-8 py-4 hover:bg-gray-200 dark:hover:bg-slate-800 transition duration-300 ease-in-out"
+                    class="flex items-center w-full space-x-4 px-8 py-4 hover:bg-gray-200 dark:hover:bg-slate-800 transition duration-300 ease-in-out"
                     :class="{ 'bg-gray-200 dark:bg-slate-800': contact.id === selectedUserId }">
-                    <div class="flex space-x-4 items-center">
-                        <div
-                            class="w-20 h-20 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">
-                            {{ contact.name[0] }}
-                        </div>
-                        <div>
-                            <div class="text-2xl font-semibold">{{ contact.name }}</div>
-                            <div class="text-sm text-gray-500">个人简介</div>
-                        </div>
+                    
+                    <div
+                        class="w-20 h-20 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">
+                        {{ contact.name[0] }}
                     </div>
-
-                    <!-- 弹簧 -->
-                    <div class="grow"></div>
+                    <div class="flex flex-col w-0 flex-1">
+                        <div class="text-2xl font-semibold">{{ contact.name }}</div>
+                        <div class="text-nowrap overflow-hidden text-sm text-ellipsis text-gray-500 ">{{ contact.signature }}</div>
+                    </div>
 
                     <button @click="removeContact(contact.id)"
                         class="p-2 bg-red-500 text-lg font-bold text-white rounded hover:bg-red-600">移除</button>
+
                 </router-link>
             </li>
         </ul>
