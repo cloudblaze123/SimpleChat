@@ -4,19 +4,8 @@
         <div class="flex w-full h-0 flex-1 bg-gray-100 dark:bg-slate-900">
             <!-- 左栏 -->
             <div class="flex flex-col items-center bg-gray-200 dark:bg-slate-800 text-gray-800 dark:text-gray-200">
-                <!-- 用户头像 -->
-                <!-- 悬停时显示面板 -->
-                <div class="dropdown dropdown-right dropdown-hover flex justify-center items-center">
-                    <div tabindex="0" role="button" class="flex justify-center items-center rounded-lg p-3 cursor-pointer  text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-slate-700 transition-all duration-200 ease-in-out">
-                        <Icon size="54" >
-                            <UserCircle />
-                        </Icon>
-                    </div>
-                    <!-- 弹出面板 -->
-                    <div tabindex="0" class="dropdown-content flex  rounded-box z-[1] w-80 h-60 shadow">
-                        <ControlPanel class="h-full"/>
-                    </div>
-                </div>
+                <!-- 当前用户头像 -->
+                <CurrentUserIcon />
                 <!-- 导航栏 -->
                 <Navbar :pos="pos" @pos-switched="pos = $event"/>
             </div>
@@ -50,13 +39,10 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-import ControlPanel from "@/components/ControlPanel.vue";
+import CurrentUserIcon from "@/components/CurrentUserIcon.vue";
 import Navbar from "@/components/Navbar.vue";
 import ContactList from "@/views/ContactList.vue";
 import SessionList from "@/views/SessionList.vue";
-
-import { Icon } from "@vicons/utils";
-import { UserCircle } from "@vicons/tabler";
 
 const pos = ref('contact-list');
 </script>
