@@ -65,7 +65,8 @@ const emit = defineEmits(['pos-switched']);
 
 const router = useRouter();
 const commonStore = useCommonStore();
-const pos = ref(props.pos);
+const pos = ref('');
+pos.value = props.pos;
 
 
 function switchPos(newPos: string) {
@@ -74,7 +75,7 @@ function switchPos(newPos: string) {
     }else{
         pos.value = newPos;
     }
-    emit('PosSwitched', pos.value);
+    emit('pos-switched', pos.value);
 }
 
 function goto(routeName: string){
