@@ -1,10 +1,11 @@
 // src/router/index.js
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '@/views/Home.vue'
-import Login from '@/views/Login.vue'
 import Chat from '@/views/Chat.vue'
+import Search from '@/views/Search.vue'
 import Profile from '@/views/Profile.vue'
 import Settings from '@/views/Settings.vue'
+import Login from '@/views/Login.vue'
 
 const routes = [
     {
@@ -16,6 +17,11 @@ const routes = [
                 path: 'Chat/:id',
                 name: 'ChatTo',
                 component: Chat
+            },
+            {
+                path: 'Search',
+                name: 'Search',
+                component: Search
             },
             {
                 path: 'Profile',
