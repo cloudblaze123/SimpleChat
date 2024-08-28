@@ -1,21 +1,26 @@
 import { defineStore } from 'pinia';
 
-import { ContactsService } from '@/services/contacts';
+import { getUsers } from '@/api/user';
 import { User } from '@/models/User';
 
 
-const contactService = new ContactsService();
 
 export const useContactsStore = defineStore('contacts', {
     state: () => ({
-        contacts: contactService.getContacts()
+        contacts: getUsers() as User[]
     }),
     actions: {
         addContact(contact: User) {
-            contactService.addContact(contact);
+            this.contacts.push(contact);
+            console.log("addContact", contact);
         },
         removeContact(contactId: string) {
-            contactService.removeContact(contactId);
+            const indexToRemove = this.contacts.findIndex(contact => contact.id === contactId);
+            if (indexToRemove === -1) {
+                return;
+            }
+            this.contacts.splice(indexToRemove, 1);
+            console.log("removeContact", contactId);
         }
     }
 });

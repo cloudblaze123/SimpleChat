@@ -1,18 +1,13 @@
-//@ts-nocheck
-
-// src/stores/user.js
 import { defineStore } from 'pinia';
-import { ref, reactive } from 'vue';
-import { UserService } from '@/services/user';
+import { User } from '@/models/User';
 
-const userService = reactive(new UserService());
 
 import { loggedInUsers, currentUser } from '@/mocks/loggedInUser';
 
 export const useUserStore = defineStore('user', {
     state: () => ({
-        loggedInUsers: [],
-        currentUser: null,
+        loggedInUsers: [] as User[],
+        currentUser: null as User | null,
     }),
     
     actions: {
@@ -47,7 +42,7 @@ export const useUserStore = defineStore('user', {
             this.switchUser(this.loggedInUsers[0].id);
         },
 
-        switchUser(userId) {
+        switchUser(userId: string) {
             const user = this.loggedInUsers.find(user => user.id === userId);
             if (user) {
                 this.currentUser = user;
