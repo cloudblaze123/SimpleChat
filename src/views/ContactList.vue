@@ -12,16 +12,23 @@
                 </router-link>
             </div>
         </div>
-        <ul class="overflow-y-auto">
-            <li v-for="contact in contacts" :key="contact.id" class="flex items-center">
-                <router-link :to="{ name: 'Profile', params: { id: contact.id } }"
-                    class="w-full">
-                    <UserCard 
-                        :user-id="contact.id" :selected="contact.id === selectedUserId"/>
-                </router-link>
-
-            </li>
-        </ul>
+        <!-- 页面内容 -->
+        <div class="flex flex-col w-full h-0 flex-1">
+            <div v-if="contactsStore.loading" class="flex justify-center items-center w-full h-full">
+                <Icon size="36" class="animate-spin">
+                    <Loader />
+                </Icon>
+            </div>
+            <ul v-else class="overflow-y-auto">
+                <li v-for="contact in contacts" :key="contact.id" class="flex items-center">
+                    <router-link :to="{ name: 'Profile', params: { id: contact.id } }"
+                        class="w-full">
+                        <UserCard 
+                            :user-id="contact.id" :selected="contact.id === selectedUserId"/>
+                    </router-link>
+                </li>
+            </ul>
+        </div>
     </div>
 </template>
 
@@ -33,11 +40,12 @@ import { useContactsStore } from '@/stores/contacts';
 import UserCard from '@/components/UserCard.vue';
 
 import { Icon } from "@vicons/utils";
-import { Search } from "@vicons/tabler";
+import { Search, Loader } from "@vicons/tabler";
 
 const route = useRoute();
 const contactsStore = useContactsStore();
 const contacts = contactsStore.contacts;
+contactsStore.fetchContacts();
 
 const selectedUserId = computed(() => {
     if(!route.params.id){
