@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 
-import { getUsers } from '@/api/user-with-delay';
+// import { getUsers } from '@/api/user-with-delay';
+import { getUsers } from '@/api/user-web';
 import { User } from '@/models/User';
 
 
@@ -11,12 +12,11 @@ export const useContactsStore = defineStore('contacts', {
         loading: false as boolean,
     }),
     actions: {
-        fetchContacts() {
+        async fetchContacts() {
             this.loading = true;
-            getUsers().then(contacts => {
-                this.contacts.push(...contacts);
-                this.loading = false;
-            });
+            const contacts = await getUsers();
+            this.contacts.push(...contacts);
+            this.loading = false;
         },
         addContact(contact: User) {
             this.contacts.push(contact);
