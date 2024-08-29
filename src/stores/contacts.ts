@@ -1,10 +1,11 @@
 import { defineStore } from 'pinia';
 
-// import { getUsers } from '@/api/user-with-delay';
-import { getUsers } from '@/api/user-web';
+import { getUsers as getUsersWithDelay } from '@/api/user-with-delay';
+import { getUsers as getUsersWeb } from '@/api/user-web';
 import { User } from '@/models/User';
 
-
+const getUsers = import.meta.env.VITE_USE_MOCK? getUsersWithDelay : getUsersWeb;
+console.log("useMock:", import.meta.env.VITE_USE_MOCK);
 
 export const useContactsStore = defineStore('contacts', {
     state: () => ({
