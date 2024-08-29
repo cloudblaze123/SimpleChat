@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia';
 import { User } from '@/models/User';
 
-
+import { login } from '@/api/auth';
+import { getUser } from '@/api/user-web';
 import { loggedInUsers, currentUser } from '@/mocks/loggedInUser';
 
 export const useUserStore = defineStore('user', {
@@ -24,6 +25,22 @@ export const useUserStore = defineStore('user', {
             this.loggedInUsers.push(user);
             console.log(this.loggedInUsers);
             this.switchUser(user.id);
+        },
+
+        async loginWithEmail(email: string, password: string){
+            const id = await login(email, password)
+            console.log('logined id:', id)
+            if (id === '') {
+                return ''
+            }
+            // 如果已经登陆，则直接切换到该用户
+            if (this.isUserLoggedIn(id)){
+                this.switchUser(id)
+                return id
+            }
+            const user = await getUser(id);
+            this.login(user);
+            return id
         },
 
         logout(userToLogout: User) {

@@ -61,30 +61,26 @@
 import { ref } from 'vue';
 import { useUserStore } from '@/stores/user';
 import { useRouter } from 'vue-router';
-import { UserService } from '@/services/user';
 
 
 const email= ref('');
 const password= ref('');
 const userStore= useUserStore();
 const router= useRouter();
-const userService= new UserService();
 
 
-function login() {
+async function login() {
     // 这里可以添加登录逻辑
     // 假设登录成功，保存用户信息并跳转到联系人页面
     
-    const user = userService.loginWithEmail(email.value);
-    if (!user) {
+    console.log('登录中', email.value, password.value);
+    const id = await userStore.loginWithEmail(email.value, password.value);
+    if (id === '') {
         console.log('登录失败');
         return;
     }
-    if(!userStore.isUserLoggedIn(user.id)){
-        userStore.login(user);
-    }
-    router.push({ name: 'Home' });
 
+    router.push({ name: 'Home' });
 }
 
 function skipLogin() {

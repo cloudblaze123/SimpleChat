@@ -9,4 +9,13 @@ async function getUsers(): Promise<User[] | []> {
     return []
 }
 
-export { getUsers }
+async function getUser(id: string): Promise<User|null> {
+    const response = await fetch('/api/user/' + id)
+    if (response.ok) {
+        const data = await response.json()
+        return data
+    }
+    return null
+}
+
+export { getUsers, getUser }

@@ -16,6 +16,7 @@ export const useContactsStore = defineStore('contacts', {
         async fetchContacts() {
             this.loading = true;
             const contacts = await getUsers();
+            this.contacts.length=0;
             this.contacts.push(...contacts);
             this.loading = false;
         },
