@@ -6,7 +6,7 @@ import { getUser } from '@/api/user-web';
 
 export const useUserStore = defineStore('user', {
     state: () => ({
-        users: [] as User[],
+        users: {} as Record<string, User>,
     }),
     
     actions: {
@@ -23,7 +23,7 @@ export const useUserStore = defineStore('user', {
             const user = await getUser(id)
             // 获取到用户信息后，将用户信息缓存到本地
             if(user){
-                this.users.push(user)
+                this.users[id] = (user)
                 cacheUser(user)
                 console.log(`get user:${id} from api`)
                 return user
@@ -32,7 +32,20 @@ export const useUserStore = defineStore('user', {
             // 如果缓存和接口都没有获取到用户信息，则返回null
             console.log(`get user:${id} failed`)
             return null
-        }
+        },
+
+        updateUser(user: User) {
+            const id = user.id
+            // 如果要更新的用户信息不在缓存中，则将该用户信息添加到缓存中
+            // 如果在缓存中，则更新缓存中的用户信息
+            this.users[id] = (user)
+            cacheUser(user)
+        },
+
+        removeUser(id: string) {
+            delete this.users[id]
+            removeCachedUser(id)
+        },
     }
 });
 
@@ -40,24 +53,25 @@ export const useUserStore = defineStore('user', {
 function getCachedUser(id: string): User | null {
     const cachedUser = localStorage.getItem('users')
     if (!cachedUser) {
-        localStorage.setItem('users', JSON.stringify([]))
+        localStorage.setItem('users', JSON.stringify({}))
         return null
     }
-    const users = JSON.parse(cachedUser) as User[]
-    const user = users.find(u => u.id === id)
+    const users = JSON.parse(cachedUser) as Record<string, User>
+    const user = users[id]
     return user || null
+}
+
+function removeCachedUser(id: string) {
+    const cachedUsers = JSON.parse(localStorage.getItem('users') || '{}') as Record<string, User>
+    delete cachedUsers[id]
+    localStorage.setItem('users', JSON.stringify(cachedUsers))
 }
 
 // 因为目前应用规模不大，且尚未需要缓存图片，故使用 localStorage 缓存用户信息。
 function cacheUser(user: User) {
-    const cachedUsers = JSON.parse(localStorage.getItem('users') || '[]') as User[]
-    const index = cachedUsers.findIndex(u => u.id === user.id)
+    const cachedUsers = JSON.parse(localStorage.getItem('users') || '{}') as Record<string, User>
     // 如果用户不存在，则添加到缓存中
     // 反之，更新缓存中的用户信息
-    if (index === -1) {
-        cachedUsers.push(user)
-    } else {
-        cachedUsers[index] = user
-    }
+    cachedUsers[user.id] = user
     localStorage.setItem('users', JSON.stringify(cachedUsers))
 }
