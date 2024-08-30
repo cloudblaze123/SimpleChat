@@ -14,8 +14,10 @@
 
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import { getUser } from '@/api/user';
+import { ref, computed } from 'vue';
+import { useUserStore } from '@/stores/user'
+
+const userStore = useUserStore();
 
 const props = defineProps({
     userId:{
@@ -28,11 +30,22 @@ const props = defineProps({
     },
 });
 
-const user = getUser(props.userId);
+const user = ref({
+    name: "unknown",
+    signature: "unknown"
+})
+
 const selected = computed(() => {
     if(props.selected){
         return props.selected;
     }
     return false;
 });
+
+userStore.getUser(props.userId)
+    .then((userData) => {
+        if(userData){
+            user.value = userData
+        }
+    })
 </script>
