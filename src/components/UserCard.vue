@@ -9,17 +9,12 @@
             <div class="text-2xl font-semibold">{{ user.name }}</div>
             <div class="text-nowrap overflow-hidden text-sm text-ellipsis text-gray-500 ">{{ user.signature }}</div>
         </div>
-
-        <button @click="removeContact(user.id)"
-            class="p-2 bg-red-500 text-lg font-bold text-white rounded hover:bg-red-600">移除</button>
-
     </div>
 </template>
 
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useContactsStore } from '@/stores/contacts';
 import { getUser } from '@/api/user';
 
 const props = defineProps({
@@ -33,8 +28,6 @@ const props = defineProps({
     },
 });
 
-
-const contactsStore = useContactsStore();
 const user = getUser(props.userId);
 const selected = computed(() => {
     if(props.selected){
@@ -42,9 +35,4 @@ const selected = computed(() => {
     }
     return false;
 });
-
-function removeContact(id) {
-    contactsStore.removeContact(id);
-};
-
 </script>
