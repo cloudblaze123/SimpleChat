@@ -9,12 +9,12 @@
 <script setup lang="ts">
 import { onMounted, watch } from 'vue';
 import { RouterView } from 'vue-router';
-import { useUserStore } from '@/stores/user';
+import { useAuthStore } from './stores/auth';
 import { useCommonStore } from './stores/common';
 
 
-const userStore = useUserStore();
-userStore.initialize();
+const authStore = useAuthStore();
+authStore.initialize();
 const commonStore = useCommonStore();
 commonStore.initialize();
 

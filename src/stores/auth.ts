@@ -5,7 +5,7 @@ import { login } from '@/api/auth';
 import { getUser } from '@/api/user-web';
 import { loggedInUsers, currentUser } from '@/mocks/loggedInUser';
 
-export const useUserStore = defineStore('user', {
+export const useAuthStore = defineStore('auth', {
     state: () => ({
         loggedInUsers: [] as User[],
         currentUser: null as User | null,

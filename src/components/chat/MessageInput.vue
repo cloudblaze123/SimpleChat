@@ -20,7 +20,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { useUserStore } from '@/stores/user';
+import { useAuthStore } from '@/stores/auth';
+
 
 import { uploadFile } from '@/utils/fileUpload';
 import { 
@@ -38,7 +39,8 @@ import { sendMessage } from '@/api/message';
 const emit = defineEmits(['send-message']);
 
 
-const userStore = useUserStore();
+const authStore = useAuthStore();
+
 const router = useRouter(); 
 const newMessage = ref('');
 const selectedFile = ref(null);
@@ -64,12 +66,12 @@ function handleFileChange(event) {
 
 async function handleToSendMessage(newMessage, selectedFile){
     let content: Content;
-    if (newMessage.trim() && userStore.currentUser) {
+    if (newMessage.trim() && authStore.currentUser) {
         content = new TextContent(newMessage);
     }
     if (selectedFile) {
         try {
-            const fileInfo = await uploadFile(selectedFile, userStore.currentUser.email);
+            const fileInfo = await uploadFile(selectedFile, authStore.currentUser.email);
             if (fileInfo.type === 'image') {
                 content = new ImageContent(fileInfo.url);
             } else if (fileInfo.type === 'video') {
@@ -81,7 +83,7 @@ async function handleToSendMessage(newMessage, selectedFile){
     }
     const id = router.currentRoute.value.params.id as string;
     const to = getUser(id);
-    const message: Message = new Message(userStore.currentUser, to, content, new Date());
+    const message: Message = new Message(authStore.currentUser, to, content, new Date());
     emit('send-message', message);
     console.log(message);
     sendMessage(message);

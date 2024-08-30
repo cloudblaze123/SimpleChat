@@ -54,20 +54,21 @@ import { Icon } from "@vicons/utils";
 import { ChevronLeft } from "@vicons/tabler";
 
 import { User } from "@/models/User";
-import { useUserStore } from "@/stores/user";
+import { useAuthStore } from '@/stores/auth';
 import { getUser } from "@/api/user";
 
 
 const route = useRoute();
 const router = useRouter();
-const userStore = useUserStore();
+const authStore = useAuthStore();
+
 
 const id = computed(() => route.params.id);
 const user = computed(():User => {
     if(id.value){
         return getUser(id.value as string);
     }else{
-        return userStore.currentUser;
+        return authStore.currentUser;
     }
 })
 

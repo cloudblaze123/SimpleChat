@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col h-full bg-gray-100">
         <ChatHeader :contactId="to.id"/>
-        <MessageDisplay class="w-full grow" :ownId="userStore.currentUser.id" :toId="to.id"/>
+        <MessageDisplay class="w-full grow" :ownId="authStore.currentUser.id" :toId="to.id"/>
         <MessageInput @send-message="handleSendMessage"/>
     </div>
 </template>
@@ -10,7 +10,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import { useUserStore } from '@/stores/user';
+import { useAuthStore } from '@/stores/auth';
 import { useMessageStore } from '@/stores/message';
 import { useSessionStore } from '@/stores/session';
 
@@ -24,7 +24,7 @@ import { Message } from '@/models/Message';
 
 
 const route = useRoute();
-const userStore = useUserStore();
+const authStore = useAuthStore();
 const messageStore = useMessageStore();
 const sessionStore = useSessionStore();
 

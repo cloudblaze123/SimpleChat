@@ -59,13 +59,13 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useUserStore } from '@/stores/user';
+import { useAuthStore } from '@/stores/auth';
 import { useRouter } from 'vue-router';
 
 
 const email= ref('');
 const password= ref('');
-const userStore= useUserStore();
+const authStore = useAuthStore();
 const router= useRouter();
 
 
@@ -74,7 +74,7 @@ async function login() {
     // 假设登录成功，保存用户信息并跳转到联系人页面
     
     console.log('登录中', email.value, password.value);
-    const id = await userStore.loginWithEmail(email.value, password.value);
+    const id = await authStore.loginWithEmail(email.value, password.value);
     if (id === '') {
         console.log('登录失败');
         return;
