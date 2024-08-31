@@ -15,13 +15,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, defineProps } from 'vue';
+import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 
 import { Icon } from "@vicons/utils";
 import { ChevronLeft } from "@vicons/tabler";
 
-import { getUser } from '@/api/user';
+import { useUserStore } from '@/stores/user'
+
 
 
 const props = defineProps({
@@ -33,10 +34,23 @@ const props = defineProps({
 
 
 const router = useRouter();
+const userStore = useUserStore();
 
-const contactName = computed(() => {
-    return getUser(props.contactId).name;
-});
+const contactName = ref('unknown')
+watch(()=> props.contactId, (newVal, oldVal) => {
+    if(newVal!== oldVal){
+        updateContactName()
+    }
+})
+function updateContactName(){
+    userStore.getUser(props.contactId)
+        .then(res=>{
+            if(res){
+                contactName.value = res.name
+            }
+        })
+}
+updateContactName()
 
 
 function goBack(){
