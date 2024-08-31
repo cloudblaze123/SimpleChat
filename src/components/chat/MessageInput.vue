@@ -32,7 +32,7 @@ import {
     VideoContent
 } from '@/models/Message';
 
-import { getUser } from '@/api/user';
+import { useUserStore } from '@/stores/user'
 import { sendMessage } from '@/api/message';
 
 
@@ -40,6 +40,7 @@ const emit = defineEmits(['send-message']);
 
 
 const authStore = useAuthStore();
+const userStore = useUserStore();
 
 const router = useRouter(); 
 const id = computed(() => {
@@ -77,7 +78,7 @@ async function handleToSendMessage(newMessage: string, selectedFile){
 
 async function prepareMessage(newMessage: string, selectedFile): Promise<Message> {
     let content = await prepareContent(newMessage, selectedFile)
-    const to = getUser(id.value)
+    const to = await userStore.getUser(id.value)
     return new Message(authStore.currentUser, to, content, new Date())
 }
 
