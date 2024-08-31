@@ -50,14 +50,13 @@ watch(() => commonStore.darkModeFollowSystem, (newValue) => {
 
 
 // 建立socket连接（暂时用自定义的对象来模拟连接）
-import { messageNotifier } from '@/api/message';
+import { messageNotifier } from '@/api/message-web';
 import { useMessageStore } from '@/stores/message';
-import { getMessages } from '@/api/message';
 
 const messageStore = useMessageStore();
-messageNotifier.callback = () => {
+messageNotifier.callback = async () => {
     console.log('socket连接成功');
-    messageStore.updateMessages(getMessages());
-    console.log(messageStore.messages);
+    const messages = await messageStore.getMessages();
+    messageStore.updateMessages(messages);
 }
 </script>

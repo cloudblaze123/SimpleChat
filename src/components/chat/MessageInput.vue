@@ -33,7 +33,7 @@ import {
 } from '@/models/Message';
 
 import { useUserStore } from '@/stores/user'
-import { sendMessage } from '@/api/message';
+import { useMessageStore } from '@/stores/message';
 
 
 const emit = defineEmits(['send-message']);
@@ -41,6 +41,7 @@ const emit = defineEmits(['send-message']);
 
 const authStore = useAuthStore();
 const userStore = useUserStore();
+const messageStore = useMessageStore();
 
 const router = useRouter(); 
 const id = computed(() => {
@@ -72,8 +73,8 @@ function handleFileChange(event) {
 async function handleToSendMessage(newMessage: string, selectedFile){
     const message = await prepareMessage(newMessage, selectedFile)
     emit('send-message', message);
-    console.log(message);
-    sendMessage(message);
+    console.log('send message:', message);
+    await messageStore.sendMessage(message);
 };
 
 async function prepareMessage(newMessage: string, selectedFile): Promise<Message> {
@@ -94,11 +95,13 @@ async function prepareContent(newMessage: string, selectedFile): Promise<Content
                 content = new ImageContent(fileInfo.url);
             } else if (fileInfo.type === 'video') {
                 content = new VideoContent(fileInfo.url);
+            // TODO: handle unsupported file type
             }
         } catch (error) {
             console.error('File upload error:', error);
         }
     }
+
     return content;
 }
 

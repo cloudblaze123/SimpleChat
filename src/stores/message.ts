@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 
 import { Message } from '@/models/Message';
 
+import { getMessages, sendMessage } from '@/api/message-web';
 
 export const useMessageStore = defineStore('message', {
     state: () => ({
@@ -16,6 +17,17 @@ export const useMessageStore = defineStore('message', {
         updateMessages(messages: Message[]) {
             this.messages.length=0;
             this.messages.push(...messages);
+        },
+
+
+        async getMessages() {
+            const messages = await getMessages();
+            return messages;
+        },
+
+        async sendMessage(message: Message) {
+            await sendMessage(message)
         }
+
     }
 });

@@ -1,1 +1,1 @@
-npm run dev 依赖于 SimpleChat-server 项目20240829的提交( commit hash: 27c0dc761d238a0313c9a5087458fbe4092d6e3f )
+npm run dev 依赖于 SimpleChat-server 项目的 api 版本：v0.1

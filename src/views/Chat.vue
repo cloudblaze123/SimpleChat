@@ -8,7 +8,7 @@
 
 
 <script setup lang="ts">
-import { ref, watch, Ref } from 'vue';
+import { ref, computed, watch, Ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
 import { useUserStore } from '@/stores/user'
@@ -19,11 +19,8 @@ import ChatHeader from '@/components/chat/ChatHeader.vue';
 import MessageDisplay from '@/components/chat/MessageDisplay.vue';
 import MessageInput from '@/components/chat/MessageInput.vue';
 
-import { getMessages } from '@/api/message';
-
 import { User } from '@/models/User'
 import { Message } from '@/models/Message';
-import { computed } from 'vue';
 
 
 const route = useRoute();
@@ -46,11 +43,12 @@ function updateTo(){
 }
 
 
-fetchMessages();
+fetchMessages()
 
 
-function fetchMessages() {
-    messageStore.updateMessages(getMessages());
+async function fetchMessages() {
+    const messages = await messageStore.getMessages()
+    messageStore.updateMessages(messages)
 }
 
 function handleSendMessage(message: Message) {
