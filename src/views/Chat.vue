@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col h-full bg-gray-100">
-        <ChatHeader :contactId="to.id"/>
-        <MessageDisplay class="w-full grow" :ownId="authStore.currentUser.id" :toId="to.id"/>
+        <ChatHeader :contactId="toId"/>
+        <MessageDisplay class="w-full grow" :ownId="authStore.currentUser.id" :toId="toId"/>
         <MessageInput @send-message="handleSendMessage"/>
     </div>
 </template>
@@ -23,6 +23,7 @@ import { getMessages } from '@/api/message';
 
 import { User } from '@/models/User'
 import { Message } from '@/models/Message';
+import { computed } from 'vue';
 
 
 const route = useRoute();
@@ -31,21 +32,19 @@ const userStore = useUserStore();
 const messageStore = useMessageStore();
 const sessionStore = useSessionStore();
 
-let to:Ref<User|{id:string}> = ref({
-    id: '-1',
-})
+const toId = computed(() => route.params.id as string)
+const to:Ref<User> = ref(null)
 updateTo()
-
 watch(route, () => {
     console.log('route changed');
     fetchMessages();
     updateTo()
 });
-
 function updateTo(){
-    userStore.getUser(route.params.id as string)
-        .then(user => to.value = user)
+    userStore.getUser(toId.value as string)
+    .then(user => to.value = user)
 }
+
 
 fetchMessages();
 
