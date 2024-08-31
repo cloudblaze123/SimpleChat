@@ -16,9 +16,9 @@
 
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { ref, computed } from 'vue';
 
-import { getUser } from '@/api/user';
+import { useUserStore } from '@/stores/user'
 
 const props = defineProps({
     sessionId: {
@@ -32,7 +32,12 @@ const props = defineProps({
 });
 
 
-const user = getUser(props.sessionId);
+const userStore = useUserStore();
+
+const user = ref({
+    name: "unknown",
+    id: "-1"
+})
 
 const selected = computed(() => {
     if (props.selected) {
@@ -40,5 +45,13 @@ const selected = computed(() => {
     }
     return false;
 });
+
+
+userStore.getUser(props.sessionId)
+    .then(res => {
+        if (res) {
+            user.value = res;
+        }
+    })
 
 </script>
