@@ -47,7 +47,7 @@
 
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { ref,computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
 import { Icon } from "@vicons/utils";
@@ -55,22 +55,26 @@ import { ChevronLeft } from "@vicons/tabler";
 
 import { User } from "@/models/User";
 import { useAuthStore } from '@/stores/auth';
-import { getUser } from "@/api/user";
+import { useUserStore } from '@/stores/user'
 
 
 const route = useRoute();
 const router = useRouter();
 const authStore = useAuthStore();
+const userStore = useUserStore();
 
 
-const id = computed(() => route.params.id);
-const user = computed(():User => {
-    if(id.value){
-        return getUser(id.value as string);
-    }else{
-        return authStore.currentUser;
+const id = computed(() => route.params.id as string);
+const user = ref(null)
+updateUser()
+watch(id, updateUser)
+async function updateUser() {
+    if (!id.value) {
+        user.value = authStore.currentUser
+        return
     }
-})
+    user.value = await userStore.getUser(id.value)
+}
 
 
 function goBack() {
