@@ -18,7 +18,7 @@
 </template>
   
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
 
@@ -42,6 +42,10 @@ const emit = defineEmits(['send-message']);
 const authStore = useAuthStore();
 
 const router = useRouter(); 
+const id = computed(() => {
+    const id = router.currentRoute.value.params.id as string
+    return id ? id : '-1'
+})
 const newMessage = ref('');
 const selectedFile = ref(null);
 const fileInput = ref(null);
@@ -64,8 +68,21 @@ function handleFileChange(event) {
     selectedFile.value = event.target.files[0];
 }
 
-async function handleToSendMessage(newMessage, selectedFile){
-    let content: Content;
+async function handleToSendMessage(newMessage: string, selectedFile){
+    const message = await prepareMessage(newMessage, selectedFile)
+    emit('send-message', message);
+    console.log(message);
+    sendMessage(message);
+};
+
+async function prepareMessage(newMessage: string, selectedFile): Promise<Message> {
+    let content = await prepareContent(newMessage, selectedFile)
+    const to = getUser(id.value)
+    return new Message(authStore.currentUser, to, content, new Date())
+}
+
+async function prepareContent(newMessage: string, selectedFile): Promise<Content> {
+    let content: Content = null;
     if (newMessage.trim() && authStore.currentUser) {
         content = new TextContent(newMessage);
     }
@@ -81,13 +98,8 @@ async function handleToSendMessage(newMessage, selectedFile){
             console.error('File upload error:', error);
         }
     }
-    const id = router.currentRoute.value.params.id as string;
-    const to = getUser(id);
-    const message: Message = new Message(authStore.currentUser, to, content, new Date());
-    emit('send-message', message);
-    console.log(message);
-    sendMessage(message);
-};
+    return content;
+}
 
 </script>
   
