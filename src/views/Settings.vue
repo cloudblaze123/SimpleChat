@@ -38,7 +38,7 @@
             <!-- 清除缓存设置 -->
             <div class="flex justify-between items-center p-4 bg-blue-500 rounded-lg cursor-pointer"
                 @click="clearLocalStorage">
-                <div class="text-lg font-bold text-gray-200">清除缓存的设置选项</div>
+                <div class="text-lg font-bold text-gray-200">清除缓存</div>
             </div>
         </div>
     </div>
@@ -62,5 +62,6 @@ function goBack() {
 
 function clearLocalStorage() {
     localStorage.clear();
+    console.log('清除缓存成功');
 }
 </script>
