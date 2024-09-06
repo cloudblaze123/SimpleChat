@@ -22,6 +22,7 @@ export const useMessageStore = defineStore('message', {
 
         async getMessages() {
             const messages = await getMessages();
+            this.updateMessages(messages);
             return messages;
         },
 

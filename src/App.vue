@@ -54,9 +54,8 @@ import { messageNotifier } from '@/api/message-web';
 import { useMessageStore } from '@/stores/message';
 
 const messageStore = useMessageStore();
-messageNotifier.callback = async () => {
+messageNotifier.callback = () => {
     console.log('socket连接成功');
-    const messages = await messageStore.getMessages();
-    messageStore.updateMessages(messages);
+    messageStore.getMessages();
 }
 </script>

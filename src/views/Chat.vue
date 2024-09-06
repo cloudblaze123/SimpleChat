@@ -47,8 +47,7 @@ fetchMessages()
 
 
 async function fetchMessages() {
-    const messages = await messageStore.getMessages()
-    messageStore.updateMessages(messages)
+    await messageStore.getMessages()
 }
 
 function handleSendMessage(message: Message) {
