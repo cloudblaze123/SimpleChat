@@ -14,7 +14,7 @@
         </div>
         <!-- 页面内容 -->
         <div class="flex flex-col w-full h-0 flex-1">
-            <div v-if="contactsStore.loading" class="flex justify-center items-center w-full h-full">
+            <div v-if="loading" class="flex justify-center items-center w-full h-full">
                 <Icon size="36" class="animate-spin">
                     <Loader />
                 </Icon>
@@ -33,19 +33,52 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { ref, Ref, computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
+import { useAuthStore } from '@/stores/auth'
 import { useContactsStore } from '@/stores/contacts';
+import { useUserStore } from '@/stores/user'
 
 import UserCard from '@/components/UserCard.vue';
 
 import { Icon } from "@vicons/utils";
 import { Search, Loader } from "@vicons/tabler";
 
-const route = useRoute();
-const contactsStore = useContactsStore();
-const contacts = contactsStore.contacts;
-contactsStore.fetchContacts();
+import { User } from '@/models/User'
+
+
+
+const route = useRoute()
+
+const authStore = useAuthStore()
+const contactsStore = useContactsStore()
+
+const userStore = useUserStore()
+
+const contacts:Ref<User[]> = ref([])
+
+const loading:Ref<boolean> = ref(true)
+
+
+watch(() => authStore.currentUser, loadContacts)
+
+
+loadContacts()
+
+
+async function loadContacts() {
+    loading.value = true
+
+    await contactsStore.fetchContacts()
+    const contactIds = contactsStore.contacts
+
+    contacts.value.length = 0
+    for(const id of contactIds){
+        contacts.value.push(await userStore.getUser(id))
+    }
+
+    loading.value = false
+}
 
 const selectedUserId = computed(() => {
     if(!route.params.id){
