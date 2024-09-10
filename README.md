@@ -1,39 +1,41 @@
 # SimpleChat
+> 一个简单的聊天室应用 <br>
+> 此为 SimpleChat 的前端项目，后端项目为 [SimpleChat-server](https://github.com/cloudblaze123/SimpleChat-server)
 
-This template should help get you started developing with Vue 3 in Vite.
+## 快速开始
 
-## Recommended IDE Setup
+1. 克隆仓库：
+   
+   `git clone https://github.com/cloudblaze123/SimpleChat.git`
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+2. 安装依赖：
 
-## Type Support for `.vue` Imports in TS
+    ```sh
+    npm install
+    ```
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+3. 运行项目：
+    > 运行前请确保已经启动了 SimpleChat-server 项目 <br>
+    > 并确保两者 api 版本兼容
 
-## Customize configuration
+    ```sh
+    npm run dev
+    ```
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+## 补充：api版本的定义
 
-## Project Setup
+1. api版本由大版本号和小版本号构成，形如 vX.Y，X为大版本号，Y为小版本号。
 
-```sh
-npm install
-```
+2. 当 api 有破坏性变化时，比如修改接口参数、返回值等导致前端必须修改才能维持原样功能时，大版本号会逐一增加，如v1.0、v2.0等；
 
-### Compile and Hot-Reload for Development
+3. 当 api 为非破坏性变化时，比如添加新的接口，调整接口背后的实现等不影响原有接口定义的变化时，小版本号会逐一增加，如v0.1、v0.2等。
 
-```sh
-npm run dev
-```
+4. 简单来说，运行项目需要：
+    ||SimpleChat|SimpleChat-server|
+    |-|-|-|
+    |大版本号|等于|等于|
+    |小版本号|小于等于server|大于等于SimpleChat|
 
-### Type-Check, Compile and Minify for Production
+    例如，假设项目依赖的 SimpleChat-server 版本为 v1.2，则 SimpleChat-server 项目的 api 版本需为 v1.2、v1.3 ...
 
-```sh
-npm run build
-```
-
-### Run Unit Tests with [Vitest](https://vitest.dev/)
-
-```sh
-npm run test:unit
-```
+5. 为方便查看当前项目依赖的 api 版本，根目录下会有一个以 api 版本命名的文件，之后每次 api 版本更新时，记得同时修改该文件的 api 版本。
