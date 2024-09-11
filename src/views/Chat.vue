@@ -12,7 +12,6 @@ import { ref, computed, watch, Ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
 import { useUserStore } from '@/stores/user'
-import { useMessageStore } from '@/stores/message';
 import { useSessionStore } from '@/stores/session';
 
 import ChatHeader from '@/components/chat/ChatHeader.vue';
@@ -26,7 +25,6 @@ import { Message } from '@/models/Message';
 const route = useRoute();
 const authStore = useAuthStore();
 const userStore = useUserStore();
-const messageStore = useMessageStore();
 const sessionStore = useSessionStore();
 
 const toId = computed(() => route.params.id as string)
@@ -34,7 +32,6 @@ const to:Ref<User> = ref(null)
 updateTo()
 watch(route, () => {
     console.log('route changed');
-    fetchMessages();
     updateTo()
 });
 function updateTo(){
@@ -43,14 +40,7 @@ function updateTo(){
 }
 
 
-fetchMessages()
-
-
-async function fetchMessages() {
-    await messageStore.getMessages()
-}
-
 function handleSendMessage(message: Message) {
-    sessionStore.putOnTop(message.receiver);
+    sessionStore.putOnTop(message.receiverId);
 }
 </script>

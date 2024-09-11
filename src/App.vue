@@ -49,13 +49,20 @@ watch(() => commonStore.darkModeFollowSystem, (newValue) => {
 });
 
 
+
+
+import { useMessageStore } from '@/stores/message';
+const messageStore = useMessageStore();
+
+// 启动应用时更新消息列表
+messageStore.getMessages()
+
+
 // 建立socket连接（暂时用自定义的对象来模拟连接）
 import { messageNotifier } from '@/api/message-web';
-import { useMessageStore } from '@/stores/message';
 
-const messageStore = useMessageStore();
 messageNotifier.callback = () => {
     console.log('socket连接成功');
-    messageStore.getMessages();
+    messageStore.getIncrementalMessages();
 }
 </script>

@@ -1,20 +1,28 @@
-import { Message, TextContent, ImageContent, VideoContent } from '@/models/Message';
+import { Message, Content, TextContent, ImageContent, VideoContent } from '@/models/Message';
+
+import { toUTCDateString } from '@/utils/date';
 
 
-async function getMessages(): Promise<Message[]> {
-    const response = await fetch('/api/messages')
-    const rawMessages = await response.json()
+type RawMessage = {
+    senderId: string,
+    receiverId: string,
+    content: Content,
+    timestamp: string
+}
+
+// 将返回的原始消息数组转换为Message数组
+function packRawMessage(rawMessages: RawMessage[]): Message[] {
     const messages: Message[] = []
     for(let rm of rawMessages){
         const type = rm.content.type
         if(type==='text'){
-            messages.push(new Message(rm.sender, rm.receiver, new TextContent(rm.content.text), rm.date))
+            messages.push(new Message(rm.senderId, rm.receiverId, new TextContent(rm.content.text), rm.timestamp))
         }
         else if(type==='image'){
-            messages.push(new Message(rm.sender, rm.receiver, new ImageContent(rm.content.url), rm.date))
+            messages.push(new Message(rm.senderId, rm.receiverId, new ImageContent(rm.content.url), rm.timestamp))
         }
         else if(type==='video'){
-            messages.push(new Message(rm.sender, rm.receiver, new VideoContent(rm.content.url), rm.date))
+            messages.push(new Message(rm.senderId, rm.receiverId, new VideoContent(rm.content.url), rm.timestamp))
         }
         else{
             console.log('unsupported message type:', type);
@@ -22,6 +30,20 @@ async function getMessages(): Promise<Message[]> {
     }
     return messages
 }
+
+async function getMessages(): Promise<Message[]> {
+    const response = await fetch('/api/messages')
+    const rawMessages = await response.json()
+    return packRawMessage(rawMessages)
+}
+
+
+async function getIncrementalMessages(fromTime: Date): Promise<Message[]>{
+    const response = await fetch('/api/messages/' + toUTCDateString(fromTime))
+    const rawMessages = await response.json()
+    return packRawMessage(rawMessages)
+}
+
 
 
 async function sendMessage(message: Message): Promise<void> {
@@ -33,13 +55,14 @@ async function sendMessage(message: Message): Promise<void> {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                sender: message.sender,
-                receiver: message.receiver,
+                senderId: message.senderId,
+                receiverId: message.receiverId,
                 content: message.content,
-                date: message.timestamp
+                timestamp: toUTCDateString(message.timestamp)
             })
         })
         console.log('text message sent');
+        console.log('message UTC timestamp: ' + toUTCDateString(message.timestamp));
     }
     else if(type==='image' || type==='video'){
         await fetch('/api/media-message', {
@@ -48,10 +71,10 @@ async function sendMessage(message: Message): Promise<void> {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                sender: message.sender,
-                receiver: message.receiver,
+                senderId: message.senderId,
+                receiverId: message.receiverId,
                 content: message.content,
-                date: message.timestamp
+                timestamp: toUTCDateString(message.timestamp)
             })
         })
         console.log('media message sent');
@@ -78,4 +101,4 @@ class MessageNotifier{
 }
 const messageNotifier=new MessageNotifier();
 
-export { getMessages, sendMessage, messageNotifier };
+export { getMessages, getIncrementalMessages, sendMessage, messageNotifier };

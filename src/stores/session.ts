@@ -1,27 +1,23 @@
 import { defineStore } from 'pinia';
 
-import { User } from '@/models/User';
-
-import { users as usersData } from '@/mocks/users';
-
 
 export const useSessionStore = defineStore('session', {
-    state: (): { sessions: User[] } => ({
-        sessions: [...usersData],
+    state: (): { sessions: string[] } => ({
+        sessions: [],
     }),
 
     actions: {
-        addSession(user: User) {
-            if (this.sessions.some(session => session.id === user.id)) {
-                console.log("user already exists in sessions", user.id);
+        addSession(userId: string) {
+            if (this.sessions.some(sessionId => sessionId === userId)) {
+                console.log("user already exists in sessions", userId);
                 return;
             }
-            this.sessions.push(user);
-            console.log("addSession", user.id);
+            this.sessions.push(userId);
+            console.log("addSession", userId);
         },
 
         removeSession(id: string) {
-            const indexToRemove = this.sessions.findIndex(user => user.id === id);
+            const indexToRemove = this.sessions.findIndex(user => userId === id);
             if (indexToRemove === -1) {
                 return;
             }
@@ -29,15 +25,15 @@ export const useSessionStore = defineStore('session', {
             console.log("removeSession", id);
         },
 
-        putOnTop(user: User) {
-            const index = this.sessions.findIndex(userInSession => userInSession.id === user.id);
+        putOnTop(userId: string) {
+            const index = this.sessions.findIndex(userInSession => userInSession.id === userId);
             // 如果会话存在则先从会话数组中移除
             if (index > -1) {
                 this.sessions.splice(index, 1);
             }
             // 添加会话到会话数组顶部
-            this.sessions.unshift(user);
-            console.log("put", user.id, "on session top");
+            this.sessions.unshift(userId);
+            console.log("put", userId, "on session top");
         }
     }
 });

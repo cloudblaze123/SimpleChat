@@ -26,11 +26,13 @@
   
 
 <script setup lang="ts">
-import { ref, defineProps, computed } from 'vue';
+import { ref, Ref, watch } from 'vue';
 
 import { User } from "@/models/User";
-import { Message, TextContent, ImageContent, VideoContent } from "@/models/Message";
+import { Content, TextContent, ImageContent, VideoContent } from "@/models/Message";
 import { useMessageStore } from '@/stores/message';
+import { useUserStore } from '@/stores/user';
+
 
 
 const props = defineProps({
@@ -43,22 +45,50 @@ const props = defineProps({
 });
 
 
+
 const messageStore = useMessageStore();
+const userStore = useUserStore();
 
 
-const messages = computed(() => {
-    return messageStore.messages.filter(message => {
-        let receiver = message.receiver as User;
-        let sender = message.sender as User;
-        if(receiver.id===props.ownId && sender.id===props.toId
-            || receiver.id===props.toId && sender.id===props.ownId){
+type MessageViewModel = {
+    sender: User,
+    receiver: User,
+    content: Content
+}
+const messages:Ref<MessageViewModel[]> = ref([])
+
+watch(messageStore.messages, updateMessages)
+
+updateMessages()
+
+
+async function updateMessages() {
+    // console.log('updateMessages')
+
+    const rawMessages = messageStore.messages.filter(message => {
+        const receiverId = message.receiverId
+        const senderId = message.senderId
+        if(receiverId===props.ownId && senderId===props.toId
+            || receiverId===props.toId && senderId===props.ownId){
             return true;
         }
         return false;
-    });
-});
+    })
 
+    const viewMessages:MessageViewModel[] = []
+    for(const message of rawMessages){
+        const sender = await userStore.getUser(message.senderId)
+        const receiver = await userStore.getUser(message.receiverId)
+        viewMessages.push({
+            sender,
+            receiver,
+            content: message.content
+        })
+    }
 
+    messages.value.length = 0
+    messages.value.push(...viewMessages)
+}
 </script>
 
   

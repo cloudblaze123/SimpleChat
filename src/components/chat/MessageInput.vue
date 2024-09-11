@@ -36,6 +36,7 @@ import { useUserStore } from '@/stores/user'
 import { useMessageStore } from '@/stores/message';
 
 
+
 const emit = defineEmits(['send-message']);
 
 
@@ -80,7 +81,8 @@ async function handleToSendMessage(newMessage: string, selectedFile){
 async function prepareMessage(newMessage: string, selectedFile): Promise<Message> {
     let content = await prepareContent(newMessage, selectedFile)
     const to = await userStore.getUser(id.value)
-    return new Message(authStore.currentUser, to, content, new Date())
+    // console.log('currentUser', authStore.currentUser)
+    return new Message(authStore.currentUser.id, to.id, content, new Date())
 }
 
 async function prepareContent(newMessage: string, selectedFile): Promise<Content> {
