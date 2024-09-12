@@ -10,7 +10,7 @@
                 class="w-fit mx-1"/>
 
             <!-- 占位符 -->
-            <div class="w-28 flex-shrink-0"></div>
+            <div class="w-16 flex-shrink-0"></div>
             
         </div>
     </div>
