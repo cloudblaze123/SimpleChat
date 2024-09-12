@@ -11,7 +11,7 @@
             </div>
             
             <!-- 一级页面 -->
-            <div class="relative z-0 flex justify-center items-center w-full lg:w-1/3 bg-gray-200"
+            <div class="relative z-0 flex justify-center items-center w-full lg:w-1/3 xl:w-1/4 shrink-0 bg-gray-200"
                 v-show="['contact-list', 'session-list'].includes(pos)">
                 <!-- 会话列表 -->
                 <div 
