@@ -4,10 +4,10 @@
             {{ (content as TextContent).text }}
         </div>
         <div v-else-if="content.type === 'image'">
-            <img :src="(content as ImageContent).url" class="max-w-xs rounded-lg" />
+            <img :src="(content as ImageContent).url" class="w-full max-w-xs rounded-lg" />
         </div>
         <div v-else-if="content.type === 'video'">
-            <video :src="(content as VideoContent).url" controls class="max-w-xs rounded-lg" />
+            <video :src="(content as VideoContent).url" controls class="w-full max-w-xs rounded-lg" />
         </div>
     </div>
 </template>
