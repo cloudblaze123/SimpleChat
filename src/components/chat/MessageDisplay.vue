@@ -1,25 +1,17 @@
 <template>
     <div class="p-4 overflow-y-auto dark:bg-slate-900 dark:text-gray-200 ">
-        <div v-for="(message, index) in messages" :key="index" class="mb-2 flex max-w-full" :class="{ 'justify-end': message.sender.id===props.ownId, 'justify-start': message.sender!==props.ownId }">
-            <div class="p-2 rounded-lg flex items-start max-w-full "
-                :class="{ 'flex-row-reverse': message.sender.id ===  props.ownId}">
-                <span class="font-bold">{{ message.sender.name }}</span>
-                <span class="mx-2"></span>
-                
-                <!-- 消息主体 -->
-                <div class=" bg-gray-200 dark:bg-slate-800 px-3 py-2 rounded-lg break-all max-w-full">
-                    <template v-if="message.content.type === 'text'">
-                        {{ (message.content as TextContent).text }}
-                    </template>
-                    <template v-else-if="message.content.type === 'image'">
-                        <img :src="(message.content as ImageContent).url" class="max-w-xs rounded-lg" />
-                    </template>
-                    <template v-else-if="message.content.type === 'video'">
-                        <video :src="(message.content as VideoContent).url" controls class="max-w-xs rounded-lg" />
-                    </template>
-                </div>
+        <div v-for="(message, index) in messages" :key="index" class="flex items-start max-w-full mb-2" :class="{'flex-row-reverse': message.sender.id===props.ownId}">
+            
+            <!-- 消息发送者 -->
+            <div class="w-16 flex-shrink-0 font-bold overflow-hidden text-center">{{ message.sender.name }}</div>
 
-            </div>
+            <!-- 消息主体 -->
+            <MessageContentCard :content="message.content"
+                class="w-fit mx-1"/>
+
+            <!-- 占位符 -->
+            <div class="w-28 flex-shrink-0"></div>
+            
         </div>
     </div>
 </template>
@@ -27,12 +19,13 @@
 
 <script setup lang="ts">
 import { ref, Ref, watch } from 'vue';
-
-import { User } from "@/models/User";
-import { Content, TextContent, ImageContent, VideoContent } from "@/models/Message";
 import { useMessageStore } from '@/stores/message';
 import { useUserStore } from '@/stores/user';
 
+import { User } from "@/models/User";
+import { Content, TextContent, ImageContent, VideoContent } from "@/models/Message";
+
+import MessageContentCard from '@/components/chat/MessageContentCard.vue';
 
 
 const props = defineProps({
