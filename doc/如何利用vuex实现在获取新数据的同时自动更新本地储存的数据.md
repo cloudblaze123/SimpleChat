@@ -46,7 +46,9 @@
 
 仅凭描述过程，可能只有模糊的感受，下面我们来看看 service worker 拦截并插入缓存过程的实现代码。
 
-> 以下代码出自 Mozilla Developer Network 的 Service Worker 文档关于如何通过 Service Worker 缓存请求、并返回缓存的响应的代码示例（添加了额外的注释）：
+> 以下代码出自 Mozilla Developer Network 的 Service Worker 文档关于如何通过 Service Worker 缓存请求、并返回缓存的响应的代码示例（添加了额外的注释）
+>
+> [Service Worker 文档](https://developer.mozilla.org/zh-CN/docs/Web/Progressive_web_apps/Guides/Caching) 归属于 Mozilla 贡献者 ，在 [CC-BY-SA 2.5](https://creativecommons.org/licenses/by-sa/2.5/deed.en) 许可下使用
 
 ```javascript
 // 监听 fetch 请求事件。
@@ -88,7 +90,9 @@ async function cacheFirst(request) {
 
 在 vuex 中，也可以有类似的实现
 
-> 以下代码来自 YesPlayMusic 项目（省略了部分代码，并添加了注释）
+> 以下代码来自 Github 上的 [YesPlayMusic](https://github.com/qier222/YesPlayMusic) 项目，由 github 用户 [qier222](https://github.com/qier222) 发布，使用 [MIT 许可证](https://opensource.org/license/MIT)
+>
+> （省略了部分代码，并添加了额外注释）
 
 拦截请求：
 
@@ -147,10 +151,10 @@ export default store => {
 通过以上代码，就能用 vuex 实现在获取新数据的同时自动更新本地储存的数据。
 
 > 如果你仔细看，会发现 fetchLikedArtists 方法并没有像 PWA 的 Service Worker 一样，在请求前先查找缓存中的数据  
-
+>
 > 这是因为 localStorage 插件的存在，每次调用 fetchLikedArtists 方法时，vuex 都会将数据同步更新到 artists 属性和 localStorage 中，  
 即 vuex 中的 artists 属性始终与 localStorage 中的 artists 数据保持同步，  
 即 vuex.artists == localStorage.artists。  
-
+>
 > 所以可以将 vuex.artists 看做是本地缓存在内存中的版本（类似于影子分身）。  
 当组件模版中用到 vuex.artists 时，实际上便是在使用和本地缓存一样的数据（直到应用或组件调用 fetchLikedArtists 方法更新 vuex.artists 属性为止，因为 IO 操作需要的时间较长，所以比起vuex.artists 属性，本地缓存会短暂滞后）。
