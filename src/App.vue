@@ -59,10 +59,16 @@ messageStore.getMessages()
 
 
 // 建立socket连接（暂时用自定义的对象来模拟连接）
-import { messageNotifier } from '@/api/message-web';
+// import { messageNotifier } from '@/api/message-web';
 
-messageNotifier.callback = () => {
-    console.log('socket连接成功');
-    messageStore.getIncrementalMessages();
-}
+// messageNotifier.callback = () => {
+//     console.log('socket连接成功');
+//     messageStore.getIncrementalMessages();
+// }
+
+
+
+import { initSocket } from '@/services/sockets/socket';
+
+initSocket(window.location.origin);
 </script>

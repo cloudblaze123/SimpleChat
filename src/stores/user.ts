@@ -15,7 +15,7 @@ export const useUserStore = defineStore('user', {
             const cachedUser = getCachedUser(id)
             // 如果有，则返回缓存中的用户
             if(cachedUser){
-                console.log(`get user:${id} from cache`)
+                // console.log(`get user:${id} from cache`)
                 return cachedUser
             }
 
