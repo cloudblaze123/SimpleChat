@@ -82,7 +82,7 @@ async function prepareMessage(newMessage: string, selectedFile): Promise<Message
     let content = await prepareContent(newMessage, selectedFile)
     const to = await userStore.getUser(id.value)
     // console.log('currentUser', authStore.currentUser)
-    return new Message(authStore.currentUser.id, to.id, content, new Date())
+    return new Message(authStore.currentUser.id, to.id, content, null)
 }
 
 async function prepareContent(newMessage: string, selectedFile): Promise<Content> {

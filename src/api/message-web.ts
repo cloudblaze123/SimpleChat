@@ -1,6 +1,6 @@
 import { Message, Content, TextContent, ImageContent, VideoContent } from '@/models/Message';
 
-import { toUTCDateString } from '@/utils/date';
+import { stringToDate, toUTCDateString } from '@/utils/date';
 
 
 type RawMessage = {
@@ -31,17 +31,31 @@ function packRawMessage(rawMessages: RawMessage[]): Message[] {
     return messages
 }
 
-async function getMessages(): Promise<Message[]> {
+async function getMessages(): Promise<Record<string, Message[]|Date>> {
     const response = await fetch('/api/messages')
-    const rawMessages = await response.json()
-    return packRawMessage(rawMessages)
+    const date = await response.json()
+    const rawMessages = date.messages
+    
+    // 服务器当前时间，用来记录客户端最后收到的消息的时间戳
+    const timestamp = date.timestamp
+    return {
+        messages: packRawMessage(rawMessages),
+        timestamp: new Date(stringToDate(timestamp))
+    }
 }
 
 
-async function getIncrementalMessages(fromTime: Date): Promise<Message[]>{
+async function getIncrementalMessages(fromTime: Date): Promise<Record<string, Message[]|Date>>{
     const response = await fetch('/api/messages/' + toUTCDateString(fromTime))
-    const rawMessages = await response.json()
-    return packRawMessage(rawMessages)
+    const date = await response.json()
+    const rawMessages = date.messages
+
+    // 服务器当前时间，用来记录客户端最后收到的消息的时间戳
+    const timestamp = date.timestamp
+    return {
+        messages: packRawMessage(rawMessages),
+        timestamp: new Date(stringToDate(timestamp))
+    }
 }
 
 
@@ -58,11 +72,9 @@ async function sendMessage(message: Message): Promise<void> {
                 senderId: message.senderId,
                 receiverId: message.receiverId,
                 content: message.content,
-                timestamp: toUTCDateString(message.timestamp)
             })
         })
-        console.log('text message sent');
-        console.log('message UTC timestamp: ' + toUTCDateString(message.timestamp));
+        console.log('text message sent at (UTC time): ', toUTCDateString(new Date()));
     }
     else if(type==='image' || type==='video'){
         await fetch('/api/media-message', {
@@ -74,10 +86,9 @@ async function sendMessage(message: Message): Promise<void> {
                 senderId: message.senderId,
                 receiverId: message.receiverId,
                 content: message.content,
-                timestamp: toUTCDateString(message.timestamp)
             })
         })
-        console.log('media message sent');
+        console.log('media message sent at (UTC time): ', toUTCDateString(new Date()));
     }
     else{
         console.log('unsupported message type');
