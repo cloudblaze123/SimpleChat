@@ -5,7 +5,8 @@
             <!-- 左栏 -->
             <div class="flex flex-col items-center bg-gray-200 dark:bg-slate-800 text-gray-800 dark:text-gray-200">
                 <!-- 当前用户头像 -->
-                <CurrentUserIcon />
+                <RouterLink :to="{ name: 'Profile', params: { id: authStore.currentUser.id }}"><CurrentUserIcon /></RouterLink>
+                
                 <!-- 导航栏 -->
                 <Navbar :pos="pos" @pos-switched="pos = $event"/>
             </div>
@@ -38,6 +39,10 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import { RouterLink } from "vue-router";
+
+import { useAuthStore } from "@/stores/auth";
+const authStore = useAuthStore();
 
 import CurrentUserIcon from "@/components/CurrentUserIcon.vue";
 import Navbar from "@/components/Navbar.vue";

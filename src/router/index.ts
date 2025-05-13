@@ -4,6 +4,7 @@ import Home from '@/views/Home.vue'
 import Chat from '@/views/Chat.vue'
 import Search from '@/views/Search.vue'
 import Profile from '@/views/Profile.vue'
+import UpdateProfile from '@/views/UpdateProfile.vue'
 import Settings from '@/views/Settings.vue'
 import Login from '@/views/Login.vue'
 
@@ -32,6 +33,11 @@ const routes = [
                 path: 'Profile/:id',
                 name: 'Profile',
                 component: Profile
+            },
+            {
+                path: 'UpdateProfile/:id',
+                name: 'UpdateProfile',
+                component: UpdateProfile
             },
             {
                 path: 'Settings',
