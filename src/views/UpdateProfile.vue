@@ -137,8 +137,18 @@ function goBack() {
 }
 
 
-function updateProfile() {
-    console.log('updateProfile')
+async function updateProfile() {
+    const newProfile = {
+        name: user.value.name,
+        email: user.value.email,
+        signature: user.value.signature,
+        gender: user.value.gender,
+        age: user.value.age,
+        birthday: user.value.birthday,
+        location: user.value.location,
+    }
+
+    userStore.updateUserProfile(user.value.id, newProfile)
     router.go(-1);
 }
 

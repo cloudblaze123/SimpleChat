@@ -97,6 +97,7 @@ import { ChevronLeft } from "@vicons/tabler";
 
 import { useAuthStore } from '@/stores/auth';
 import { useUserStore } from '@/stores/user'
+import { User } from '@/models/User';
 
 
 const route = useRoute();
@@ -106,7 +107,7 @@ const userStore = useUserStore();
 
 
 const id = computed(() => route.params.id as string);
-const user = ref(null)
+const user = ref<User | null>(null)
 updateUser()
 watch(id, updateUser)
 async function updateUser() {
