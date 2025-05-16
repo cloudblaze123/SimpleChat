@@ -1,21 +1,7 @@
 <template>
     <div class="flex flex-col justify-center  dark:text-gray-200">
         <!-- 设置页面的头部 -->
-        <div class="flex justify-between items-center p-4 bg-white dark:bg-slate-900">
-            <div class="relative w-full flex justify-center items-center">
-                <!-- 返回按钮 -->
-                <button 
-                    class="absolute left-0 top-0 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-all duration-400 ease-in-out lg:hidden"
-                    @click="goBack">
-                    <Icon size="32">
-                        <ChevronLeft />
-                    </Icon>
-                </button>
-                <h1 class="text-2xl text-center">
-                    这是 搜索 页面
-                </h1>
-            </div>
-        </div>
+        <CommonHeader title="Search" />
 
         <!-- 搜索页面的主体 -->
         <div class="flex flex-col items-center w-full h-0 flex-1 p-4 bg-white text-gray-700 text-2xl dark:bg-slate-900 dark:text-gray-200">
@@ -43,28 +29,21 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { RouterLink, useRouter } from 'vue-router';
+import { RouterLink } from 'vue-router';
 
-import { Icon } from "@vicons/utils";
-import { ChevronLeft } from "@vicons/tabler";
+import CommonHeader from '@/components/CommonHeader.vue';
 
 import UserSearchCard from '@/components/UserSearchCard.vue';
 
-
-const router = useRouter();
 
 const query = ref('');
 const result = ref([]);
 
 
-function goBack() {
-    router.go(-1);
-}
-
-
 import { searchUsers } from '@/api/user-web';
 async function doSearch() {
     console.log('search', query.value);
+    
     result.value.length = 0;
     const users = await searchUsers(query.value);
     result.value.push(...users);

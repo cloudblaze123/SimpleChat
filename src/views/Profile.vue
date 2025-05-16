@@ -1,21 +1,7 @@
 <template>
     <div class="flex flex-col justify-center bg-gray-100 dark:bg-slate-900 dark:text-gray-200">
         <!-- 设置页面的头部 -->
-        <div class="flex justify-between items-center p-4 bg-white dark:bg-slate-900">
-            <div class="relative w-full flex justify-center items-center">
-                <!-- 返回按钮 -->
-                <button
-                    class="absolute left-0 top-0 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-all duration-400 ease-in-out lg:hidden"
-                    @click="goBack">
-                    <Icon size="32">
-                        <ChevronLeft />
-                    </Icon>
-                </button>
-                <h1 class="text-2xl text-center">
-                    Profile页面
-                </h1>
-            </div>
-        </div>
+        <CommonHeader title="Profile" />
 
         <!-- Profile页面的主体 -->
         <div class="flex flex-col justify-between items-center h-full w-full p-4 rounded-lg overflow-y-auto">
@@ -92,8 +78,7 @@
 import { ref, computed, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
-import { Icon } from "@vicons/utils";
-import { ChevronLeft } from "@vicons/tabler";
+import CommonHeader from '@/components/CommonHeader.vue';
 
 import { useAuthStore } from '@/stores/auth';
 import { useUserStore } from '@/stores/user'
@@ -116,11 +101,6 @@ async function updateUser() {
         return
     }
     user.value = await userStore.getUser(id.value)
-}
-
-
-function goBack() {
-    router.push({ name: 'Home' });
 }
 
 
