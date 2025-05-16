@@ -20,14 +20,14 @@
         <!-- 搜索页面的主体 -->
         <div class="flex flex-col items-center w-full h-0 flex-1 p-4 bg-white text-gray-700 text-2xl dark:bg-slate-900 dark:text-gray-200">
             <!-- 搜索栏 -->
-            <div class="flex justify-center items-center w-full mb-6 space-x-2 dark:bg-slate-900 dark:text-gray-200">
+            <form @submit.prevent="doSearch" class="flex justify-center items-center w-full mb-6 space-x-2 dark:bg-slate-900 dark:text-gray-200">
                 <input v-model="query" class="w-full h-full dark:bg-slate-900 dark:text-gray-200 dark:border-gray-200 border rounded" placeholder="请输入用户ID" />
-                <button @click="doSearch" class="p-2 pl-8 pr-8 bg-blue-500 text-white text-nowrap rounded hover:bg-blue-600">搜索</button>
-            </div>
+                <input type="submit" value="搜索" class="p-2 pl-8 pr-8 bg-blue-500 text-white text-nowrap rounded hover:bg-blue-600"></input>
+            </form>
             
             <!-- 搜索结果 -->
             <div class="flex flex-col w-full h-0 flex-1 items-center bg-gray-100 dark:bg-slate-800">
-                <div v-if="result.length === 0" class="flex justify-center">搜索结果</div>
+                <div v-if="result.length === 0" class="flex justify-center">无结果</div>
                 <ul v-else class="w-full h-full items-center overflow-y-auto">
                     <li v-for="item in result" class="w-full h-12 bg-white dark:bg-slate-900 rounded-md flex justify-center items-center">
                         {{ item }}
@@ -40,29 +40,29 @@
 
 
 <script setup lang="ts">
-import { ref, watch } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 import { Icon } from "@vicons/utils";
 import { ChevronLeft } from "@vicons/tabler";
 
 
-const route = useRoute();
 const router = useRouter();
-const query = ref('');
 
+const query = ref('');
 const result = ref([]);
-result.value.push(...['用户123', '用户456', '用户789', '用户101112', '用户131415', '用户161718', '用户192021']);
-watch(route, () => {
-    result.value.push(...['用户123', '用户456', '用户789', '用户101112']);
-});
+
 
 function goBack() {
-    router.push({ name: 'Home' });
+    router.go(-1);
 }
 
-function doSearch() {
+
+import { searchUsers } from '@/api/user-web';
+async function doSearch() {
     console.log('search', query.value);
-    router.push({ name: 'Search',  query: { id: query.value }});
+    result.value.length = 0;
+    const users = await searchUsers(query.value);
+    result.value.push(...users.map(user => user.name));
 }
 </script>

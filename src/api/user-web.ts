@@ -22,6 +22,17 @@ async function getUser(id: string): Promise<User|null> {
 }
 
 
+async function searchUsers(keyword: string): Promise<User[]|null> {
+    const response = await fetch('/api/search/user' + `?keyword=${keyword}`)
+    if (response.ok) {
+        const data = await response.json()
+        const users = data.map((item: any) => User.loadFromJSON(item))
+        return users
+    }
+    return []
+}
+
+
 async function updateUserProfile(id: string, profileDelta: {}){
     const response = await fetch('/api/user/' + id + '/profile', {
         method: 'PUT',
@@ -38,4 +49,4 @@ async function updateUserProfile(id: string, profileDelta: {}){
     return 'Error updating profile'
 }
 
-export { getUsers, getUser, updateUserProfile }
+export { getUsers, getUser, searchUsers, updateUserProfile }
