@@ -22,15 +22,17 @@
             <!-- 搜索栏 -->
             <form @submit.prevent="doSearch" class="flex justify-center items-center w-full mb-6 space-x-2 dark:bg-slate-900 dark:text-gray-200">
                 <input v-model="query" class="w-full h-full dark:bg-slate-900 dark:text-gray-200 dark:border-gray-200 border rounded" placeholder="请输入用户ID" />
-                <input type="submit" value="搜索" class="p-2 pl-8 pr-8 bg-blue-500 text-white text-nowrap rounded hover:bg-blue-600"></input>
+                <input type="submit" value="搜索" class="p-2 pl-8 pr-8 bg-blue-500 text-white text-nowrap rounded hover:bg-blue-600">
             </form>
             
             <!-- 搜索结果 -->
             <div class="flex flex-col w-full h-0 flex-1 items-center bg-gray-100 dark:bg-slate-800">
                 <div v-if="result.length === 0" class="flex justify-center">无结果</div>
-                <ul v-else class="w-full h-full items-center overflow-y-auto">
-                    <li v-for="item in result" class="w-full h-12 bg-white dark:bg-slate-900 rounded-md flex justify-center items-center">
-                        {{ item }}
+                <ul v-else class="w-full h-full items-center overflow-y-auto p-4 space-y-2">
+                    <li v-for="user in result" class="w-full">
+                        <RouterLink :to="{ name: 'Profile', params: { id: user.id } }">
+                            <UserSearchCard :user="user"/>
+                        </RouterLink>
                     </li>
                 </ul>
             </div>
@@ -41,10 +43,12 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { RouterLink, useRouter } from 'vue-router';
 
 import { Icon } from "@vicons/utils";
 import { ChevronLeft } from "@vicons/tabler";
+
+import UserSearchCard from '@/components/UserSearchCard.vue';
 
 
 const router = useRouter();
@@ -63,6 +67,6 @@ async function doSearch() {
     console.log('search', query.value);
     result.value.length = 0;
     const users = await searchUsers(query.value);
-    result.value.push(...users.map(user => user.name));
+    result.value.push(...users);
 }
 </script>
