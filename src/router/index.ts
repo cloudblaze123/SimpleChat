@@ -7,6 +7,7 @@ import Profile from '@/views/Profile.vue'
 import UpdateProfile from '@/views/UpdateProfile.vue'
 import Settings from '@/views/Settings.vue'
 import Login from '@/views/Login.vue'
+import Register from '@/views/Register.vue'
 
 const routes = [
     {
@@ -50,6 +51,11 @@ const routes = [
         path: '/Login',
         name: 'Login',
         component: Login
+    },
+    {
+        path: '/Register',
+        name: 'Register',
+        component: Register
     },
 ]
 

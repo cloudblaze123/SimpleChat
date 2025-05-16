@@ -9,9 +9,9 @@ class User {
     location:string;
 
     constructor(
-        id:string,
-        name:string,
-        email:string,
+        id:string = '',
+        name:string = '',
+        email:string = '',
         signature:string='',
         gender:string='',
         age:number=0,

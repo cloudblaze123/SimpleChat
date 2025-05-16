@@ -47,6 +47,12 @@
                     </button>
                 </div>
 
+                <div class="text-center">
+                    <RouterLink :to="{ name: 'Register' }" class="text-sm text-indigo-500 hover:text-indigo-400">
+                        注册
+                    </RouterLink>
+                </div>
+
                 <div class="mt-4 text-center">
                     <button @click="skipLogin" class="text-sm text-indigo-600 hover:text-indigo-500">
                         跳过登录
@@ -60,7 +66,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useAuthStore } from '@/stores/auth';
-import { useRouter } from 'vue-router';
+import { RouterLink, useRouter } from 'vue-router';
 
 
 const email= ref('');

@@ -33,6 +33,25 @@ async function searchUsers(keyword: string): Promise<User[]|null> {
 }
 
 
+
+
+async function registerUser(user: User): Promise<boolean> {
+    const response = await fetch('/api/user', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(user)
+    })
+    if (response.ok) {
+        return true
+    }
+    return false
+}
+
+
+
+
 async function updateUserProfile(id: string, profileDelta: {}){
     const response = await fetch('/api/user/' + id + '/profile', {
         method: 'PUT',
@@ -49,4 +68,11 @@ async function updateUserProfile(id: string, profileDelta: {}){
     return 'Error updating profile'
 }
 
-export { getUsers, getUser, searchUsers, updateUserProfile }
+
+export {
+    getUsers,
+    getUser,
+    searchUsers,
+    registerUser,
+    updateUserProfile
+}
