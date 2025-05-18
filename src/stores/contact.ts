@@ -6,7 +6,7 @@ import { useAuthStore } from '@/stores/auth'
 import { getContactsOf } from '@/api/contact-web'
 
 
-export const useContactsStore = defineStore('contacts', {
+export const useContactStore = defineStore('contacts', {
     state: () => ({
         contacts: [] as string[],
         loading: false as boolean,

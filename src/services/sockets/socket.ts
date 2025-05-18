@@ -2,6 +2,7 @@ import { io, Socket } from "socket.io-client";
 
 import { useAuthStore } from "@/stores/auth";
 import { initMessageHandlers } from "./message";
+import { initContactHandlers } from "./contact";
 
 
 // 全局 socket 实例
@@ -30,6 +31,8 @@ function initSocket(socketUrl: string) {
 
     initMessageHandlers(socket);
     
+    initContactHandlers(socket)
+
 
     // 监听连接断开事件
     socket.on("disconnect", () => {

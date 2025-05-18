@@ -36,7 +36,7 @@
 import { ref, Ref, computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useAuthStore } from '@/stores/auth'
-import { useContactsStore } from '@/stores/contacts';
+import { useContactStore } from '@/stores/contact';
 import { useUserStore } from '@/stores/user'
 
 import UserCard from '@/components/UserCard.vue';
@@ -51,7 +51,7 @@ import { User } from '@/models/User'
 const route = useRoute()
 
 const authStore = useAuthStore()
-const contactsStore = useContactsStore()
+const contactStore = useContactStore()
 
 const userStore = useUserStore()
 
@@ -61,6 +61,12 @@ const loading:Ref<boolean> = ref(true)
 
 
 watch(() => authStore.currentUser, loadContacts)
+watch(contactStore.contacts, () => {
+    contacts.value.length = 0
+    for(const id of contactStore.contacts){
+        contacts.value.push(userStore.users[id])
+    }
+})
 
 
 loadContacts()
@@ -69,8 +75,8 @@ loadContacts()
 async function loadContacts() {
     loading.value = true
 
-    await contactsStore.fetchContacts()
-    const contactIds = contactsStore.contacts
+    await contactStore.fetchContacts()
+    const contactIds = contactStore.contacts
 
     contacts.value.length = 0
     for(const id of contactIds){

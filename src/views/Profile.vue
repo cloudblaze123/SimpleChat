@@ -92,7 +92,7 @@ import { useAuthStore } from '@/stores/auth';
 import { useUserStore } from '@/stores/user'
 import { User } from '@/models/User';
 
-import { useContactsStore } from '@/stores/contacts';
+import { useContactStore } from '@/stores/contact';
 
 
 const route = useRoute();
@@ -100,7 +100,7 @@ const router = useRouter();
 const authStore = useAuthStore();
 const userStore = useUserStore();
 
-const contactsStore = useContactsStore();
+const contactStore = useContactStore();
 
 
 
@@ -122,7 +122,7 @@ const isContact = computed(() => {
     if (!authStore.currentUser) {
         return false
     }
-    return contactsStore.contacts.includes(id.value)
+    return contactStore.contacts.includes(id.value)
 })
 
 
