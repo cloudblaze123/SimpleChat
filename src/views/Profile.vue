@@ -64,8 +64,16 @@
                     <button v-if="user.id === authStore.currentUser?.id" class="p-4 bg-blue-700 rounded-md text-white" @click="updateProfile">
                         修改资料
                     </button>
-                    <button class="p-4 bg-blue-700 rounded-md text-white" @click="gotoChat">
-                        发消息
+                    <div v-if="isContact" class="flex flex-col items-center space-y-2">
+                        <button class="p-4 bg-blue-700 rounded-md text-white" @click="gotoChat">
+                            发消息
+                        </button>
+                        <button class="p-4 bg-blue-700 rounded-md text-white" @click="sendRemoveContact">
+                            删除好友
+                        </button>
+                    </div>
+                    <button v-else class="p-4 bg-blue-700 rounded-md text-white" @click="sendAddContact">
+                        添加好友
                     </button>
                 </div>
             </div>
@@ -84,11 +92,17 @@ import { useAuthStore } from '@/stores/auth';
 import { useUserStore } from '@/stores/user'
 import { User } from '@/models/User';
 
+import { useContactsStore } from '@/stores/contacts';
+
 
 const route = useRoute();
 const router = useRouter();
 const authStore = useAuthStore();
 const userStore = useUserStore();
+
+const contactsStore = useContactsStore();
+
+
 
 
 const id = computed(() => route.params.id as string);
@@ -104,6 +118,15 @@ async function updateUser() {
 }
 
 
+const isContact = computed(() => {
+    if (!authStore.currentUser) {
+        return false
+    }
+    return contactsStore.contacts.includes(id.value)
+})
+
+
+
 function updateProfile() {
     router.push({ name: 'UpdateProfile', params: { id: id.value } });
 }
@@ -111,5 +134,22 @@ function updateProfile() {
 
 function gotoChat() {
     router.push({ name: 'ChatTo', params: { id: id.value } });
+}
+
+
+
+import { addContact, removeContact } from '@/api/contact-web';
+
+function sendRemoveContact() {
+    console.log('removeContact', id.value);
+    const currentUser = authStore.currentUser
+    removeContact(currentUser.id, id.value)
+}
+
+
+function sendAddContact() {
+    console.log('sendAddContact', id.value);
+    const currentUser = authStore.currentUser
+    addContact(currentUser.id, id.value)
 }
 </script>
