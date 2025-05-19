@@ -8,7 +8,8 @@
 
 <script setup lang="ts">
 import { onMounted, watch } from 'vue';
-import { RouterView } from 'vue-router';
+import { useRouter, RouterView } from 'vue-router';
+
 import { useAuthStore } from './stores/auth';
 import { useCommonStore } from './stores/common';
 
@@ -57,18 +58,4 @@ const messageStore = useMessageStore();
 // 启动应用时更新消息列表
 messageStore.getMessages()
 
-
-// 建立socket连接（暂时用自定义的对象来模拟连接）
-// import { messageNotifier } from '@/api/message-web';
-
-// messageNotifier.callback = () => {
-//     console.log('socket连接成功');
-//     messageStore.getIncrementalMessages();
-// }
-
-
-
-import { initSocket } from '@/services/sockets/socket';
-
-initSocket(window.location.origin);
 </script>

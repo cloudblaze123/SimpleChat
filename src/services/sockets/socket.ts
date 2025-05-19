@@ -9,17 +9,18 @@ import { initContactHandlers } from "./contact";
 // 首次使用时，需要先调用 initSocket 方法初始化
 let socket: Socket;
 
+let isSocketInited = false;
+
 function initSocket(socketUrl: string) {
     // 连接到聊天服务器
-    // console.log(window.location.origin)
     const authStore = useAuthStore();
     if (!authStore.currentUser) {
-        throw new Error("请先登录");
+        console.log('尚未登录，停止初始化socket连接')
+        return;
     }
-    const currentUserId = authStore.currentUser.id;
     socket = io(socketUrl, {
         auth:{
-            userId:currentUserId
+            userId: authStore.currentUser.id
         }
     });
 
@@ -40,7 +41,8 @@ function initSocket(socketUrl: string) {
     });
 
 
-    console.log('hihiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii')
+    isSocketInited = true
+    console.log('socket inited')
 }
 
-export { initSocket, socket };
+export { initSocket, isSocketInited, socket };

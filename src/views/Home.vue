@@ -5,7 +5,7 @@
             <!-- 左栏 -->
             <div class="flex flex-col items-center bg-gray-200 dark:bg-slate-800 text-gray-800 dark:text-gray-200">
                 <!-- 当前用户头像 -->
-                <RouterLink :to="{ name: 'Profile', params: { id: authStore.currentUser.id }}"><CurrentUserIcon /></RouterLink>
+                <CurrentUserIcon />
                 
                 <!-- 导航栏 -->
                 <Navbar :pos="pos" @pos-switched="pos = $event"/>
@@ -39,10 +39,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { RouterLink } from "vue-router";
 
-import { useAuthStore } from "@/stores/auth";
-const authStore = useAuthStore();
 
 import CurrentUserIcon from "@/components/CurrentUserIcon.vue";
 import Navbar from "@/components/Navbar.vue";
@@ -50,4 +47,11 @@ import ContactList from "@/views/ContactList.vue";
 import SessionList from "@/views/SessionList.vue";
 
 const pos = ref('contact-list');
+
+
+
+// 位于 Home 页面时，用户已经登录
+// 此时可以连接到聊天服务器
+import { initSocket } from '@/services/sockets/socket';
+initSocket(window.location.origin);
 </script>

@@ -59,9 +59,31 @@ const routes = [
     },
 ]
 
+
 const router = createRouter({
     history: createWebHistory(),
     routes
 })
+
+
+import { useAuthStore } from '@/stores/auth'
+router.beforeEach((to, from, next) => {
+    const authStore = useAuthStore()
+
+    if (to.name === 'Login' || to.name === 'Register') {
+        next()
+        return
+    }
+
+    // 如果未登录则跳转至登录页面
+    if (!authStore.currentUser) {
+        console.log('尚未登录，跳转至登录页面')
+        next({ name: 'Login' })
+        return
+    }
+
+    next()
+})
+
 
 export default router

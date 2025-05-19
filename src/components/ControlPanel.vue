@@ -33,8 +33,13 @@ const router = useRouter();
 
 function logout() {
     authStore.logout(authStore.currentUser);
-    // 假设登出后跳转到登录页面
-    router.push({ name: 'Login' });
+    if (authStore.loggedInUsers.length > 0) {
+        authStore.switchUser(authStore.loggedInUsers[0].id);
+        return;
+    } else {
+        router.push({ name: 'Login' });
+        return;
+    }
 };
 
 function goToLoginPage() {

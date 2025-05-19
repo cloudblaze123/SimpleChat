@@ -10,13 +10,20 @@
 </template>
   
 <script setup lang="ts">
-import { ref, Ref } from 'vue';
+import { ref, watch } from 'vue';
 import { useAuthStore } from '@/stores/auth';
 
 import { switchUser as toSwitchUser } from '@/controllers/auth';
 
+
 const authStore = useAuthStore();
-const selectedUserId:Ref<string> = ref(authStore.currentUser ? authStore.currentUser.id : '');
+const selectedUserId = ref(authStore.currentUser.id);
+watch(() => authStore.currentUser, () => {
+    if (authStore.currentUser) {
+        selectedUserId.value = authStore.currentUser.id;
+    }
+});
+
 
 function switchUser(){
     toSwitchUser(selectedUserId.value);
