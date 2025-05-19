@@ -1,21 +1,24 @@
 <template>
     <div class="bg-white dark:bg-slate-900 dark:text-gray-200 shadow-md">
         <form @submit.prevent="toSendMessage" class="flex flex-col relative">
+            <!-- 工具栏 -->
             <div class="flex items-center">
                 <input type="file" ref="fileInput" @change="handleFileChange" class="hidden" />
-                <button type="button" @click="triggerFileInput"
-                    class="btn btn-outline">+上传文件</button>
+                <button type="button" @click="triggerFileInput" class="btn btn-outline">+上传文件</button>
+                <div class="flex items-center">
+                    <span v-if="selectedFile" class="ml-4">{{ selectedFile.name }}</span>
+                </div>
             </div>
+
+            <!-- 输入框 -->
             <div class="flex mb-1 space-x-1">
-                <textarea v-model="newMessage" placeholder="输入消息..." rows="1" class="flex-1 px-4 py-2 h-32 dark:bg-slate-900 dark:border-gray-200 border rounded-md"></textarea>
+                <textarea v-model="newMessage" placeholder="输入消息..." rows="1"
+                    class="flex-1 px-4 py-2 h-32 dark:bg-slate-900 dark:border-gray-200 border rounded-md"></textarea>
                 <div class="flex justify-end items-end">
                     <button type="submit" class="btn btn-primary">发送</button>
                 </div>
             </div>
         </form>
-        <div class="flex items-center">
-            <span v-if="selectedFile" class="ml-4">{{ selectedFile.name }}</span>
-        </div>
     </div>
 </template>
   
