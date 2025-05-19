@@ -20,10 +20,8 @@ async function addContact(fromUserId:string, toUserId:string) {
             toUserId
         })
     })
-    if (response.ok) {
-        console.log('Contact added successfully')
-    } else {
-        console.log('Failed to add contact')
+    if (!response.ok) {
+        throw new Error('Failed to add contact')
     }
 }
 
@@ -39,10 +37,8 @@ async function removeContact(fromUserId:string, toUserId:string) {
             toUserId
         })
     })
-    if (response.ok) {
-        console.log('Contact removed successfully')
-    } else {
-        console.log('Failed to remove contact')
+    if (!response.ok) {
+        throw new Error('Failed to remove contact')
     }
 }
 

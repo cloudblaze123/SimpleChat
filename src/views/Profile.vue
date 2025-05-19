@@ -138,18 +138,15 @@ function gotoChat() {
 
 
 
-import { addContact, removeContact } from '@/api/contact-web';
 
 function sendRemoveContact() {
     console.log('removeContact', id.value);
-    const currentUser = authStore.currentUser
-    removeContact(currentUser.id, id.value)
+    contactStore.removeContact(id.value)
 }
 
 
 function sendAddContact() {
     console.log('sendAddContact', id.value);
-    const currentUser = authStore.currentUser
-    addContact(currentUser.id, id.value)
+    contactStore.addContact(id.value)
 }
 </script>
