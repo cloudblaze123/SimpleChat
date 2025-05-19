@@ -30,11 +30,9 @@ export const useContactStore = defineStore('contacts', {
                     }
                 }
             }
-            this.contacts.length = 0;
-            this.contacts.push(...contacts);
+            this.contacts = contacts;
 
-            this.groups.length = 0;
-            this.groups.push(...groups);
+            this.groups = groups;
 
             this.loading = false;
         },
