@@ -1,19 +1,21 @@
 <template>
-    <div class="p-4 bg-white dark:bg-slate-900 dark:text-gray-200 shadow-md">
-        <form @submit.prevent="toSendMessage" class="flex flex-col ">
-            <div class="flex mb-4 space-x-1">
-                <input v-model="newMessage" class="flex-1 px-4 py-2 dark:bg-slate-900 dark:border-gray-200 border rounded-md " placeholder="输入消息..." />
-                <div class="flex items-center">
-                    <input type="file" ref="fileInput" @change="handleFileChange" class="hidden" />
-                    <button type="button" @click="triggerFileInput"
-                        class="px-4 py-2 bg-blue-500 text-white rounded-md">上传文件</button>
-                    </div>
-                    <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md ">发送</button>
-                </div>
-                <div class="flex items-center">
-                    <span v-if="selectedFile" class="ml-4">{{ selectedFile.name }}</span>
-                </div>
+    <div class="bg-white dark:bg-slate-900 dark:text-gray-200 shadow-md">
+        <form @submit.prevent="toSendMessage" class="flex flex-col relative">
+            <div class="flex items-center">
+                <input type="file" ref="fileInput" @change="handleFileChange" class="hidden" />
+                <button type="button" @click="triggerFileInput"
+                    class="btn btn-outline">+上传文件</button>
+            </div>
+            <div class="flex mb-1 space-x-1">
+                <textarea v-model="newMessage" placeholder="输入消息..." rows="1" class="flex-1 px-4 py-2 h-32 dark:bg-slate-900 dark:border-gray-200 border rounded-md"></textarea>
+            </div>
+            <div class="flex justify-end">
+                <button type="submit" class="btn btn-primary">发送</button>
+            </div>
         </form>
+        <div class="flex items-center">
+            <span v-if="selectedFile" class="ml-4">{{ selectedFile.name }}</span>
+        </div>
     </div>
 </template>
   
@@ -24,7 +26,7 @@ import { useAuthStore } from '@/stores/auth';
 
 
 import { uploadFile } from '@/utils/fileUpload';
-import { 
+import {
     Message,
     Content,
     TextContent,
@@ -44,7 +46,7 @@ const authStore = useAuthStore();
 const userStore = useUserStore();
 const messageStore = useMessageStore();
 
-const router = useRouter(); 
+const router = useRouter();
 const id = computed(() => {
     const id = router.currentRoute.value.params.id as string
     return id ? id : '-1'
@@ -71,7 +73,7 @@ function handleFileChange(event) {
     selectedFile.value = event.target.files[0];
 }
 
-async function handleToSendMessage(newMessage: string, selectedFile){
+async function handleToSendMessage(newMessage: string, selectedFile) {
     const message = await prepareMessage(newMessage, selectedFile)
     emit('send-message', message);
     console.log('send message:', message);
@@ -97,7 +99,7 @@ async function prepareContent(newMessage: string, selectedFile): Promise<Content
                 content = new ImageContent(fileInfo.url);
             } else if (fileInfo.type === 'video') {
                 content = new VideoContent(fileInfo.url);
-            // TODO: handle unsupported file type
+                // TODO: handle unsupported file type
             }
         } catch (error) {
             console.error('File upload error:', error);
@@ -106,6 +108,7 @@ async function prepareContent(newMessage: string, selectedFile): Promise<Content
 
     return content;
 }
+
 
 </script>
   
