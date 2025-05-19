@@ -1,4 +1,7 @@
-async function getContactsOf(userId:string):Promise<string[]> {
+import { Contact } from '@/models/Contact'
+
+
+async function getContactsOf(userId:string):Promise<Contact[]> {
     const response = await fetch('/api/contacts/' + userId)
     if (response.ok) {
         const data = await response.json()

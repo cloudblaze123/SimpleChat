@@ -2,13 +2,14 @@ import { defineStore } from 'pinia';
 
 import { useAuthStore } from '@/stores/auth'
 
-
+import { Contact } from '@/models/Contact';
 import { getContactsOf, addContact, removeContact } from '@/api/contact-web';
 
 
 export const useContactStore = defineStore('contacts', {
     state: () => ({
-        contacts: [] as string[],
+        contacts: [] as Contact[],
+        groups: [] as string[],
         loading: false as boolean,
     }),
 
@@ -18,13 +19,22 @@ export const useContactStore = defineStore('contacts', {
             this.loading = true;
 
             const authStore = useAuthStore()
-            const contactIds: string[] = []
+            const contacts: Contact[] = []
+            const groups: string[] = []
             if (authStore.currentUser) {
                 const data = await getContactsOf(authStore.currentUser.id)
-                contactIds.push(...data)
+                contacts.push(...data)
+                for (const contact of data) {
+                    if (!groups.includes(contact.group)) {
+                        groups.push(contact.group)
+                    }
+                }
             }
             this.contacts.length = 0;
-            this.contacts.push(...contactIds);
+            this.contacts.push(...contacts);
+
+            this.groups.length = 0;
+            this.groups.push(...groups);
 
             this.loading = false;
         },
@@ -53,7 +63,10 @@ export const useContactStore = defineStore('contacts', {
                     console.error(error);
                 }
             }
-        }
+        },
 
+        hasContact(contactId: string) {
+            return this.contacts.some(contact => contact.id === contactId);
+        }
     }
 });

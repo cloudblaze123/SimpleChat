@@ -122,7 +122,7 @@ const isContact = computed(() => {
     if (!authStore.currentUser) {
         return false
     }
-    return contactStore.contacts.includes(id.value)
+    return contactStore.hasContact(id.value)
 })
 
 
