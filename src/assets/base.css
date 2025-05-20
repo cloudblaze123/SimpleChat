@@ -1,3 +1,27 @@
 body {
   background-color: #adc577ab;
 }
+
+
+/* 
+防止打开 daisyui 的 modal 组件时，页面右边出现空白区域的问题
+
+问题来源：daisyui 在 modal 组件打开时
+会将 :root 元素的 scrollbar-gutter 属性设置为 stable，留出右侧滚动条的空间
+但因为本应用的页面高度始终与浏览器窗口高度一致，不需要留出滚动条的空间
+导致 modal 组件打开后页面右边出现空白区域
+
+根据应用的实际情况，将 :root 元素的 scrollbar-gutter 属性覆盖为 auto 以解决此问题
+*/
+:root {
+  scrollbar-gutter: auto;
+}
+
+
+/* 
+同时并覆盖 modal 组件的自带的 scrollbar-gutter: stable
+防止其为不存在的滚动条留出空间导致其位置左偏
+*/
+.modal {
+  scrollbar-gutter: auto !important;
+}

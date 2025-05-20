@@ -4,7 +4,9 @@ import { defineStore } from 'pinia';
 export const useCommonStore = defineStore('common', {
     state: () => ({
         darkMode: false as boolean,
-        darkModeFollowSystem: true as boolean
+        darkModeFollowSystem: true as boolean,
+        openModal: false as boolean,
+        mediaUrl: ''
     }),
     actions: {
         initialize(){

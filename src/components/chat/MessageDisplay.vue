@@ -1,5 +1,6 @@
 <template>
     <div class="p-4 overflow-y-auto dark:bg-slate-900 dark:text-gray-200 ">
+        <ImageViewer />
         <div v-for="(message, index) in messages" :key="index" class="flex items-start max-w-full mb-2" :class="{'flex-row-reverse': message.sender.id===props.ownId}">
             
             <!-- 消息发送者 -->
@@ -26,6 +27,7 @@ import { User } from "@/models/User";
 import { Content, TextContent, ImageContent, VideoContent } from "@/models/Message";
 
 import MessageContentCard from '@/components/chat/MessageContentCard.vue';
+import ImageViewer from '@/components/ImageViewer.vue';
 
 
 const props = defineProps({
