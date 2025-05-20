@@ -27,7 +27,7 @@ import { User } from "@/models/User";
 import { Content, TextContent, ImageContent, VideoContent } from "@/models/Message";
 
 import MessageContentCard from '@/components/chat/MessageContentCard.vue';
-import MediaViewer from '@/components/MediaViewer.vue';
+import MediaViewer from '@/components/viewer/MediaViewer.vue';
 
 
 const props = defineProps({

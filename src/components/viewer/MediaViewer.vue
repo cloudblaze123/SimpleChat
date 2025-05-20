@@ -1,19 +1,14 @@
 <template>
-    <button class="btn" @click="commonStore.openModal = true">open modal</button>
     <dialog :open="commonStore.openModal" @cancel="commonStore.openModal = false" @close="commonStore.openModal = false" class="modal">
-        <div class="modal-box">
+        <div class="modal-box max-w-full">
             <h3 class="text-lg font-bold">MediaViewer</h3>
             
-            <div v-if="commonStore.openModal">
-                <div v-if="commonStore.mediaType === 'image'">
-                    <img :src="mediaUrl">
-                </div>
-                <div v-else-if="commonStore.mediaType === 'video'">
-                    <video :src="mediaUrl" controls autoplay></video>
-                </div>
-                <div v-else>
-                    <p>Unsupported media type</p>
-                </div>
+            <div class="flex justify-center items-center max-h-full">
+                <ImageViewer v-if="commonStore.mediaType === 'image' && commonStore.mediaUrl" :src="mediaUrl" />
+
+                <video v-else-if="commonStore.mediaType === 'video' && commonStore.mediaUrl" :src="mediaUrl" controls autoplay></video>
+
+                <p v-else>Unsupported media type</p>
             </div>
             
             <p class="py-4">Press ESC key or click the button below to close</p>
@@ -29,6 +24,9 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useCommonStore } from '@/stores/common';
+
+import ImageViewer from '@/components/viewer/ImageViewer.vue';
+
 
 const commonStore = useCommonStore();
 
