@@ -1,5 +1,5 @@
 <template>
-    <div ref="container" @wheel.prevent="handleWheel" @mousedown.prevent="handleDragStart" class="flex h-0 grow justify-center items-center overscroll-none cursor-grab">
+    <div ref="container" @wheel.prevent="handleWheel" @pointerdown.prevent="handleDragStart" class="flex h-0 w-full grow justify-center items-center overscroll-none cursor-grab">
         <img ref="image" :src="props.src" alt="" class="w-full h-full object-contain select-none">
     </div>
 </template>
@@ -55,23 +55,24 @@ let lastX:number = 0;
 let lastY:number = 0;
 
 
-function handleDragStart(event: MouseEvent) {
+function handleDragStart(event: PointerEvent) {
+    container.value.setPointerCapture(event.pointerId);
     isDragging = true;
     lastX = event.clientX;
     lastY = event.clientY;
-    document.addEventListener('mouseup', handleDragEnd);
-    document.addEventListener('mousemove', handleDragMove);
+    document.addEventListener('pointerup', handleDragEnd);
+    document.addEventListener('pointermove', handleDragMove);
 }
 
 
-function handleDragEnd(event: MouseEvent) {
+function handleDragEnd(event: PointerEvent) {
     isDragging = false;
-    document.removeEventListener('mousemove', handleDragMove);
-    document.addEventListener('mouseup', handleDragEnd);
+    document.removeEventListener('pointermove', handleDragMove);
+    document.addEventListener('pointerup', handleDragEnd);
 }
 
 
-function handleDragMove(event: MouseEvent) {
+function handleDragMove(event: PointerEvent) {
     if (isDragging) {
         const deltaX = event.clientX - lastX;
         const deltaY = event.clientY - lastY;
