@@ -6,13 +6,21 @@
 
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 
 const props = defineProps({
     src: String
 })
 
 
+watch(() => props.src, () => {
+    image.value.style.transform = 'scale(1)';
+    zoomLevel = 1;
+
+    image.value.style.translate = '0px 0px';
+    translateX = 0;
+    translateY = 0;
+})
 
 
 const container = ref<HTMLDivElement>();
