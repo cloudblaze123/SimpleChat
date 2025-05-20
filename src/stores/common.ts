@@ -6,6 +6,7 @@ export const useCommonStore = defineStore('common', {
         darkMode: false as boolean,
         darkModeFollowSystem: true as boolean,
         openModal: false as boolean,
+        mediaType: '' as string,
         mediaUrl: ''
     }),
     actions: {

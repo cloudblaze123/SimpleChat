@@ -4,10 +4,10 @@
             {{ (content as TextContent).text }}
         </div>
         <div v-else-if="content.type === 'image'">
-            <img @click="showMediaViewer((content as ImageContent).url)" :src="(content as ImageContent).url" class="w-full max-w-xs rounded-lg" />
+            <img @click="showMediaViewer(content.type, (content as ImageContent).url)" :src="(content as ImageContent).url" class="w-full max-w-xs rounded-lg" />
         </div>
         <div v-else-if="content.type === 'video'">
-            <video :src="(content as VideoContent).url" controls class="w-full max-w-xs rounded-lg" />
+            <video @click.prevent="showMediaViewer(content.type, (content as VideoContent).url)" :src="(content as VideoContent).url" controls class="w-full max-w-xs rounded-lg" ></video>
         </div>
     </div>
 </template>
@@ -28,8 +28,9 @@ const content = props.content;
 
 import { useCommonStore } from '@/stores/common';
 const commonStore = useCommonStore();
-function showMediaViewer(mediaUrl: string){
-    commonStore.openModal = true;
+function showMediaViewer(type: string, mediaUrl: string){
+    commonStore.mediaType = type;
     commonStore.mediaUrl = mediaUrl;
+    commonStore.openModal = true;
 }
 </script>
