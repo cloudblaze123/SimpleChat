@@ -1,5 +1,5 @@
 <template>
-    <div ref="container" @wheel.prevent="handleWheel" @mousedown.prevent="handleDragStart" class="flex justify-center items-center overscroll-none cursor-grab">
+    <div ref="container" @wheel.prevent="handleWheel" @mousedown.prevent="handleDragStart" class="flex h-0 grow justify-center items-center overscroll-none cursor-grab">
         <img ref="image" :src="props.src" alt="" class="w-full h-full object-contain select-none">
     </div>
 </template>

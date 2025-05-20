@@ -1,9 +1,9 @@
 <template>
     <dialog :open="commonStore.openModal" @cancel="commonStore.openModal = false" @close="commonStore.openModal = false" class="modal">
-        <div class="modal-box max-w-full">
+        <div class="modal-box flex flex-col max-w-full h-dvh overflow-hidden">
             <h3 class="text-lg font-bold">MediaViewer</h3>
             
-            <div class="flex justify-center items-center max-h-full">
+            <div class="flex flex-col flex-1 justify-center items-center">
                 <ImageViewer v-if="commonStore.mediaType === 'image' && commonStore.mediaUrl" :src="mediaUrl" />
 
                 <video v-else-if="commonStore.mediaType === 'video' && commonStore.mediaUrl" :src="mediaUrl" controls autoplay></video>
