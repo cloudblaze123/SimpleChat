@@ -1,5 +1,6 @@
 <template>
-    <div ref="container" @wheel.prevent="handleWheel" @pointerdown.prevent="handleDragStart" class="flex h-0 w-full grow justify-center items-center overscroll-none cursor-grab">
+    <!-- 注释内容来源于网络：当想要通过触控拖动元素时，需要把该元素 touch-action 设为 none，不然 pointermove 事件触发几次后就会自动取消 -->
+    <div ref="container" @wheel.prevent="handleWheel" @pointerdown.prevent="handleDragStart" class="flex h-0 w-full grow justify-center items-center overscroll-none cursor-grab touch-none">
         <img ref="image" :src="props.src" alt="" class="w-full h-full object-contain select-none">
     </div>
 </template>
