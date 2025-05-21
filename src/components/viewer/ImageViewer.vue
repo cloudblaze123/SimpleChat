@@ -73,6 +73,7 @@ function handlePointerDown(event: PointerEvent) {
         isPinching = false;
         document.addEventListener('pointerup', handlePointerUp);
         document.addEventListener('pointermove', handlePointerMove);
+        document.addEventListener('pointerout', handlePointerOut);
     }
 
 
@@ -157,6 +158,7 @@ function handlePointerUp(event: PointerEvent) {
     if (pointers.length === 0) {
         document.removeEventListener('pointerup', handlePointerUp);
         document.removeEventListener('pointermove', handlePointerMove);
+        document.removeEventListener('pointerout', handlePointerOut);
 
         // if (isPinching) {
         //     console.log('end pinch');
@@ -165,6 +167,16 @@ function handlePointerUp(event: PointerEvent) {
         // }
     }
 }
+
+
+
+// 当指针被打断时，也视为指针被抬起
+function handlePointerOut(event: PointerEvent) {
+    console.log('pointerout')
+    handlePointerUp(event);
+}
+
+
 
 
 function handlePointerMove(event: PointerEvent) {
