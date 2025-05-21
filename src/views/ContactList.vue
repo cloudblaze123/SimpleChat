@@ -49,7 +49,6 @@
 <script setup lang="ts">
 import { computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import { useAuthStore } from '@/stores/auth'
 import { useContactStore } from '@/stores/contact';
 
 import UserCard from '@/components/UserCard.vue';
@@ -60,7 +59,6 @@ import { Search, Loader } from "@vicons/tabler";
 
 const route = useRoute()
 
-const authStore = useAuthStore()
 const contactStore = useContactStore()
 
 const contacts = computed(() => contactStore.contacts)
@@ -70,7 +68,6 @@ const groups = computed(() => contactStore.groups)
 const loading = computed(() => contactStore.loading)
 
 
-watch(authStore.currentUser, contactStore.fetchContacts)
 
 contactStore.fetchContacts()
 

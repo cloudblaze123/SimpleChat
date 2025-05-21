@@ -1,48 +1,66 @@
 import { io, Socket } from "socket.io-client";
 
 import { useAuthStore } from "@/stores/auth";
+
+import { initAuthHandlers } from "./auth";
 import { initMessageHandlers } from "./message";
 import { initContactHandlers } from "./contact";
 
 
-// 全局 socket 实例
-// 首次使用时，需要先调用 initSocket 方法初始化
-let socket: Socket;
-
-let isSocketInited = false;
-
-function initSocket(socketUrl: string) {
-    // 连接到聊天服务器
-    const authStore = useAuthStore();
-    if (!authStore.currentUser) {
-        console.log('尚未登录，停止初始化socket连接')
-        return;
-    }
-    socket = io(socketUrl, {
-        auth:{
-            userId: authStore.currentUser.id
-        }
-    });
-
-    // 监听连接成功事件
-    socket.on("connect", () => {
-        console.log("已连接到聊天服务器，socket id:", socket.id);
-    });
-
-
-    initMessageHandlers(socket);
+class SocketService {
+    socket: Socket | null = null;
     
-    initContactHandlers(socket)
+
+    connect(socketUrl: string = window.location.origin) {
+        const currentUser = useAuthStore().currentUser;
+        if (!currentUser) {
+            console.log('尚未登录，停止连接 socket 服务器')
+            return;
+        }
+
+        console.log('开始连接 socket 服务器')
+        // 连接聊天服务器
+        this.socket = io(socketUrl, {
+            auth:{
+                userId: currentUser.id
+            }
+        });
+    
+
+        this._initHandlers();
+    }
 
 
-    // 监听连接断开事件
-    socket.on("disconnect", () => {
-        console.log("与聊天服务器断开连接");
-    });
+    private _initHandlers() {
+        // 监听连接成功事件
+        this.socket!.on("connect", () => {
+            console.log("已连接到聊天服务器，socket id:", this.socket!.id);
+        });
+    
+        // 监听连接断开事件
+        this.socket!.on("disconnect", () => {
+            console.log("与聊天服务器断开连接");
+        });
+        
+    
+        initAuthHandlers(this.socket!)
+    
+        initMessageHandlers(this.socket!);
+        
+        initContactHandlers(this.socket!);
+    }
 
 
-    isSocketInited = true
-    console.log('socket inited')
+
+    disconnect() {
+        if (this.socket) {
+            this.socket.disconnect();
+        }
+    }
 }
 
-export { initSocket, isSocketInited, socket };
+
+const socketService = new SocketService();
+
+
+export { socketService };

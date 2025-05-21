@@ -13,8 +13,6 @@
 import { ref, watch } from 'vue';
 import { useAuthStore } from '@/stores/auth';
 
-import { switchUser as toSwitchUser } from '@/controllers/auth';
-
 
 const authStore = useAuthStore();
 const selectedUserId = ref(authStore.currentUser.id);
@@ -26,7 +24,7 @@ watch(() => authStore.currentUser, () => {
 
 
 function switchUser(){
-    toSwitchUser(selectedUserId.value);
+    authStore.switchUser(selectedUserId.value);
 };
 
 </script>

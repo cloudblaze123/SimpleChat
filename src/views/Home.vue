@@ -38,7 +38,7 @@
 
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch, onMounted, onUnmounted } from "vue";
 
 
 import CurrentUserIcon from "@/components/CurrentUserIcon.vue";
@@ -50,8 +50,25 @@ const pos = ref('contact-list');
 
 
 
-// 位于 Home 页面时，用户已经登录
-// 此时可以连接到聊天服务器
-import { initSocket } from '@/services/sockets/socket';
-initSocket(window.location.origin);
+// 位于 Home 组件时，用户已经登录
+// 可以连接聊天服务器
+import { socketService } from '@/services/sockets/socket';
+onMounted(() => {
+    socketService.connect()
+})
+
+// 退出 Home 组件，断开与聊天服务器的连接
+onUnmounted(() => {
+    socketService.disconnect()
+})
+
+
+
+
+import { useAuthStore } from "@/stores/auth";
+import { useContactStore } from "@/stores/contact";
+const authStore = useAuthStore()
+const contactStore = useContactStore()
+// 切换用户后，重新获取联系人列表
+watch(() => (authStore.currentUser), contactStore.fetchContacts)
 </script>

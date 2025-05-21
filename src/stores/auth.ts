@@ -38,6 +38,10 @@ export const useAuthStore = defineStore('auth', {
                 return id
             }
             const user = await getUser(id);
+            if (!user) {
+                console.error(`User with id ${id} not found`);
+                return ''
+            }
             this.login(user);
             return id
         },
@@ -61,7 +65,7 @@ export const useAuthStore = defineStore('auth', {
         switchUser(userId: string) {
             const user = this.loggedInUsers.find(user => user.id === userId);
             if (user) {
-                console.log(`Switched to user ${user.name}`);
+                console.log(`Switch to user ${user.name}`);
                 this.currentUser = user;
             }else{
                 console.error(`User with id ${userId} not found`);
