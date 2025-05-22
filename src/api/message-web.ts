@@ -1,4 +1,4 @@
-import { Message, Content, TextContent, ImageContent, VideoContent } from '@/models/Message';
+import { Message, Content, TextContent, ImageContent, VideoContent, VideoCallContent } from '@/models/Message';
 
 import { stringToDate, toUTCDateString } from '@/utils/date';
 
@@ -25,7 +25,7 @@ function packRawMessage(rawMessages: RawMessage[]): Message[] {
             messages.push(new Message(rm.senderId, rm.receiverId, new VideoContent(rm.content.url), rm.timestamp))
         }
         else if(type==='video-call'){
-            messages.push(new Message(rm.senderId, rm.receiverId, new Content(rm.content.type), rm.timestamp))
+            messages.push(new Message(rm.senderId, rm.receiverId, new VideoCallContent(), rm.timestamp))
         }
         else{
             console.log('unsupported message type:', type);

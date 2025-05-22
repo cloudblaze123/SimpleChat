@@ -116,10 +116,14 @@ async function prepareContent(newMessage: string, selectedFile): Promise<Content
 }
 
 
+
+
+import { VideoCallContent } from '@/models/Message';
+
 async function sendVideoCall() {
     console.log('send video call');
 
-    const content = new Content('video-call');
+    const content = new VideoCallContent();
     const message = new Message(authStore.currentUser.id, id.value, content, null);
 
     await messageStore.sendMessage(message);

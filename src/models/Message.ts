@@ -51,4 +51,11 @@ class VideoContent extends Content {
     }
 }
 
-export { Message, Content, TextContent, ImageContent, AudioContent, VideoContent };
+
+class VideoCallContent extends Content {
+    constructor() {
+        super('video-call');
+    }
+}
+
+export { Message, Content, TextContent, ImageContent, AudioContent, VideoContent, VideoCallContent };
