@@ -10,14 +10,37 @@ class Message {
         this.content = content
         this.timestamp = timestamp;
     }
+
+    static fromJson(json: any): Message {
+        const message = new Message(json.senderId, json.receiverId, Content.fromJson(json.content), new Date(json.timestamp));
+        return message;
+    }
 }
+
 
 class Content {
     type: string;
     constructor(type: string) {
         this.type = type;
     }
+    static fromJson(json: any): Content {
+        switch (json.type) {
+            case 'text':
+                return new TextContent(json.text);
+            case 'image':
+                return new ImageContent(json.url);
+            case 'audio':
+                return new AudioContent(json.url);
+            case 'video':
+                return new VideoContent(json.url);
+            case 'video-call':
+                return new VideoCallContent();
+            default:
+                throw new Error('Invalid content type');
+        }
+    }
 }
+
 
 class TextContent extends Content {
     text: string;
