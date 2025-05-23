@@ -5,7 +5,7 @@
             <h3 class="text-lg font-bold">VideoCall</h3>
             
             <div class="flex flex-col flex-1 justify-center items-center">
-                <button @click="rejectVideoCall" class="btn w-24 h-16 bg-red-500 text-white">Request Call</button>
+                <button @click="rejectVideoCall" class="btn w-24 h-16 bg-red-500 text-white">Reject Call</button>
             </div>
             
             <p class="py-4">Press ESC key or click the button below to close</p>

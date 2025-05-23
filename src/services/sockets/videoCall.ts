@@ -19,7 +19,7 @@ function initVideoCallHandlers(socket:Socket) {
         videoCallStore.hasCallRequest = false;
         videoCallStore.senderId = '';
         videoCallStore.receiverId = '';
-        console.log(`video call request to ${receiverId} was rejected by ${senderId}`);
+        console.log(`video call was rejected by ${receiverId}`);
     });
 }
 
