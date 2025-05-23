@@ -3,7 +3,7 @@
         <form @submit.prevent="toSendMessage" class="flex flex-col relative">
             <!-- 工具栏 -->
             <div class="flex items-center space-x-2">
-                <button type="button" @click="sendVideoCall" class="btn btn-outline">视频通话</button>
+                <button type="button" @click="requestVideoCall" class="btn btn-outline">视频通话</button>
 
                 <!-- 文件上传 -->
                 <input type="file" ref="fileInput" @change="handleFileChange" class="hidden" />
@@ -118,17 +118,10 @@ async function prepareContent(newMessage: string, selectedFile): Promise<Content
 
 
 
-import { VideoCallContent } from '@/models/Message';
-
-async function sendVideoCall() {
-    console.log('send video call');
-
-    const content = new VideoCallContent();
-    const message = new Message(authStore.currentUser.id, id.value, content, null);
-
-    await messageStore.sendMessage(message);
+import { videoCallService } from '@/services/videoCall';
+async function requestVideoCall() {
+    videoCallService.requestVideoCall(id.value);
 }
-
 
 </script>
   

@@ -5,6 +5,7 @@ import { useAuthStore } from "@/stores/auth";
 import { initAuthHandlers } from "./auth";
 import { initMessageHandlers } from "./message";
 import { initContactHandlers } from "./contact";
+import { initVideoCallHandlers } from "./videoCall";
 
 
 class SocketService {
@@ -48,8 +49,20 @@ class SocketService {
         initMessageHandlers(this.socket!);
         
         initContactHandlers(this.socket!);
+
+        initVideoCallHandlers(this.socket!);
     }
 
+
+    emit(event: string, data: any = {}) {
+        if (this.socket) {
+            if(data){
+                this.socket.emit(event, data);
+            }else{
+                this.socket.emit(event);
+            }
+        }
+    }
 
 
     disconnect() {
