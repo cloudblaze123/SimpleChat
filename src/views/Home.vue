@@ -38,7 +38,7 @@
 
 
 <script setup lang="ts">
-import { ref, watch, onMounted, onUnmounted } from "vue";
+import { ref, watch } from "vue";
 
 
 import CurrentUserIcon from "@/components/CurrentUserIcon.vue";
@@ -47,22 +47,6 @@ import ContactList from "@/views/ContactList.vue";
 import SessionList from "@/views/SessionList.vue";
 
 const pos = ref('contact-list');
-
-
-
-// 位于 Home 组件时，用户已经登录
-// 可以连接聊天服务器
-import { socketService } from '@/services/sockets/socket';
-onMounted(() => {
-    socketService.connect()
-})
-
-// 退出 Home 组件，断开与聊天服务器的连接
-onUnmounted(() => {
-    socketService.disconnect()
-})
-
-
 
 
 import { useAuthStore } from "@/stores/auth";

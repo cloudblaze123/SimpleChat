@@ -52,6 +52,20 @@ watch(() => commonStore.darkModeFollowSystem, (newValue) => {
 
 
 
+// 根据用户登录状况更新与聊天服务器的连接
+import { socketService } from '@/services/sockets/socket';
+watch(() => (authStore.currentUser), () => {
+    if(socketService.isConnected()){
+        socketService.disconnect();
+    }
+    if (authStore.currentUser) {
+        socketService.connect();
+    }
+}, { immediate: true });
+
+
+
+
 import { useMessageStore } from '@/stores/message';
 const messageStore = useMessageStore();
 

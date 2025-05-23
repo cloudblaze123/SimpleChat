@@ -2,7 +2,6 @@ import { io, Socket } from "socket.io-client";
 
 import { useAuthStore } from "@/stores/auth";
 
-import { initAuthHandlers } from "./auth";
 import { initMessageHandlers } from "./message";
 import { initContactHandlers } from "./contact";
 import { initVideoCallHandlers } from "./videoCall";
@@ -44,13 +43,23 @@ class SocketService {
         });
         
     
-        initAuthHandlers(this.socket!)
-    
         initMessageHandlers(this.socket!);
         
         initContactHandlers(this.socket!);
 
         initVideoCallHandlers(this.socket!);
+    }
+
+    
+    disconnect() {
+        if (this.socket) {
+            this.socket.disconnect();
+        }
+    }
+
+
+    isConnected() {
+        return this.socket && this.socket.connected;
     }
 
 
@@ -61,13 +70,6 @@ class SocketService {
             }else{
                 this.socket.emit(event);
             }
-        }
-    }
-
-
-    disconnect() {
-        if (this.socket) {
-            this.socket.disconnect();
         }
     }
 }
