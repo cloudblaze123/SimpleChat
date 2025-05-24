@@ -11,21 +11,33 @@ class VideoRTC {
     onRemoteStreamDisconnected: () => void = () => {};
 
 
+    constructor() {
+        this.initSignalHandler();
+    }
+
+
     // 启动RTC
-    async connect(localStream: MediaStream) {
+    async connect(localStream: MediaStream, receiverId: string) {
         this.localStream = localStream;
 
         this.initPeerConnection();
-        this.initSignalHandler();
         
+
+        signalTransceiver.receiverId = receiverId;
+        console.log('signalTransceiver.receiverId', signalTransceiver.receiverId)
         
         // 发出呼叫
         const offer = await this.peerConnection.createOffer();
         await this.peerConnection.setLocalDescription(offer);
-        
-        
         signalTransceiver.sendOffer(offer);
-        console.log('发出呼叫');
+
+    }
+
+
+    async listen(localStream: MediaStream) {
+        this.localStream = localStream;
+
+        this.initPeerConnection();
     }
 
 

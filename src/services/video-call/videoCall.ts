@@ -20,7 +20,7 @@ class VideoCallService {
 
         // 当发出的视频呼叫被接受时
         videoCallEventTransceiver.onVideoCallAccepted = (senderId: string) => {
-            this.openRTC();
+            this.openRTC(senderId, 'connect');
         }
 
         // 当发出的视频呼叫被拒绝时
@@ -46,7 +46,7 @@ class VideoCallService {
     // 接受视频呼叫
     acceptVideoCall(receiverId: string) {
         videoCallEventTransceiver.acceptVideoCall(receiverId);
-        this.openRTC();
+        this.openRTC(receiverId, 'listen');
     }
 
     // 拒绝视频呼叫
@@ -56,13 +56,17 @@ class VideoCallService {
     }
 
 
-    async openRTC() {
+    async openRTC(receiverId: string, type: 'connect' | 'listen') {
         const videoCallStore = useVideoCallStore();
 
         const localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
         videoCallStore.localStream = localStream;
 
-        videoRTC.connect(localStream);
+        if (type === 'connect') {
+            videoRTC.connect(localStream, receiverId);
+        } else {
+            videoRTC.listen(localStream);
+        }
         videoCallStore.openRTC = true;
     }
 

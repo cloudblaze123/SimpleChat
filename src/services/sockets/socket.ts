@@ -77,17 +77,17 @@ class SocketService {
 
 
 
-    emit(event: string, data: any = {}) {
+    emit(event: string, ...data: any[]) {
         if (this.socket) {
-            if (data) {
-                this.socket.emit(event, data);
+            if (data.length > 0) {
+                this.socket.emit(event, ...data);
             } else {
                 this.socket.emit(event);
             }
         }
     }
 
-    on(event: string, callback: (data: any) => void) {
+    on(event: string, callback: (...data: any[]) => void) {
         if (this.socket) {
             this.socket.on(event, callback);
         }
