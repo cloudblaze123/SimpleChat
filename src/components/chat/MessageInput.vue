@@ -118,7 +118,7 @@ async function prepareContent(newMessage: string, selectedFile): Promise<Content
 
 
 
-import { videoCallService } from '@/services/video-call/videoCall';
+import { videoCallService } from '@/services/video-call/video-call-service';
 async function requestVideoCall() {
     videoCallService.requestVideoCall(id.value);
 }

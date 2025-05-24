@@ -1,5 +1,5 @@
 import { useAuthStore } from "@/stores/auth";
-import { useVideoCallStore } from "@/stores/videoCall";
+import { useVideoCallStore } from "@/stores/video-call";
 
 import { videoRTC } from "./video-rtc";
 

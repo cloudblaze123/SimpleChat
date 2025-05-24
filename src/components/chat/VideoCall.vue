@@ -37,7 +37,7 @@
 
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
-import { useVideoCallStore } from '@/stores/videoCall';
+import { useVideoCallStore } from '@/stores/video-call';
 const videoCallStore = useVideoCallStore();
 
 watch(() => videoCallStore.hasCallRequest, (newValue) => {
@@ -60,7 +60,7 @@ const currentUserId = computed(() => useAuthStore().currentUser?.id);
 
 
 
-import { videoCallService } from '@/services/video-call/videoCall';
+import { videoCallService } from '@/services/video-call/video-call-service';
 function rejectVideoCall() {
     videoCallService.rejectVideoCall(senderId.value);
 }
