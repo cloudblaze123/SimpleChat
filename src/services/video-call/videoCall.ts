@@ -10,20 +10,21 @@ class VideoCallService {
 
     constructor() {
         // 当收到视频呼叫请求时
-        videoCallEventTransceiver.onVideoCallRequested = (senderId: string, receiverId: string) => {
+        videoCallEventTransceiver.onVideoCallRequested = (senderId: string) => {
             const videoCallStore = useVideoCallStore();
+            const currentUser = useAuthStore().currentUser;
             videoCallStore.senderId = senderId;
-            videoCallStore.receiverId = receiverId;
+            videoCallStore.receiverId = currentUser ? currentUser.id : '';
             videoCallStore.hasCallRequest = true;
         }
 
         // 当发出的视频呼叫被接受时
-        videoCallEventTransceiver.onVideoCallAccepted = (senderId: string, receiverId: string) => {
+        videoCallEventTransceiver.onVideoCallAccepted = (senderId: string) => {
             this.openRTC();
         }
 
         // 当发出的视频呼叫被拒绝时
-        videoCallEventTransceiver.onVideoCallRejected = (senderId: string, receiverId: string) => {
+        videoCallEventTransceiver.onVideoCallRejected = (senderId: string) => {
             const videoCallStore = useVideoCallStore();
             videoCallStore.senderId = '';
             videoCallStore.receiverId = '';
@@ -33,31 +34,24 @@ class VideoCallService {
 
     // 发起视频呼叫
     requestVideoCall(receiverId: string) {
-        const currentUserId = useAuthStore().currentUser?.id;
-        if (!currentUserId) {
-            throw new Error('User not logged in');
-        }
-        videoCallEventTransceiver.requestVideoCall(currentUserId, receiverId);
-        useVideoCallStore().hasCallRequest = true;
+        videoCallEventTransceiver.requestVideoCall(receiverId);
+
+        const videoCallStore = useVideoCallStore();
+        const currentUser = useAuthStore().currentUser;
+        videoCallStore.senderId = currentUser ? currentUser.id : '';
+        videoCallStore.receiverId = receiverId;
+        videoCallStore.hasCallRequest = true;
     }
 
     // 接受视频呼叫
-    acceptVideoCall(senderId: string) {
-        const currentUserId = useAuthStore().currentUser?.id;
-        if (!currentUserId) {
-            throw new Error('User not logged in');
-        }
-        videoCallEventTransceiver.acceptVideoCall(senderId, currentUserId);
+    acceptVideoCall(receiverId: string) {
+        videoCallEventTransceiver.acceptVideoCall(receiverId);
         this.openRTC();
     }
 
     // 拒绝视频呼叫
-    rejectVideoCall(senderId: string) {
-        const currentUserId = useAuthStore().currentUser?.id;
-        if (!currentUserId) {
-            throw new Error('User not logged in');
-        }
-        videoCallEventTransceiver.rejectVideoCall(senderId, currentUserId);
+    rejectVideoCall(receiverId: string) {
+        videoCallEventTransceiver.rejectVideoCall(receiverId);
         useVideoCallStore().hasCallRequest = false;
     }
 

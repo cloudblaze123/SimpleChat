@@ -2,9 +2,9 @@ import { socketService } from '@/services/sockets/socket';
 
 
 class VideoCallEventTransceiver {
-    onVideoCallRequested: (senderId: string, receiverId: string) => void = () => {};
-    onVideoCallAccepted: (senderId: string, receiverId: string) => void = () => {};
-    onVideoCallRejected: (senderId: string, receiverId: string) => void = () => {};
+    onVideoCallRequested: (senderId: string) => void = () => {};
+    onVideoCallAccepted: (senderId: string) => void = () => {};
+    onVideoCallRejected: (senderId: string) => void = () => {};
 
 
     constructor() {
@@ -15,54 +15,39 @@ class VideoCallEventTransceiver {
 
     initSocketHandlers() {
         // 收到通话请求
-        socketService.on('videoCallRequested', (data) => {
-            const { senderId, receiverId } = data;
-            this.onVideoCallRequested(senderId, receiverId);
-            console.log(`Received video call request from ${senderId} to ${receiverId}`);
+        socketService.on('videoCallRequested', (senderId: string) => {
+            this.onVideoCallRequested(senderId);
+            console.log(`Received video call request from ${senderId}`);
         });
     
         // 收到通话接受
-        socketService.on('videoCallAccepted', (data) => {
-            const { senderId, receiverId } = data;
-            this.onVideoCallAccepted(senderId, receiverId);
-            console.log(`video call was accepted by ${receiverId}`);
+        socketService.on('videoCallAccepted', (senderId: string) => {
+            this.onVideoCallAccepted(senderId);
+            console.log(`video call was accepted by ${senderId}`);
         });
     
         // 收到通话拒绝
-        socketService.on('videoCallRejected', (data) => {
-            const { senderId, receiverId } = data;
-            this.onVideoCallRejected(senderId, receiverId);
-            console.log(`video call was rejected by ${receiverId}`);
+        socketService.on('videoCallRejected', (senderId: string) => {
+            this.onVideoCallRejected(senderId);
+            console.log(`video call was rejected by ${senderId}`);
         });
         
     }
 
 
-    requestVideoCall(senderId: string, receiverId: string) {
-        const data = { 
-            senderId: senderId,
-            receiverId: receiverId
-        }
-        socketService.emit('videoCallRequested', data)
+    requestVideoCall(receiverId: string) {
+        socketService.emit('videoCallRequested', receiverId)
         console.log('requested video call to', receiverId);
     }
 
-    rejectVideoCall(senderId: string, receiverId: string) {
-        const data = {
-            senderId: senderId,
-            receiverId: receiverId
-        }
-        socketService.emit('videoCallRejected', data)
-        console.log('rejected video call from', senderId);
+    rejectVideoCall(receiverId: string) {
+        socketService.emit('videoCallRejected', receiverId)
+        console.log('rejected video call from', receiverId);
     }
 
-    acceptVideoCall(senderId: string, receiverId: string) {
-        const data = {
-            senderId: senderId,
-            receiverId: receiverId
-        }
-        socketService.emit('videoCallAccepted', data)
-        console.log('accepted video call from', senderId);
+    acceptVideoCall(receiverId: string) {
+        socketService.emit('videoCallAccepted', receiverId)
+        console.log('accepted video call from', receiverId);
     }
 }
 
