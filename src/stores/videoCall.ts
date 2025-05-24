@@ -10,6 +10,8 @@ export const useVideoCallStore = defineStore('video-call', {
         hasCallRequest: false,
         senderId: '',
         receiverId: '',
+
+        openRTC: false,
     }),
     actions: {
         

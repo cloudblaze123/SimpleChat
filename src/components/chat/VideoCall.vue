@@ -67,23 +67,27 @@ function rejectVideoCall() {
 }
 function acceptVideoCall() {
     videoCallService.acceptVideoCall(senderId.value);
+    videoCallStore.openRTC = true;
 }
 
 
 
 
 
-import { videoRTC } from '@/services/video-call/videoRTC';
+import { videoRTC } from '@/services/video-call/video-rtc';
 
 const localVideo = ref(null);
 const remoteVideo = ref(null);
 
-watch(() => videoCallStore.hasCallRequest, async (newValue) => {
+
+watch(() => videoCallStore.openRTC, async (newValue) => {
     if(newValue){
-        localVideo.value.srcObject = await videoRTC.start()
+        const localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        localVideo.value.srcObject = localStream
+        videoRTC.connect(localStream)
     }else{
         localVideo.value.srcObject = null;
-        videoRTC.stop();
+        videoRTC.disconnect();
     }
 })
 
