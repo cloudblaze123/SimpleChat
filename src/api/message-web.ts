@@ -1,4 +1,4 @@
-import { Message, Content, TextContent, ImageContent, VideoContent } from '@/models/Message';
+import { Message, Content, TextContent, ImageContent, VideoContent, VideoCallContent } from '@/models/Message';
 
 import { stringToDate, toUTCDateString } from '@/utils/date';
 
@@ -12,22 +12,7 @@ type RawMessage = {
 
 // 将返回的原始消息数组转换为Message数组
 function packRawMessage(rawMessages: RawMessage[]): Message[] {
-    const messages: Message[] = []
-    for(let rm of rawMessages){
-        const type = rm.content.type
-        if(type==='text'){
-            messages.push(new Message(rm.senderId, rm.receiverId, new TextContent(rm.content.text), rm.timestamp))
-        }
-        else if(type==='image'){
-            messages.push(new Message(rm.senderId, rm.receiverId, new ImageContent(rm.content.url), rm.timestamp))
-        }
-        else if(type==='video'){
-            messages.push(new Message(rm.senderId, rm.receiverId, new VideoContent(rm.content.url), rm.timestamp))
-        }
-        else{
-            console.log('unsupported message type:', type);
-        }
-    }
+    const messages: Message[] = rawMessages.map(rm => Message.fromJson(rm));
     return messages
 }
 
@@ -90,8 +75,22 @@ async function sendMessage(message: Message): Promise<void> {
         })
         console.log('media message sent at (UTC time): ', toUTCDateString(new Date()));
     }
+    else if(type==='video-call'){
+        await fetch('/api/message', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                senderId: message.senderId,
+                receiverId: message.receiverId,
+                content: message.content,
+            })
+        })
+        console.log('video-call message sent at (UTC time): ', toUTCDateString(new Date()));
+    }
     else{
-        console.log('unsupported message type');
+        console.log('sendMessage: unsupported message type', type);
     }
     // 因为目前服务器还无法直接通知客户端
     // 所以只能在发送消息后延时1秒钟，模拟服务器通知客户端有新消息

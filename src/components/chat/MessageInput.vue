@@ -2,7 +2,10 @@
     <div class="bg-white dark:bg-slate-900 dark:text-gray-200 shadow-md">
         <form @submit.prevent="toSendMessage" class="flex flex-col relative">
             <!-- 工具栏 -->
-            <div class="flex items-center">
+            <div class="flex items-center space-x-2">
+                <button type="button" @click="requestVideoCall" class="btn btn-outline">视频通话</button>
+
+                <!-- 文件上传 -->
                 <input type="file" ref="fileInput" @change="handleFileChange" class="hidden" />
                 <button type="button" @click="triggerFileInput" class="btn btn-outline">+上传文件</button>
                 <div class="flex items-center">
@@ -112,6 +115,13 @@ async function prepareContent(newMessage: string, selectedFile): Promise<Content
     return content;
 }
 
+
+
+
+import { videoCallService } from '@/services/video-call/video-call-service';
+async function requestVideoCall() {
+    videoCallService.requestVideoCall(id.value);
+}
 
 </script>
   

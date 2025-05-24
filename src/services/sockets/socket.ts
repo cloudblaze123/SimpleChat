@@ -2,14 +2,15 @@ import { io, Socket } from "socket.io-client";
 
 import { useAuthStore } from "@/stores/auth";
 
-import { initAuthHandlers } from "./auth";
 import { initMessageHandlers } from "./message";
 import { initContactHandlers } from "./contact";
 
 
 class SocketService {
     socket: Socket | null = null;
-    
+    private onConnectedCallbacks: (() => void)[] = [];
+    private onDisconnectedCallbacks: (() => void)[] = [];
+
 
     connect(socketUrl: string = window.location.origin) {
         const currentUser = useAuthStore().currentUser;
@@ -21,40 +22,74 @@ class SocketService {
         console.log('开始连接 socket 服务器')
         // 连接聊天服务器
         this.socket = io(socketUrl, {
-            auth:{
+            auth: {
                 userId: currentUser.id
             }
         });
-    
+
 
         this._initHandlers();
     }
-
-
+    
+    
     private _initHandlers() {
         // 监听连接成功事件
         this.socket!.on("connect", () => {
             console.log("已连接到聊天服务器，socket id:", this.socket!.id);
+            this.onConnectedCallbacks.forEach(callback => callback());
         });
-    
+
         // 监听连接断开事件
         this.socket!.on("disconnect", () => {
             console.log("与聊天服务器断开连接");
+            this.onDisconnectedCallbacks.forEach(callback => callback());
         });
-        
-    
-        initAuthHandlers(this.socket!)
-    
+
+
         initMessageHandlers(this.socket!);
-        
+
         initContactHandlers(this.socket!);
     }
-
 
 
     disconnect() {
         if (this.socket) {
             this.socket.disconnect();
+        }
+    }
+
+
+
+
+    isConnected() {
+        return this.socket && this.socket.connected;
+    }
+
+
+    onConnected(callback: () => void) {
+        this.onConnectedCallbacks.push(callback);
+    }
+
+    onDisconnected(callback: () => void) {
+        this.onDisconnectedCallbacks.push(callback);
+    }
+
+
+
+
+    emit(event: string, ...data: any[]) {
+        if (this.socket) {
+            if (data.length > 0) {
+                this.socket.emit(event, ...data);
+            } else {
+                this.socket.emit(event);
+            }
+        }
+    }
+
+    on(event: string, callback: (...data: any[]) => void) {
+        if (this.socket) {
+            this.socket.on(event, callback);
         }
     }
 }

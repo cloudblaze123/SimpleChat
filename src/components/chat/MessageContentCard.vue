@@ -9,6 +9,9 @@
         <div v-else-if="content.type === 'video'">
             <video @click.prevent="showMediaViewer(content.type, (content as VideoContent).url)" :src="(content as VideoContent).url" controls class="w-full max-w-xs rounded-lg" ></video>
         </div>
+        <div v-else-if="content.type === 'video-call'">
+            视频通话
+        </div>
     </div>
 </template>
 
