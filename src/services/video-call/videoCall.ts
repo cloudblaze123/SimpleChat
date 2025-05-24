@@ -31,6 +31,20 @@ class VideoCallService {
         socketService.emit('videoCallRejected', data)
         console.log('rejected video call from', senderId);
     }
+
+    acceptVideoCall(senderId: string) {
+        const currentUserId = useAuthStore().currentUser?.id;
+        if (!currentUserId) {
+            console.error('User not logged in');
+            return;
+        }
+        const data = {
+            senderId: senderId,
+            receiverId: currentUserId
+        }
+        socketService.emit('videoCallAccepted', data)
+        console.log('accepted video call from', senderId);
+    }
 }
 
 

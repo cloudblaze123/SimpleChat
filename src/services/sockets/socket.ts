@@ -5,6 +5,7 @@ import { useAuthStore } from "@/stores/auth";
 import { initMessageHandlers } from "./message";
 import { initContactHandlers } from "./contact";
 import { initVideoCallHandlers } from "./videoCall";
+import { initVideoRTCHandlers } from "../video-call/videoRTC";
 
 
 class SocketService {
@@ -48,6 +49,8 @@ class SocketService {
         initContactHandlers(this.socket!);
 
         initVideoCallHandlers(this.socket!);
+
+        initVideoRTCHandlers(this.socket!);
     }
 
     
