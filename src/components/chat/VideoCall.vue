@@ -63,11 +63,9 @@ const currentUserId = computed(() => useAuthStore().currentUser?.id);
 import { videoCallService } from '@/services/video-call/videoCall';
 function rejectVideoCall() {
     videoCallService.rejectVideoCall(senderId.value);
-    videoCallStore.hasCallRequest = false;
 }
 function acceptVideoCall() {
     videoCallService.acceptVideoCall(senderId.value);
-    videoCallStore.openRTC = true;
 }
 
 
@@ -82,12 +80,10 @@ const remoteVideo = ref(null);
 
 watch(() => videoCallStore.openRTC, async (newValue) => {
     if(newValue){
-        const localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-        localVideo.value.srcObject = localStream
-        videoRTC.connect(localStream)
+        const localStream = videoCallStore.localStream;
+        localVideo.value.srcObject = localStream;
     }else{
         localVideo.value.srcObject = null;
-        videoRTC.disconnect();
     }
 })
 

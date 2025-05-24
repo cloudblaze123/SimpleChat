@@ -4,13 +4,12 @@ import { useAuthStore } from "@/stores/auth";
 
 import { initMessageHandlers } from "./message";
 import { initContactHandlers } from "./contact";
-import { initVideoCallHandlers } from "./videoCall";
 
 
 class SocketService {
     socket: Socket | null = null;
-    onConnectedCallbacks: (() => void)[] = [];
-    onDisconnectedCallbacks: (() => void)[] = [];
+    private onConnectedCallbacks: (() => void)[] = [];
+    private onDisconnectedCallbacks: (() => void)[] = [];
 
 
     connect(socketUrl: string = window.location.origin) {
@@ -50,8 +49,6 @@ class SocketService {
         initMessageHandlers(this.socket!);
 
         initContactHandlers(this.socket!);
-
-        initVideoCallHandlers(this.socket!);
     }
 
 

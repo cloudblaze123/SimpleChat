@@ -118,13 +118,9 @@ async function prepareContent(newMessage: string, selectedFile): Promise<Content
 
 
 
-import { useVideoCallStore } from '@/stores/videoCall';
 import { videoCallService } from '@/services/video-call/videoCall';
 async function requestVideoCall() {
     videoCallService.requestVideoCall(id.value);
-
-    const videoCallStore = useVideoCallStore();
-    videoCallStore.hasCallRequest = true;
 }
 
 </script>

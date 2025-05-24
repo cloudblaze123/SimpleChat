@@ -12,6 +12,9 @@ export const useVideoCallStore = defineStore('video-call', {
         receiverId: '',
 
         openRTC: false,
+
+        localStream: null as MediaStream | null,
+        remoteStream: null as MediaStream | null,
     }),
     actions: {
         
