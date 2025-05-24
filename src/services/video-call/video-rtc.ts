@@ -108,6 +108,7 @@ class VideoRTC {
         console.log('停止RTC');
         if(this.peerConnection){
             this.peerConnection.close();
+            signalTransceiver.receiverId = "";
         }
     }
 }

@@ -16,6 +16,7 @@ class VideoCallService {
             videoCallStore.senderId = senderId;
             videoCallStore.receiverId = currentUser ? currentUser.id : '';
             videoCallStore.hasCallRequest = true;
+            videoCallStore.openModal = true;
         }
 
         // 当发出的视频呼叫被接受时
@@ -29,6 +30,13 @@ class VideoCallService {
             videoCallStore.senderId = '';
             videoCallStore.receiverId = '';
             videoCallStore.hasCallRequest = false;
+            videoCallStore.openModal = false;
+        }
+
+        // 当视频被对方结束时
+        videoCallEventTransceiver.onVideoCallEnded = (senderId: string) => {
+            this.closeRTC();
+            useVideoCallStore().openModal = false;
         }
     }
 
@@ -41,6 +49,7 @@ class VideoCallService {
         videoCallStore.senderId = currentUser ? currentUser.id : '';
         videoCallStore.receiverId = receiverId;
         videoCallStore.hasCallRequest = true;
+        videoCallStore.openModal = true;
     }
 
     // 接受视频呼叫
@@ -53,6 +62,15 @@ class VideoCallService {
     rejectVideoCall(receiverId: string) {
         videoCallEventTransceiver.rejectVideoCall(receiverId);
         useVideoCallStore().hasCallRequest = false;
+        useVideoCallStore().openModal = false;
+    }
+
+    // 挂断视频
+    endVideoCall(receiverId: string) {
+        this.closeRTC();
+        videoCallEventTransceiver.endVideoCall(receiverId);
+        useVideoCallStore().hasCallRequest = false;
+        useVideoCallStore().openModal = false;
     }
 
 
@@ -74,11 +92,15 @@ class VideoCallService {
     closeRTC() {
         const videoCallStore = useVideoCallStore();
 
+        videoCallStore.localStream?.getTracks().forEach(track => track.stop());
+
+        videoCallStore.hasCallRequest = false;
+        videoCallStore.openRTC = false;
+        videoCallStore.senderId = '';
+        videoCallStore.receiverId = '';
         videoCallStore.localStream = null;
         videoCallStore.remoteStream = null;
-        videoCallStore.openRTC = false;
 
-        videoCallStore.openRTC = false;
         videoRTC.disconnect();
     }
 }

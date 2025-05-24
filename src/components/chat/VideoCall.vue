@@ -18,10 +18,12 @@
                     </div>
                 </div>
 
-                <div v-if="receiverId === currentUserId" class="flex">
+                <button v-if="videoCallStore.openRTC" @click="endVideoCall" class="btn bg-red-500 text-white">End Call</button>
+                <div v-else-if="receiverId === currentUserId" class="flex">
                     <button @click="acceptVideoCall" class="btn w-24 h-16 bg-green-500 text-white">Accept Call</button>
                     <button @click="rejectVideoCall" class="btn w-24 h-16 bg-red-500 text-white">Reject Call</button>
                 </div>
+                <div v-else class="text-lg">waiting for other user to accept call...</div>
             </div>
             
 
@@ -39,14 +41,6 @@
 import { ref, computed, watch } from 'vue';
 import { useVideoCallStore } from '@/stores/video-call';
 const videoCallStore = useVideoCallStore();
-
-watch(() => videoCallStore.hasCallRequest, (newValue) => {
-    if(videoCallStore.hasCallRequest){
-        videoCallStore.openModal = true;
-    }else{
-        videoCallStore.openModal = false;
-    }
-})
 
 
 const senderId = computed(() => videoCallStore.senderId);
@@ -68,6 +62,10 @@ function acceptVideoCall() {
     videoCallService.acceptVideoCall(senderId.value);
 }
 
+function endVideoCall() {
+    videoCallService.endVideoCall(senderId.value);
+}
+
 
 
 
@@ -84,6 +82,7 @@ watch(() => videoCallStore.openRTC, async (newValue) => {
         localVideo.value.srcObject = localStream;
     }else{
         localVideo.value.srcObject = null;
+        remoteVideo.value.srcObject = null;
     }
 })
 
