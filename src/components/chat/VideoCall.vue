@@ -6,15 +6,15 @@
             
 
             <!-- Content -->
-            <div class="flex flex-col flex-1 justify-center items-center">
-                <div class="flex flex-col lg:flex-row">
-                    <div class="lg:w-1/2 m-4">
+            <div class="flex flex-col flex-1 h-0 justify-center items-center">
+                <div class="flex flex-col flex-1 h-0 w-full lg:flex-row lg:h-full">
+                    <div class="flex-1 h-0 m-4 lg:w-1/2 lg:h-full">
                         remote
-                        <video ref="remoteVideo" autoplay></video>
+                        <video ref="remoteVideo" autoplay class="w-full h-full"></video>
                     </div>
-                    <div class="lg:w-1/2 m-4">
+                    <div class="flex-1 h-0 m-4 lg:w-1/2 lg:h-full">
                         local
-                        <video ref="localVideo" autoplay muted></video>
+                        <video ref="localVideo" autoplay muted class="w-full h-full"></video>
                     </div>
                 </div>
 
