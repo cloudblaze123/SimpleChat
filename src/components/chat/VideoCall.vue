@@ -7,14 +7,14 @@
 
             <!-- Content -->
             <div class="flex flex-col flex-1 justify-center items-center">
-                <div class="flex">
-                    <div class="w-1/2">
-                        local
-                        <video ref="localVideo" autoplay muted></video>
-                    </div>
-                    <div class="w-1/2">
-                        remote
+                <div class="flex relative">
+                    <div class="w-full h-full">
+                        <!-- remote -->
                         <video ref="remoteVideo" autoplay></video>
+                    </div>
+                    <div class="absolute top-0 right-0 bottom-2/3 left-0">
+                        <!-- local -->
+                        <video ref="localVideo" autoplay muted class="h-48 w-48"></video>
                     </div>
                 </div>
 
