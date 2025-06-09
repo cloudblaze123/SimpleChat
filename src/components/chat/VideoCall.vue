@@ -30,9 +30,6 @@
             <p class="py-4">Press ESC key or click the button below to close</p>
             <button @click="videoCallStore.openModal = false" class="btn">Close</button>
         </div>
-        <form method="dialog" class="modal-backdrop">
-            <button>close</button>
-        </form>
     </dialog>
 </template>
 
