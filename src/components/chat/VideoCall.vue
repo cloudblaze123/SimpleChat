@@ -1,5 +1,5 @@
 <template>
-    <button @click="videoCallStore.openModal = true" class="btn">VideoCall</button>
+    <!-- <button @click="videoCallStore.openModal = true" class="btn">VideoCall</button> -->
     <dialog :open="videoCallStore.openModal" @cancel="videoCallStore.openModal = false" @close="videoCallStore.openModal = false" class="modal">
         <div class="modal-box flex flex-col max-w-full h-dvh overflow-hidden">
             <h3 class="text-lg font-bold">VideoCall</h3>

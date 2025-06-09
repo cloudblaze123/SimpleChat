@@ -25,7 +25,7 @@
             <!-- 使用v-show而不是v-if，目的是避免因为loading状态改变而重新渲染组件
             重新渲染一方面成本高（多个v-for嵌套），另一方面会导致全部折叠项被收起，不希望这种情况发生 -->
             <ul v-show="!loading" class="overflow-y-auto">
-                <li v-for="group in groups" :key="group" class="collapse collapse-arrow bg-slate-900 transition-none">
+                <li v-for="group in groups" :key="group" class="collapse collapse-arrow bg-white dark:bg-slate-900 transition-none">
                     <input type="checkbox" />
                     <div class="collapse-title text-xl font-medium">{{ group ? group : '未分组' }}</div>
                     <div class="collapse-content">

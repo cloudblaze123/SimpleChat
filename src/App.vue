@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col h-svh"
+    <div class="flex flex-col h-svh text-gray-800 dark:text-gray-200"
         :class="{ 'dark': commonStore.darkMode }">
         <router-view class="h-0 flex-1"></router-view>
     </div>
