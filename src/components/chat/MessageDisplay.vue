@@ -2,8 +2,6 @@
     <div class="p-4 overflow-y-auto dark:bg-slate-900 dark:text-gray-200 ">
         <MediaViewer />
 
-        <VideoCall />
-
         <div v-for="(message, index) in messages" :key="index" class="flex items-start max-w-full mb-2" :class="{'flex-row-reverse': message.sender.id===props.ownId}">
             
             <!-- 消息发送者 -->
@@ -31,8 +29,6 @@ import { Content, TextContent, ImageContent, VideoContent, VideoCallContent } fr
 
 import MessageContentCard from '@/components/chat/MessageContentCard.vue';
 import MediaViewer from '@/components/viewer/MediaViewer.vue';
-
-import VideoCall from '@/components/chat/VideoCall.vue';
 
 
 const props = defineProps({

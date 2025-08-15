@@ -1,20 +1,20 @@
 <template>
-    <button @click="videoCallStore.openModal = true" class="btn">VideoCall</button>
+    <!-- <button @click="videoCallStore.openModal = true" class="btn">VideoCall</button> -->
     <dialog :open="videoCallStore.openModal" @cancel="videoCallStore.openModal = false" @close="videoCallStore.openModal = false" class="modal">
         <div class="modal-box flex flex-col max-w-full h-dvh overflow-hidden">
             <h3 class="text-lg font-bold">VideoCall</h3>
             
 
             <!-- Content -->
-            <div class="flex flex-col flex-1 justify-center items-center">
-                <div class="flex">
-                    <div class="w-1/2">
-                        local
-                        <video ref="localVideo" autoplay muted></video>
-                    </div>
-                    <div class="w-1/2">
+            <div class="flex flex-col flex-1 h-0 justify-center items-center">
+                <div class="flex flex-col flex-1 h-0 w-full lg:flex-row lg:h-full">
+                    <div class="flex-1 h-0 m-4 lg:w-1/2 lg:h-full">
                         remote
-                        <video ref="remoteVideo" autoplay></video>
+                        <video ref="remoteVideo" autoplay class="w-full h-full"></video>
+                    </div>
+                    <div class="flex-1 h-0 m-4 lg:w-1/2 lg:h-full">
+                        local
+                        <video ref="localVideo" autoplay muted class="w-full h-full"></video>
                     </div>
                 </div>
 
@@ -30,9 +30,6 @@
             <p class="py-4">Press ESC key or click the button below to close</p>
             <button @click="videoCallStore.openModal = false" class="btn">Close</button>
         </div>
-        <form method="dialog" class="modal-backdrop">
-            <button>close</button>
-        </form>
     </dialog>
 </template>
 
@@ -63,7 +60,8 @@ function acceptVideoCall() {
 }
 
 function endVideoCall() {
-    videoCallService.endVideoCall(senderId.value);
+    const peerId = senderId.value === currentUserId.value ? receiverId.value : senderId.value;
+    videoCallService.endVideoCall(peerId);
 }
 
 

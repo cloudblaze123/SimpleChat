@@ -16,7 +16,7 @@
             <!-- 输入框 -->
             <div class="flex mb-1 space-x-1">
                 <textarea v-model="newMessage" placeholder="输入消息..." rows="1"
-                    class="flex-1 px-4 py-2 h-32 dark:bg-slate-900 dark:border-gray-200 border rounded-md"></textarea>
+                    class="flex-1 px-4 py-2 h-32 bg-white dark:bg-slate-900 dark:border-gray-200 border rounded-md"></textarea>
                 <div class="flex justify-end items-end">
                     <button type="submit" class="btn btn-primary">发送</button>
                 </div>

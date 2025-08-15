@@ -1,7 +1,10 @@
 <template>
-    <div class="flex flex-col h-svh"
+    <div class="flex flex-col h-svh text-gray-800 dark:text-gray-200"
         :class="{ 'dark': commonStore.darkMode }">
         <router-view class="h-0 flex-1"></router-view>
+
+        <VideoCall />
+
     </div>
 </template>
 
@@ -9,6 +12,9 @@
 <script setup lang="ts">
 import { onMounted, watch } from 'vue';
 import { useRouter, RouterView } from 'vue-router';
+
+import VideoCall from '@/components/video/VideoCall.vue';
+
 
 import { useAuthStore } from './stores/auth';
 import { useCommonStore } from './stores/common';
