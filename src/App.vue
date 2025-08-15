@@ -13,7 +13,7 @@
 import { onMounted, watch } from 'vue';
 import { useRouter, RouterView } from 'vue-router';
 
-import VideoCall from '@/components/chat/VideoCall.vue';
+import VideoCall from '@/components/video/VideoCall.vue';
 
 
 import { useAuthStore } from './stores/auth';

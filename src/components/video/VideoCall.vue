@@ -60,7 +60,8 @@ function acceptVideoCall() {
 }
 
 function endVideoCall() {
-    videoCallService.endVideoCall(senderId.value);
+    const peerId = senderId.value === currentUserId.value ? receiverId.value : senderId.value;
+    videoCallService.endVideoCall(peerId);
 }
 
 
