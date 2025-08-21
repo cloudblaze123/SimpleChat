@@ -6,24 +6,29 @@
             
 
             <!-- Content -->
-            <div class="flex flex-col flex-1 h-0 justify-center items-center">
-                <div class="flex flex-col flex-1 h-0 w-full lg:flex-row lg:h-full">
-                    <div class="flex-1 h-0 m-4 lg:w-1/2 lg:h-full">
-                        remote
+            <div class="relative flex flex-col flex-1 h-0 justify-center items-center">
+                <!-- 视频 -->
+                <div class="relative flex flex-col flex-1 h-0 w-full lg:flex-row lg:h-full">
+                    <div class="relative flex-1 h-0lg:w-1/2 lg:h-full ">
+                        <div class="absolute top-0 left-0">remote</div>
                         <video ref="remoteVideo" autoplay class="w-full h-full"></video>
                     </div>
-                    <div class="flex-1 h-0 m-4 lg:w-1/2 lg:h-full">
-                        local
+                    <div class="absolute top-0 right-0 w-1/2 h-1/2 overflow-hidden">
+                        <div class="absolute top-0 left-0">local</div>
                         <video ref="localVideo" autoplay muted class="w-full h-full"></video>
                     </div>
                 </div>
 
-                <button v-if="videoCallStore.openRTC" @click="endVideoCall" class="btn bg-red-500 text-white">End Call</button>
-                <div v-else-if="receiverId === currentUserId" class="flex">
-                    <button @click="acceptVideoCall" class="btn w-24 h-16 bg-green-500 text-white">Accept Call</button>
-                    <button @click="rejectVideoCall" class="btn w-24 h-16 bg-red-500 text-white">Reject Call</button>
+
+                <!-- 控件 -->
+                <div class="absolute bottom-4">
+                    <button v-if="videoCallStore.openRTC" @click="endVideoCall" class="btn btn-ghost bg-red-500 hover:bg-red-600 text-white">End Call</button>
+                    <div v-else-if="receiverId === currentUserId" class="flex">
+                        <button @click="acceptVideoCall" class="btn btn-ghost bg-green-500 hover:bg-green-600 text-white">Accept Call</button>
+                        <button @click="rejectVideoCall" class="btn btn-ghost bg-red-500 hover:bg-red-600 text-white">Reject Call</button>
+                    </div>
+                    <div v-else class="text-lg">waiting for other user to accept call...</div>
                 </div>
-                <div v-else class="text-lg">waiting for other user to accept call...</div>
             </div>
             
 
@@ -92,3 +97,10 @@ videoRTC.onRemoteStreamDisconnected = () => {
     remoteVideo.value.srcObject = null;
 }
 </script>
+
+
+<!-- <style>
+video {
+    background-color: rgb(78, 255, 131);
+}
+</style> -->
