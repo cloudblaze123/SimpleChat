@@ -22,12 +22,20 @@
 
                 <!-- 控件 -->
                 <div class="absolute bottom-4">
+                    <!-- 通话中 -->
                     <button v-if="videoCallStore.openRTC" @click="endVideoCall" class="btn btn-ghost bg-red-500 hover:bg-red-600 text-white">End Call</button>
+                    
+                    <!-- 来电 -->
                     <div v-else-if="receiverId === currentUserId" class="flex">
                         <button @click="acceptVideoCall" class="btn btn-ghost bg-green-500 hover:bg-green-600 text-white">Accept Call</button>
                         <button @click="rejectVideoCall" class="btn btn-ghost bg-red-500 hover:bg-red-600 text-white">Reject Call</button>
                     </div>
-                    <div v-else class="text-lg">waiting for other user to accept call...</div>
+
+                    <!-- 等待对方接受通话 -->
+                    <div v-else class="flex flex-col items-center">
+                        <div class="text-lg">waiting for other user to accept call...</div>
+                        <button @click="endVideoCall" class="btn btn-ghost bg-red-500 hover:bg-red-600 text-white">End Call</button>
+                    </div>
                 </div>
             </div>
             
