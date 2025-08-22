@@ -12,3 +12,9 @@ app.use(createPinia())
 app.use(router)
 
 app.mount('#app')
+
+
+
+
+import { socketService } from '@/services/socket/socket'
+socketService.connect()
