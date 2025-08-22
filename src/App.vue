@@ -7,6 +7,8 @@
     documentation
   </p>
   <p class="text-green-500">hi tailwindcss</p>
+
+  <button class="btn btn-primary">hi daisyui</button>
 </template>
 
 <style scoped></style>
