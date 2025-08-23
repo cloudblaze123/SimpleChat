@@ -1,39 +1,46 @@
-# simple-chat-v2
+# SimpleChat
 
-This template should help get you started developing with Vue 3 in Vite.
+## 快速开始
 
-## Recommended IDE Setup
+1. 克隆仓库：
+   
+   `git clone https://github.com/cloudblaze123/SimpleChat.git`
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+2. 进入项目目录：
+   
+   `cd SimpleChat`
 
-## Type Support for `.vue` Imports in TS
+3. 进入安装依赖：
+   
+   ```shell
+   cd app
+   npm install
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+   cd ../server
+   npm install
+   ```
 
-## Customize configuration
+4. 设置 server 子项目的环境变量：
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+   复制 `.env.example` 文件为 `.env` 文件：
 
-## Project Setup
+   ```shell
+   # ​Linux/macOS
+   cp .example.env .env
 
-```sh
-npm install
-```
+   # Windows
+   copy .env.example .env
+   ```
 
-### Compile and Hot-Reload for Development
+   编辑 `.env` 文件，设置其中的环境变量
 
-```sh
-npm run dev
-```
+5. 运行项目：
 
-### Type-Check, Compile and Minify for Production
+   ```shell
+   # 在 app 子项目中运行
+   npm run dev
+   
+   # 在 server 子项目中运行
+   npm run dev
+   ```
 
-```sh
-npm run build
-```
-
-### Run Unit Tests with [Vitest](https://vitest.dev/)
-
-```sh
-npm run test:unit
-```
