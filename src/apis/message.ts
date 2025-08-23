@@ -11,6 +11,16 @@ function sendMessage(message: string) {
 }
 
 
+async function getMessages() {
+  console.log('Getting messages');
+  const response = await fetch('/api/messages');
+  const data = await response.json();
+  const messages = data.messages;
+  return messages;
+}
+
+
 export {
   sendMessage,
+  getMessages,
 };

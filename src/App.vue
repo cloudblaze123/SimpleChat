@@ -9,10 +9,15 @@
   <button class="btn btn-primary">hi daisyui</button>
 
   <button @click="sendMessage('hello server')" class="btn btn-accent">send message</button>
+  <button @click="hanldeGetMessages" class="btn btn-secondary">get message</button>
+
 </template>
 
 
 <script setup lang="ts">
-import { sendMessage } from './apis/message';
+import { sendMessage, getMessages } from './apis/message';
 
+async function hanldeGetMessages() {
+  console.table(await getMessages());
+}
 </script>
