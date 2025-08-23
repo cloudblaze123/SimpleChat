@@ -8,14 +8,25 @@
 
   <button class="btn btn-primary">hi daisyui</button>
 
-  <button @click="sendMessage('hello server')" class="btn btn-accent">send message</button>
-  <button @click="hanldeGetMessages" class="btn btn-secondary">get message</button>
+  <div class="divider"></div>
+
+  <div class="flex flex-col items-start">
+    <button @click="sendMessage('hello server')" class="btn btn-accent">send message</button>
+    <button @click="hanldeGetMessages" class="btn btn-secondary">get message</button>
+
+    <div class="divider"></div>
+
+    <button @click="login()" class="btn btn-accent">login</button>
+    <button @click="protectedSendMessage('protected message')" class="btn btn-secondary">protected send message</button>
+  </div>
 
 </template>
 
 
 <script setup lang="ts">
-import { sendMessage, getMessages } from './apis/message';
+import { login } from './actions/auth';
+
+import { sendMessage, getMessages, protectedSendMessage } from './apis/message';
 
 async function hanldeGetMessages() {
   console.table(await getMessages());
