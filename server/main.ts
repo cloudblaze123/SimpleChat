@@ -67,6 +67,11 @@ import authRouter from "@/router/auth";
 app.use('/', authRouter);
 
 
+// 用户路由
+import userRouter from "@/router/user";
+app.use('/', userRouter);
+
+
 // 消息路由
 import messageRouter from "@/router/message";
 app.use('/', messageRouter);

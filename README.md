@@ -37,10 +37,9 @@
 5. 运行项目：
 
    ```shell
-   # 在 app 子项目中运行
-   npm run dev
-   
-   # 在 server 子项目中运行
-   npm run dev
+   # 启动两个终端运行以下脚本
+   # 每个终端运行一行
+   npm run dev --prefix=app
+   npm run dev --prefix=server
    ```
 
