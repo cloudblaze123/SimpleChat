@@ -1,26 +1,8 @@
 import { Router } from 'express';
 import { Request, Response } from 'express';
-
-
-
+import userStore from '@/store/userStore';
 
 const router = Router();
-
-
-// 模拟消息列表
-const users = [
-  {
-    id: 1,
-    name: "aaa",
-  },
-  {
-    id: 2,
-    name: "bbb",
-  }
-];
-
-
-
 
 /**
  * 注册新用户
@@ -35,19 +17,17 @@ const users = [
  */
 router.post('/api/user', (req: Request, res: Response) => {
   const { name } = req.body;
-  console.log(`Received user register: ${name}`);
+  if (!name) {
+    return res.status(400).send('Name is required');
+  }
 
-  const lastId = users[users.length - 1].id;
-  users.push({
-    id: lastId + 1,
-    name: name,
-  });
-
-  res.send('User registered');
+  try {
+    userStore.addUser(name);
+    res.send('User registered');
+  } catch (error) {
+    res.status(500).send('Failed to register user');
+  }
 });
-
-
-
 
 /**
  * 获取单个用户信息
@@ -64,19 +44,16 @@ router.post('/api/user', (req: Request, res: Response) => {
  *   }
  * }
  * @returns {Object} - 如果未找到用户，则返回null
- * @example GET /api/user?id=999
- * {
- *   "user": null
- * }
  */
 router.get('/api/user', (req: Request, res: Response) => {
-  const { id } = req.query; // 修正：从req.query获取参数而不是req.body
-  const user = users.find(user => user.id === parseInt(id as string, 10));
+  const { id } = req.query;
+  if (!id) {
+    return res.status(400).send('ID is required');
+  }
+
+  const user = userStore.getUser(parseInt(id as string, 10));
   res.send({ user });
 });
-
-
-
 
 /**
  * 获取所有用户列表
@@ -84,25 +61,10 @@ router.get('/api/user', (req: Request, res: Response) => {
  * @description 获取所有用户的列表。
  * @returns {Object} - 包含用户列表的对象
  * @returns {Array} users - 用户数组
- * @example GET /api/users
- * {
- *   "users": [
- *     {
- *       "id": 1,
- *       "name": "张三"
- *     },
- *     {
- *       "id": 2,
- *       "name": "李四"
- *     }
- *   ]
- * }
  */
 router.get('/api/users', (req: Request, res: Response) => {
+  const users = userStore.getUsers();
   res.send({ users });
 });
-
-
-
 
 export default router;

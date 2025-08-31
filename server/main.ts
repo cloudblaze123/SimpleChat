@@ -72,6 +72,11 @@ import userRouter from "@/router/user";
 app.use('/', userRouter);
 
 
+// 联系人路由
+import contactRouter from "@/router/contact";
+app.use('/', contactRouter);
+
+
 // 消息路由
 import messageRouter from "@/router/message";
 app.use('/', messageRouter);
