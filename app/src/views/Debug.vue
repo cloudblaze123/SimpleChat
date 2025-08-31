@@ -23,6 +23,19 @@
     </div>
     <button @click="handleGetUsers" class="btn btn-secondary">get all users</button>
 
+    <div class="mt-4">
+      <h3 class="font-bold">User List</h3>
+      <div v-if="users.length > 0" class="mt-2 space-y-2">
+        <div v-for="user in users" :key="user.id">
+          <div>
+            <h4>{{ user.name }}</h4>
+            <p>ID: {{ user.id }}</p>
+          </div>
+        </div>
+      </div>
+      <div v-else class="mt-2">No users found</div>
+    </div>
+
     <div class="divider"></div>
 
     <!-- 联系人功能 -->
@@ -73,6 +86,7 @@ import { login } from '@/actions/auth';
 import { sendMessage, getMessages, protectedSendMessage } from '@/apis/message';
 
 import { registerUser, getUser, getUsers } from '@/apis/user';
+const users = ref<Array<{id: number, name: string}>>([]);
 
 
 async function hanldeGetMessages() {
@@ -98,11 +112,12 @@ async function handleGetUser() {
     console.error('User ID is required');
     return;
   }
-  console.table(await getUser(getUserId.value));
+  const user = await getUser(getUserId.value);
+  users.value = [user];
 }
 
 async function handleGetUsers() {
-  console.table(await getUsers());
+  users.value = await getUsers();
 }
 
 
