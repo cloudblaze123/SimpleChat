@@ -1,20 +1,21 @@
 <template>
-  <div class="flex flex-col items-start">
-    <!-- 消息 -->
-    <DebugMessage />
+  <!-- Tabs -->
+  <div class="tabs tabs-border">
+    <input type="radio" name="tabs_1" class="tab" aria-label="Message" checked />
+    <div class="tab-content border-base-300 bg-base-100 p-10">
+        <DebugMessage />
+    </div>
 
-    <div class="divider"></div>
+    <input type="radio" name="tabs_1" class="tab" aria-label="User" />
+    <div class="tab-content border-base-300 bg-base-100 p-10">
+        <DebugUser />
+    </div>
 
-    <!-- 用户 -->
-    <DebugUser />
-
-    <div class="divider"></div>
-
-    <!-- 联系人 -->
-    <DebugContact />
-
+    <input type="radio" name="tabs_1" class="tab" aria-label="Contact" />
+    <div class="tab-content border-base-300 bg-base-100 p-10">
+        <DebugContact />
+    </div>
   </div>
-
 </template>
 
 
