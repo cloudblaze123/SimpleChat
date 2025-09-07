@@ -1,15 +1,22 @@
 <template>
   <!-- 输入消息 -->
-  <div class="flex flex-col gap-2 w-full">
-    <div class="flex gap-2 items-center">
+  <div class="flex flex-col gap-2 items-start">
+    <label for="senderId">
+      <span class="text-gray-500">Sender ID:</span>
       <input v-model.number="messageSenderId" type="number" placeholder="Sender ID" class="input input-bordered">
+    </label>
+    <label for="receiverId">
+      <span class="text-gray-500">Receiver ID:</span>
       <input v-model.number="messageReceiverId" type="number" placeholder="Receiver ID" class="input input-bordered">
-    </div>
-    <input v-model="messageContent" type="text" placeholder="Message content" class="input input-bordered">
+    </label>
+    <label for="messageContent">
+      <span class="text-gray-500">Message Content:</span>
+      <input v-model="messageContent" type="text" placeholder="Message content" class="input input-bordered">
+    </label>
   </div>
 
   <!-- 发送消息 -->
-  <div class="mt-2">
+  <div class="mt-4">
     <button @click="sendCustomMessage" class="btn btn-primary">send message</button>
   </div>
 
@@ -19,8 +26,9 @@
     <button @click="sendProtectedCustomMessage" class="btn btn-primary">protected send message</button>
   </div>
 
+
   <!-- 获取消息 -->
-  <div class="mt-2">
+  <div class="mt-8">
     <button @click="hanldeGetMessages" class="btn btn-primary">get messages</button>
   </div>
 </template>

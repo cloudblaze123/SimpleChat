@@ -1,15 +1,27 @@
 <template>
-  <div class="flex gap-2 items-center">
-    <input v-model="registerUsername" type="text" placeholder="Username" class="input input-bordered">
-    <button @click="handleRegisterUser" class="btn btn-accent">register user</button>
-  </div>
-  <div class="flex gap-2 items-center">
-    <input v-model.number="getUserId" type="number" placeholder="User ID" class="input input-bordered">
-    <button @click="handleGetUser" class="btn btn-secondary">get user</button>
-  </div>
-  <button @click="handleGetUsers" class="btn btn-secondary">get all users</button>
+  <div class="flex flex-col gap-4">
+    <!-- 注册用户 -->
+    <div class="flex gap-2 items-center">
+      <input v-model="registerUsername" type="text" placeholder="Username" class="input input-bordered">
+      <button @click="handleRegisterUser" class="btn btn-accent">register user</button>
+    </div>
 
-  <div class="mt-4">
+    <!-- 获取用户 -->
+    <div class="flex gap-2 items-center">
+      <input v-model.number="getUserId" type="number" placeholder="User ID" class="input input-bordered">
+      <button @click="handleGetUser" class="btn btn-secondary">get user</button>
+    </div>
+
+    <!-- 获取所有用户 -->
+     <div>
+       <button @click="handleGetUsers" class="btn btn-secondary">get all users</button>
+     </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- 用户列表 -->
+  <div class="">
     <h3 class="font-bold">User List</h3>
     <div v-if="users.length > 0" class="mt-2 space-y-2">
       <div v-for="user in users" :key="user.id">

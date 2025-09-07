@@ -3,39 +3,46 @@
   <div class="flex flex-col gap-4">
     <div class="flex gap-2 items-center">
       <input v-model.number="currentUserId" type="number" placeholder="Your User ID" class="input input-bordered">
-    </div>
-
-    <div class="flex gap-2 items-center">
       <input v-model.number="contactRequestToUserId" type="number" placeholder="To User ID"
         class="input input-bordered">
       <button @click="handleSendContactRequest" class="btn btn-accent">send contact request</button>
     </div>
 
-    <div>
-      <h3 class="font-bold">My Contacts</h3>
-      <button @click="handleGetContacts" class="btn btn-secondary">refresh contacts</button>
-      <div v-if="contacts.length > 0" class="mt-2">
-        <div v-for="contact in contacts" :key="contact.id" class="flex items-center gap-2">
-          <span>{{ contact.name }} (ID: {{ contact.id }})</span>
+    <div class="flex gap-2 justify-between items-center">
+      <!-- 联系人列表 -->
+      <div>
+        <h3 class="font-bold">
+          My Contacts
+          <button @click="handleGetContacts" class="btn btn-secondary btn-soft">refresh</button>
+        </h3>
+        <div v-if="contacts.length > 0" class="mt-2">
+          <div v-for="contact in contacts" :key="contact.id" class="flex items-center gap-2">
+            <span>{{ contact.name }} (ID: {{ contact.id }})</span>
+          </div>
         </div>
+        <div v-else class="mt-2">No contacts yet</div>
       </div>
-      <div v-else class="mt-2">No contacts yet</div>
+
+      <!-- 联系人请求列表 -->
+      <div>
+        <h3 class="font-bold">
+          Pending Contact Requests
+          <button @click="handleGetContactRequests" class="btn btn-secondary btn-soft">refresh</button>
+        </h3>
+        <div v-if="contactRequests.length > 0" class="mt-2">
+          <div v-for="request in contactRequests" :key="request.fromUserId" class="flex items-center gap-2">
+            <span>{{ request.fromUserName }} (ID: {{ request.fromUserId }})</span>
+            <button @click="handleRespondContactRequest(request.fromUserId, 'accept')"
+              class="btn btn-xs btn-success">accept</button>
+            <button @click="handleRespondContactRequest(request.fromUserId, 'reject')"
+              class="btn btn-xs btn-error">reject</button>
+          </div>
+        </div>
+        <div v-else class="mt-2">No pending requests</div>
+      </div>
     </div>
 
-    <div>
-      <h3 class="font-bold">Pending Contact Requests</h3>
-      <button @click="handleGetContactRequests" class="btn btn-secondary">refresh requests</button>
-      <div v-if="contactRequests.length > 0" class="mt-2">
-        <div v-for="request in contactRequests" :key="request.fromUserId" class="flex items-center gap-2">
-          <span>{{ request.fromUserName }} (ID: {{ request.fromUserId }})</span>
-          <button @click="handleRespondContactRequest(request.fromUserId, 'accept')"
-            class="btn btn-xs btn-success">accept</button>
-          <button @click="handleRespondContactRequest(request.fromUserId, 'reject')"
-            class="btn btn-xs btn-error">reject</button>
-        </div>
-      </div>
-      <div v-else class="mt-2">No pending requests</div>
-    </div>
+
   </div>
 </template>
 
