@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { Request, Response } from 'express';
+import { MessageData } from '@/data/message';
 
 
 
@@ -8,26 +9,25 @@ const router = Router();
 
 
 // 模拟消息列表
-const messages = [
-  'first message, for testing',
-];
+const messages: MessageData[] = [];
+
 
 
 
 // 消息api
-// 接收文本消息
+// 接收消息对象
 router.post('/api/message', (req: Request, res: Response) => {
-  const { message } = req.body;
-  console.log(`Received message: ${message}`);
+  const message: MessageData = req.body;
+  console.log(`Received message from ${message.senderId} to ${message.receiverId}`);
   messages.push(message);
   res.send('Message received');
 });
 
 
-// 验证身份后才会接收文本消息，目前用作测试
+// 验证身份后才会接收消息
 router.post('/api/protected/message', (req: Request, res: Response) => {
-  const { message } = req.body;
-  console.log(`Received message: ${message}`);
+  const message: MessageData = req.body;
+  console.log(`Received protected message from ${message.senderId}`);
   messages.push(message);
   res.send('Message received');
 });
